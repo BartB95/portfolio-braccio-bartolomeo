@@ -1,29 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import FilterSearch from "../Shared/components/FilterSearch";
 import Card from "../Shared/components/Cards";
-import { keyframes, styled } from "@mui/system";
+import { styled } from "@mui/system";
 import HobbySection from "./hobby/hobby";
 import { useGlobalStore } from "../State/GlobalContext";
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
 
 const Container = styled("div")({
   fontFamily: "'Poppins', sans-serif",
   padding: "20px",
   maxWidth: "1300px",
   margin: "0 auto",
-  background: "linear-gradient(135deg, rgba(1, 6, 33, 0.3), rgba(144,202,249,0.2))",
+  background: "linear-gradient(135deg, rgba(1, 6, 33, 0.5), rgba(144,202,249,0.3))",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
   display: "flex",
   flexDirection: "column",
   gap: "30px",
-  animation: `${fadeIn} 0.7s ease-out forwards`,
+
 
   "@media (max-width: 399px)": {
     padding: "0px",
