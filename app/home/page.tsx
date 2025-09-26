@@ -5,14 +5,22 @@ import FilterSearch from "../Shared/components/FilterSearch";
 import Card from "../Shared/components/Cards";
 import { styled } from "@mui/system";
 import HobbySection from "./hobby/hobby";
+import { useGlobalStore } from "../State/GlobalContext";
 
 const Container = styled("div")({
   fontFamily: "'Poppins', sans-serif",
   padding: "20px",
+  maxWidth: "1300px",
+  margin: "0 auto",
   background: "linear-gradient(135deg, rgba(1, 6, 33, 0.3), rgba(144,202,249,0.2))",
   display: "flex",
   flexDirection: "column",
   gap: "30px",
+
+  "@media (max-width: 399px)": {
+    padding: "0px",
+    gap: "15px",
+  },
 });
 
 const Header = styled("div")({
@@ -22,7 +30,7 @@ const Header = styled("div")({
   background: "rgba(0,0,0,0.4)",
   padding: "15px 25px",
   borderRadius: "8px",
-  marginBottom: "20px",
+
   boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
   "@media (min-width: 768px)": {
     flexDirection: "row",
@@ -34,17 +42,18 @@ const Header = styled("div")({
 const HeaderLeft = styled("div")({
   color: "white",
   fontWeight: "bold",
-  fontSize: "1.4rem",
+  fontSize: "clamp(1rem, 1.5vw, 1.4rem)",
 });
 
 const HeaderCenter = styled("div")({
   flex: 1,
   padding: "0 20px",
+  transform: "translateY(-8px)",
 });
 
 const HeaderRight = styled("div")({
   color: "#EAEAEA",
-  fontSize: "0.85rem",
+  fontSize: "clamp(0.75rem, 1vw, 0.85rem)",
   lineHeight: 1.4,
 });
 
@@ -52,6 +61,7 @@ const Main = styled("div")({
   display: "flex",
   flexDirection: "column",
   gap: "30px",
+  flexWrap: "wrap",
   "@media (min-width: 1024px)": {
     flexDirection: "row",
     gap: "20px",
@@ -71,43 +81,50 @@ const Hero = styled("div")({
 });
 
 const HeroTitle = styled("h1")({
-  fontSize: "2rem",
+  fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
   marginBottom: "15px",
   fontWeight: "bold",
 });
 
 const HeroText = styled("p")({
-  fontSize: "1rem",
+  fontSize: "clamp(0.9rem, 1.5vw, 1rem)",
   marginBottom: "20px",
   color: "#EAEAEA",
 });
 
-const HeroButton = styled("button")({
-  padding: "12px 25px",
+const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
+  display: "block",           // forza il bottone a comportarsi come blocco
+  margin: "50px auto 15px",   // centrato orizzontalmente e spazio sotto
+  padding: "12px 24px",
   background: "linear-gradient(90deg, #FF7E5F, #FD3A69)",
   border: "none",
   borderRadius: "30px",
   color: "#fff",
   fontWeight: "bold",
-  cursor: "pointer",
-  marginRight: "20px",
-  marginTop: "30px",
-  transition: "transform 0.2s ease",
-  "&:hover": { transform: "scale(1.05)" },
-});
+  fontSize: "clamp(0.9rem, 1vw, 1rem)",
+  cursor: cursor ?? "default",
+  transition: "transform 0.2s ease, box-shadow 0.2s ease",
+  transform: hovered ? "scale(1.05)" : "scale(1)",
+  width: "280px", 
+  textAlign: "center",
+}));
 
-const CvButton = styled("button")({
-  padding: "10px 20px",
-  background: "#FFD166",
+const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab"  }>(({ hovered, cursor }) => ({
+  display: "block",          
+  margin: "20px auto 0",      // centrato, spazio sopra
+  padding: "12px 24px",
+  background: "#c2a35cff",
   border: "none",
   borderRadius: "30px",
   color: "#fff",
   fontWeight: "bold",
-  cursor: "pointer",
-  marginTop: "30px",
-  transition: "transform 0.2s ease",
-  "&:hover": { transform: "scale(1.05)" },
-});
+  fontSize: "clamp(0.9rem, 1vw, 1rem)",
+  cursor: cursor ?? "default",
+  transition: "transform 0.2s ease, box-shadow 0.2s ease",
+  transform: hovered ? "scale(1.05)" : "scale(1)",
+  width: "280px",
+  textAlign: "center",
+}));
 
 
 const Projects = styled("div")({
@@ -115,6 +132,7 @@ const Projects = styled("div")({
   display: "grid",
   gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
   gap: "15px",
+  maxWidth: "100%",
 });
 
 const Footer = styled("div")({
@@ -140,7 +158,6 @@ const ProfileCard = styled("div")({
   textAlign: "center",
   boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
   transition: "all 0.2s ease",
-  "&:hover": { transform: "translateY(-3px)", boxShadow: "0 8px 20px rgba(0,0,0,0.35)" },
 });
 
 const ProfileName = styled("div")({
@@ -195,7 +212,7 @@ const InfoSection = styled("div")({
 });
 
 const Description = styled("div")({
-  flex: "1 1 200px",
+  flex: "1 1 300px",
   background: "rgba(0,0,0,0.35)",
   padding: "18px 20px",
   borderRadius: "10px",
@@ -242,11 +259,14 @@ const HobbyWrapper = styled("div")({
 
 const Home = () => {
   const [searchInput, setSearchInput] = useState("");
+  const { state, dispatch } = useGlobalStore();
+
+  const cursor = state.cursor;
 
   const projects = [
     { title: "Portfolio Web", desc: "Sito web personale responsivo in React + Next.js", link: "#" },
     { title: "Dashboard Analytics", desc: "Visualizzazione dati in tempo reale con chart interattivi", link: "#" },
-    { title: "Corso Java", desc: "Academy 500 ore di Java con esercizi e progetti reali", link: "#" },
+    { title: "Accademy Java", desc: "Academy 500 ore di Java con esercizi e progetti reali", link: "#" },
     { title: "Corso React", desc: "Apprendimento di React, componenti, state management, routing e redux.", link: "/certificato corso react.pdf" },
     { title: "Corso JavaScript", desc: "Corso completo di JavaScript da base a livello avanzato", link: "/certificato corso javaScript.pdf" },
     { title: "Corso MongoDB", desc: "Operazioni CRUD, aggregazioni e design database", link: "/bartolomeo-braccio-certificate.pdf" },
@@ -278,19 +298,38 @@ const Home = () => {
             soluzioni concrete. Ogni progetto rappresenta un’opportunità di crescita, apprendimento e sperimentazione, e spero che il mio percorso possa ispirare chi, come me, ama innovare e costruire
             esperienze digitali di valore.
           </HeroText>
-          <HeroButton onClick={() => (window.location.href = "/about")}>Scopri di più</HeroButton>
-          <CvButton onClick={() => window.open("/BartolomeoBraccio_CV.pdf", "_blank")}>📄 Scarica CV</CvButton>
+          <HeroButton
+            hovered={state.hoveredId === "heroButton"}
+            cursor={cursor}
+            onClick={() => (window.location.href = "/about")}
+            onMouseEnter={() => {
+              dispatch({ type: "SET_HOVER", payload: "heroButton" });
+              dispatch({ type: "SET_CURSOR", payload: "pointer" });
+            }}
+            onMouseLeave={() => {
+              dispatch({ type: "CLEAR_HOVER" });
+              dispatch({ type: "SET_CURSOR", payload: "default" });
+            }}
+          >
+            🔍 Scopri di più
+          </HeroButton>
+
+          <CvButton
+            hovered={state.hoveredId === "cvButton"}
+            cursor={cursor}
+            onClick={() => window.open("/BartolomeoBraccio_CV.pdf", "_blank")}
+            onMouseEnter={() => {
+              dispatch({ type: "SET_HOVER", payload: "cvButton" });
+              dispatch({ type: "SET_CURSOR", payload: "pointer" });
+            }}
+            onMouseLeave={() => {
+              dispatch({ type: "CLEAR_HOVER" });
+              dispatch({ type: "SET_CURSOR", payload: "default" });
+            }}
+          >
+            📄 Scarica CV
+          </CvButton>
         </Hero>
-
-        <Projects>
-          {filteredProjects.map((p) => (
-            <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
-          ))}
-        </Projects>
-      </Main>
-
-      {/* FOOTER */}
-      <Footer>
         <ProfileCard>
           <ProfileImage src="/bart.webp" alt="Foto Profilo" width={150} height={150} />
           <ProfileName>Bartolomeo Braccio</ProfileName>
@@ -310,7 +349,15 @@ const Home = () => {
             </LinkButton>
           </ProfileLinks>
         </ProfileCard>
+        <Projects>
+          {filteredProjects.map((p) => (
+            <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
+          ))}
+        </Projects>
+      </Main>
 
+      {/* FOOTER */}
+      <Footer>
         <div style={{ flex: 2, display: "flex", flexDirection: "column", gap: "15px" }}>
           <InfoSection>
             <Description>

@@ -1,6 +1,8 @@
 "use client";
 
 import { makeStyles } from "@mui/styles";
+import { useGlobalStore } from "../State/GlobalContext";
+
 
 const useStyles = makeStyles({
   button: {
@@ -11,14 +13,15 @@ const useStyles = makeStyles({
     borderRadius: "8px",
     color: "white",
     minWidth: "250px",
-    "&:hover": {
-      background: "rgba(255, 255, 255, 0.2)",
-      transform: "scale(1.05)",
-    },
     "&:active": {
       transform: "scale(0.95)",
     },
     animation: "fadeIn 1s ease-in-out",
+  },
+
+  hovered: {
+    background: "rgba(255, 255, 255, 0.2)",
+    transform: "scale(1.05)",
   },
   title: {
     marginBottom: 20,
@@ -41,9 +44,10 @@ type IProps = {
 
 const PeopleSSR = ({ people }: IProps) => {
   const classes = useStyles();
+  const { state, dispatch } = useGlobalStore();
   return (
     <>
-        <h1>👤 Lista Persone (SSR)</h1>
+      <h1>👤 Lista Persone (SSR)</h1>
 
       <section className={classes.title}>
         <h2>📖 Cos'è SSR?</h2>
@@ -57,28 +61,38 @@ const PeopleSSR = ({ people }: IProps) => {
           <strong>Svantaggio:</strong> tempi di risposta leggermente più lenti rispetto a SSG, perché la pagina deve essere generata per ogni richiesta.
         </p>
       </section>
+    {/* Lista persone */}
       <div className={classes.section}>
-        {people.map((person) => (
-          <section key={person.email} className={classes.button}>
-            <h3>
-              {person.firstname} {person.lastname} ({person.gender})
-            </h3>
-            <p>📅 {person.birthday}</p>
-            <p>📧 {person.email}</p>
-            <p>📱 {person.phone}</p>
-            <p>
-              🏠 {person.address.street}, {person.address.city} ({person.address.country})
-            </p>
-            <p>
-              🌐{" "}
-              <a href={person.website} style={{ color: "#ffdf80" }}>
-                {person.website}
-              </a>
-            </p>
-          </section>
-        ))}
+        {people.map((person) => {
+          const isHovered = state.hoveredId === person.email;
+          return (
+            <section
+              key={person.email}
+              className={`${classes.button} ${isHovered ? classes.hovered : ""}`}
+              onMouseEnter={() => dispatch({ type: "SET_HOVER", payload: person.email })}
+              onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
+            >
+              <h3>
+                {person.firstname} {person.lastname} ({person.gender})
+              </h3>
+              <p>📅 {person.birthday}</p>
+              <p>📧 {person.email}</p>
+              <p>📱 {person.phone}</p>
+              <p>
+                🏠 {person.address.street}, {person.address.city} ({person.address.country})
+              </p>
+              <p>
+                🌐{" "}
+                <a href={person.website} style={{ color: "#ffdf80" }}>
+                  {person.website}
+                </a>
+              </p>
+            </section>
+          );
+        })}
       </div>
     </>
   );
 };
+
 export default PeopleSSR;

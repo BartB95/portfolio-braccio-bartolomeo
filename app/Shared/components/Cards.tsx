@@ -1,4 +1,6 @@
 "use client";
+
+import { useGlobalStore } from "@/app/State/GlobalContext";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -12,11 +14,10 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    cursor: "pointer",
-    "&:hover": {
-      transform: "translateY(-5px)",
-      boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
-    },
+  },
+  hovered: {
+    transform: "translateY(-5px) scale(1.05)",
+    boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
   },
   cardTitle: {
     fontWeight: "bold",
@@ -54,17 +55,33 @@ type ProjectCardProps = {
 
 const Card = ({ title, desc, link }: ProjectCardProps) => {
   const classes = useStyles();
+  const { state, dispatch } = useGlobalStore();
 
-const handleClick = () => {
+  const isHovered = state.hoveredId === title;
+  const cursor = state.cursor;
+
+  const handleClick = () => {
     if (link && link !== "#") {
-      window.open(link, "_blank"); 
+      window.open(link, "_blank");
     } else {
-      alert("PDF non disponibile"); 
+      alert("PDF non disponibile");
     }
   };
 
   return (
-    <div className={classes.projectCard} onClick={handleClick}>
+    <div
+      className={`${classes.projectCard} ${isHovered ? classes.hovered : ""}`}
+      style={{ cursor: cursor ?? "default" }}
+      onMouseEnter={() => {
+        dispatch({ type: "SET_HOVER", payload: title });
+        dispatch({ type: "SET_CURSOR", payload: "pointer" });
+      }}
+      onMouseLeave={() => {
+        dispatch({ type: "CLEAR_HOVER" });
+        dispatch({ type: "SET_CURSOR", payload: "default" });
+      }}
+      onClick={handleClick}
+    >
       <h3 className={classes.cardTitle}>{title}</h3>
       <p className={classes.cardDesc}>{desc}</p>
       {link && <div className={classes.cardLink}>Visualizza</div>}

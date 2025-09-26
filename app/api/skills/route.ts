@@ -8,7 +8,7 @@ let skills: ISkill[] = [
   { name: "CSS", percent: 75 },
   { name: "Next.js", percent: 60 },
   { name: "JavaScript", percent: 85 },
-  { name: "Node.js", percent: 50 },
+  { name: "Angular", percent: 70 },
 ];
 
 // GET => restituisce tutte le skill

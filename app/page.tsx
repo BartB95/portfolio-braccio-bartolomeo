@@ -1,11 +1,17 @@
 "use client";
 
+import { useGlobalStore } from "./State/GlobalContext";
+
 export default function LoginPage() {
+  const { state, dispatch } = useGlobalStore();
+
   function handleLogin() {
     document.cookie = "token=abc123; path=/";
     window.location.href = "/secret";
   }
 
+  const isHovered = state.hoveredId === "authentication"; // id univoco per il bottone
+  const cursor = state.cursor;
   return (
     <div
       style={{
@@ -32,12 +38,21 @@ export default function LoginPage() {
         }}
       >
         <h1 style={{ fontSize: "2rem", marginBottom: 10 }}>✨ Benvenuto ✨</h1>
-        <p style={{ fontSize: "1rem", marginBottom: 30, opacity: 0.8 }}>
-          Accedi per entrare nell'app sviluppata con Next JS!
-        </p>
+
+        <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.</p>
+
+        <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>🔒 Il token viene salvato come cookie e garantisce accesso sicuro e autenticato alle funzionalità riservate.</p>
 
         <button
           onClick={handleLogin}
+          onMouseEnter={() => {
+            dispatch({ type: "SET_HOVER", payload: "authentication" });
+            dispatch({ type: "SET_CURSOR", payload: "pointer" });
+          }}
+          onMouseLeave={() => {
+            dispatch({ type: "CLEAR_HOVER" });
+            dispatch({ type: "SET_CURSOR", payload: "default" });
+          }}
           style={{
             background: "linear-gradient(90deg, #ff8a00, #e52e71)",
             border: "none",
@@ -45,22 +60,13 @@ export default function LoginPage() {
             fontSize: "1rem",
             color: "white",
             borderRadius: "30px",
-            cursor: "pointer",
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
+            cursor: cursor ?? "default",
+            boxShadow: isHovered ? "0 6px 20px rgba(229, 46, 113, 0.5)" : "0 4px 15px rgba(0, 0, 0, 0.2)",
+            transform: isHovered ? "scale(1.05)" : "scale(1)",
             transition: "transform 0.2s ease, box-shadow 0.2s ease",
           }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.boxShadow =
-              "0 6px 20px rgba(229, 46, 113, 0.5)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow =
-              "0 4px 15px rgba(0, 0, 0, 0.2)";
-          }}
         >
-          🚀 Effettua Login
+          🚀 Accedi in sicurezza
         </button>
       </div>
     </div>

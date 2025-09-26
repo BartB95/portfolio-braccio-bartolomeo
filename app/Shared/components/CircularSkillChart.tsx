@@ -8,7 +8,6 @@ const Container = styled("div")({
   gap: "16px",
   background: "radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), rgba(173, 216, 230, 0.2))",
   backdropFilter: "blur(12px)",
-
   borderRadius: "12px",
   padding: "16px",
   flex: "1 1 300px",

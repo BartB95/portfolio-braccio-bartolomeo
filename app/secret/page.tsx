@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { styled } from "@mui/material/styles";
+import { useGlobalStore } from "../State/GlobalContext";
 
 const Container = styled("div")({
   display: "flex",
@@ -40,7 +41,9 @@ const Paragraph = styled("p")({
   opacity: 0.85,
 });
 
-const ProfileImageWrapper = styled(Link)({
+const ProfileImageWrapper = styled(Link, {
+  shouldForwardProp: (prop) => prop !== "hovered" && prop !== "cursor", // 👈 blocca anche "cursor"
+})<{ hovered?: boolean; cursor?: "default" | "pointer" | "grab"  }>(({ hovered, cursor }) => ({
   display: "inline-block",
   borderRadius: "50%",
   border: "6px solid #FFD166",
@@ -48,13 +51,11 @@ const ProfileImageWrapper = styled(Link)({
   width: "250px",
   height: "250px",
   marginBottom: "20px",
-  cursor: "pointer",
+  cursor: cursor ?? "default",
   transition: "transform 0.4s ease, box-shadow 0.4s ease",
-  "&:hover": {
-    transform: "scale(1.05)",
-    boxShadow: "0 0 50px rgba(255,255,255,0.6), 0 12px 30px rgba(0,0,0,0.3)",
-  },
-});
+  transform: hovered ? "scale(1.05)" : "scale(1)",
+  boxShadow: hovered ? "0 0 50px rgba(255,255,255,0.6), 0 12px 30px rgba(0,0,0,0.3)" : "none",
+}));
 
 const Title = styled("h1")({
   fontSize: "1.5rem",
@@ -66,13 +67,31 @@ const Title = styled("h1")({
 });
 
 const SecretPortfolioPage = () => {
+  const { state, dispatch } = useGlobalStore();
+
+  const isHovered = state.hoveredId === "profile";
+  const cursor = state.cursor;
+
   return (
     <Container>
       <Box>
         <HeaderText>🔒 Area Protetta</HeaderText>
         <Paragraph>Benvenuto! Sei autenticato e puoi esplorare l'app! ✨</Paragraph>
 
-        <ProfileImageWrapper href="/home" title="Vai alla home">
+        <ProfileImageWrapper
+          href="/home"
+          title="Vai alla home"
+          hovered={isHovered}
+          cursor={cursor}
+          onMouseEnter={() => {
+            dispatch({ type: "SET_HOVER", payload: "profile" });
+            dispatch({ type: "SET_CURSOR", payload: "pointer" });
+          }}
+          onMouseLeave={() => {
+            dispatch({ type: "CLEAR_HOVER" });
+            dispatch({ type: "SET_CURSOR", payload: "default" });
+          }}
+        >
           <Image src="/bart.webp" alt="Foto Profilo" width={250} height={250} />
         </ProfileImageWrapper>
 
