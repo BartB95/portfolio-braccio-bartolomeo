@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import LogoutButton from "./logout/page";
 import { useGlobalStore } from "./State/GlobalContext";
 import { useMemo } from "react";
 
@@ -77,7 +76,6 @@ const links = useMemo(
             );
           })}
         </div>
-        <LogoutButton />
       </div>
     </nav>
   );

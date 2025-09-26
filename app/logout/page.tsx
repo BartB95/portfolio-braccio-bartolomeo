@@ -24,10 +24,15 @@ export default function LogoutButton() {
             dispatch({ type: "CLEAR_HOVER" });
             dispatch({ type: "SET_CURSOR", payload: "default" });
           }}
-      style={{
+   style={{
+        position: "fixed",          // posizione fissa
+        bottom: "20px",             // distanza dal basso
+        right: "20px",              // distanza da destra
         padding: "10px 20px",
         fontSize: 16,
-        background: isHovered ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.08)",
+       background: isHovered
+  ? "rgba(139, 68, 68, 0.84)" // più scuro quando hover
+  : "rgba(209, 32, 32, 0.1)",
         borderRadius: "20px",
         backdropFilter: "blur(15px)",
         boxShadow: "0 8px 30px rgba(0, 0, 0, 0.4)",
@@ -35,6 +40,7 @@ export default function LogoutButton() {
         transition: "all 0.3s ease",
         color: "white",
         transform: isHovered ? "scale(1.05)" : "scale(1)",
+        zIndex: 1000,              // per essere sopra altri elementi
       }}
     >
       🔒

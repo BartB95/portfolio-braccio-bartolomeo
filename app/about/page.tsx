@@ -278,7 +278,7 @@ export default function AboutPage() {
           width: "100%",
           maxWidth: 1200,
           margin: "0 auto",
-          background: "rgba(0,0,0,0.3)",
+          background: "rgba(0,0,0,0.1)",
           backdropFilter: "blur(8px)",
           boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",
           borderRadius: "12px",

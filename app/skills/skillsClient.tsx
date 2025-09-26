@@ -65,9 +65,6 @@ const Input = styled("input")({
     color: "#b0b0c1", // placeholder leggermente chiaro
     opacity: 1,
   },
-  "@media (max-width: 600px)": {
-    transform: "translateY(-22px)",
-  },
 });
 
 const SmallInput = styled("input")({
@@ -81,9 +78,6 @@ const SmallInput = styled("input")({
   "&::placeholder": {
     color: "#b0b0c1", // placeholder leggermente chiaro
     opacity: 1,
-  },
-  "@media (max-width: 600px)": {
-    transform: "translateY(-22px)",
   },
 });
 
@@ -104,9 +98,6 @@ const Button = styled("button")<{ hovered: boolean; cursor: "default" | "pointer
     opacity: 0.6,
     cursor: "not-allowed",
   },
-  "@media (max-width: 600px)": {
-    marginTop: "-42px",
-  },
 }));
 
 const FormRow = styled("div")({
@@ -115,7 +106,6 @@ const FormRow = styled("div")({
   alignItems: "center",
   justifyContent: "center", // ⬅ centra tutti gli elementi orizzontalmente
   flexWrap: "wrap",
-  marginBottom: "20px",
 });
 
 const SkillGrid = styled("div")({

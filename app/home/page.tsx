@@ -71,7 +71,7 @@ const Main = styled("div")({
 const Hero = styled("div")({
   flex: 1,
   background: "rgba(63, 81, 181, 0.3)",
-  backdropFilter: "blur(12px)",
+  backdropFilter: "blur(3px)",
   WebkitBackdropFilter: "blur(12px)",
   borderRadius: "12px",
   padding: "30px",

@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import NavbarClient from "./navbar";
 import { Providers } from "./State/Providers";
+import LogoutButton from "./logout/page";
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
@@ -42,6 +43,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
         <Providers>
           {token ? <NavbarClient /> : null}
+          {token ? <LogoutButton /> : null}
 
           <main
             style={{
