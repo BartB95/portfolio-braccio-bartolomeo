@@ -7,11 +7,11 @@ import { useGlobalStore } from "../State/GlobalContext";
 const Container = styled("div")({
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
+  justifyContent: "flex-start",
   alignItems: "center",
   minHeight: "100vh",
   textAlign: "center",
-  padding: "0 20px",
+  padding: "60px 20px 20px 20px",
   fontFamily: "'Poppins', sans-serif",
   color: "white",
 });
@@ -43,7 +43,7 @@ const Paragraph = styled("p")({
 
 const ProfileImageWrapper = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hovered" && prop !== "cursor", // 👈 blocca anche "cursor"
-})<{ hovered?: boolean; cursor?: "default" | "pointer" | "grab"  }>(({ hovered, cursor }) => ({
+})<{ hovered?: boolean; cursor?: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
   display: "inline-block",
   borderRadius: "50%",
   border: "6px solid #FFD166",

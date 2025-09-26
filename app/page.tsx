@@ -1,5 +1,4 @@
 "use client";
-
 import { useGlobalStore } from "./State/GlobalContext";
 
 export default function LoginPage() {
@@ -14,13 +13,15 @@ export default function LoginPage() {
   const cursor = state.cursor;
   return (
     <div
-      style={{
+       style={{
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         fontFamily: "'Poppins', sans-serif",
         padding: 20,
+        overflow: "hidden",        // nasconde lo scroll
+        height: "100vh",           // forza altezza piena viewport
       }}
     >
       <div
@@ -37,7 +38,7 @@ export default function LoginPage() {
           animation: "fadeIn 1s ease-in-out",
         }}
       >
-        <h1 style={{ fontSize: "2rem", marginBottom: 10 }}>✨ Benvenuto ✨</h1>
+        <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>✨ Benvenuto ✨</h1>
 
         <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.</p>
 
