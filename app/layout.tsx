@@ -48,7 +48,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           <main
             style={{
               padding: 20,
-              minHeight: "calc(100vh - 72px)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

@@ -1,31 +1,5 @@
 import { useState } from "react";
-import { InputAdornment, InputBase } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-
-const useStyles = makeStyles({
-  container: {
-    
-  },
-  input: {
-    width: "100%",
-    height: 50,
-    padding: "0 16px",
-    borderRadius: 12,
-    background: "white",
-    boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-    fontFamily: "'Poppins', sans-serif",
-    fontSize: 16,
-    color: "#121212",
-    transition: "outline 0.2s",
-    "& .MuiInputBase-input::placeholder": {
-      color: "#3C3C4399",
-      opacity: 1,
-    },
-  },
-  inputFocused: {
-     boxShadow: "0 0 0 2px rgba(255,179,71,0.6)",
-  },
-});
+import { InputAdornment, InputBase, styled } from "@mui/material";
 
 type FilterSearchProps = {
   searchInput: string;
@@ -34,27 +8,42 @@ type FilterSearchProps = {
   inputSx?: React.CSSProperties;
 };
 
-const FilterSearch = ({ searchInput, setSearchInput, containerSx = {}, inputSx = {} }: FilterSearchProps) => {
-  const classes = useStyles();
-  const [isFocused, setIsFocused] = useState(false);
+const StyledInput = styled(InputBase)(({ theme }) => ({
+  width: "100%",
+  height: 50,
+  padding: "0 16px",
+  borderRadius: 12,
+  background: "white",
+  boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+  fontFamily: "'Poppins', sans-serif",
+  fontSize: 16,
+  color: "#121212",
+  transition: "box-shadow 0.2s",
+  "& .MuiInputBase-input::placeholder": {
+    color: "#3C3C4399",
+    opacity: 1,
+  },
+  "&.Mui-focused": {
+    boxShadow: "0 0 0 2px rgba(255,179,71,0.6)",
+  },
+}));
 
+const FilterSearch = ({
+  searchInput,
+  setSearchInput,
+  containerSx = {},
+  inputSx = {},
+}: FilterSearchProps) => {
   return (
-    <div className={classes.container} style={containerSx}>
-      <InputBase
+    <div style={containerSx}>
+      <StyledInput
         type="search"
         placeholder="Search.."
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
         autoComplete="off"
-        className={`${classes.input} ${isFocused ? classes.inputFocused : ""}`}
-        style={inputSx}
-        startAdornment={
-          <InputAdornment position="start">
-            🔍
-          </InputAdornment>
-        }
+        sx={inputSx}
+        startAdornment={<InputAdornment position="start">🔍</InputAdornment>}
       />
     </div>
   );

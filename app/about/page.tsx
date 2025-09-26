@@ -250,23 +250,22 @@ export default function AboutPage() {
   ];
 
   return (
-<Box
-  sx={{
-    p: 4,
-    cursor: cursor ?? "default",
-    backgroundColor: "rgba(212, 185, 185, 0.1)",
-    backdropFilter: "blur(3px) saturate(160%)",
-    WebkitBackdropFilter: "blur(12px) saturate(160%)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",
-    borderRadius: "20px",
-    animation: "fadeIn 0.6s ease-out forwards",
-    "@keyframes fadeIn": {
-      "0%": { opacity: 0, transform: "translateY(-20px)" },
-      "100%": { opacity: 1, transform: "translateY(0)" },
-    },
-  }}
->
-
+    <Box
+      sx={{
+        p: 4,
+        cursor: cursor ?? "default",
+        background: "linear-gradient(135deg, rgba(15,32,39,0.2), rgba(32,58,67,0.2), rgba(44,83,100,0.3))",
+        backdropFilter: "blur(3px) saturate(160%)",
+        WebkitBackdropFilter: "blur(12px) saturate(160%)",
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",
+        borderRadius: "20px",
+        animation: "fadeIn 0.6s ease-out forwards",
+        "@keyframes fadeIn": {
+          "0%": { opacity: 0, transform: "translateY(-20px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+      }}
+    >
       <Paper
         elevation={6}
         sx={{

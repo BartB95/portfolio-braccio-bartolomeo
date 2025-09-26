@@ -9,7 +9,6 @@ const Container = styled("div")({
   flexDirection: "column",
   justifyContent: "flex-start",
   alignItems: "center",
-  minHeight: "100vh",
   textAlign: "center",
   padding: "60px 20px 20px 20px",
   fontFamily: "'Poppins', sans-serif",
@@ -17,7 +16,7 @@ const Container = styled("div")({
 });
 
 const Box = styled("div")({
-  background: "rgba(255, 255, 255, 0.08)",
+   background: "linear-gradient(135deg, rgba(15,32,39,0.5), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
   padding: "20px 25px",
   borderRadius: "20px",
   backdropFilter: "blur(3px)",

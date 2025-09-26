@@ -3,9 +3,14 @@ import { useState } from "react";
 import Image from "next/image";
 import FilterSearch from "../Shared/components/FilterSearch";
 import Card from "../Shared/components/Cards";
-import { styled } from "@mui/system";
+import { keyframes, styled } from "@mui/system";
 import HobbySection from "./hobby/hobby";
 import { useGlobalStore } from "../State/GlobalContext";
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 const Container = styled("div")({
   fontFamily: "'Poppins', sans-serif",
@@ -14,17 +19,17 @@ const Container = styled("div")({
   margin: "0 auto",
   background: "linear-gradient(135deg, rgba(1, 6, 33, 0.3), rgba(144,202,249,0.2))",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
-  borderRadius: "20px",
+  borderRadius: "10px",
   display: "flex",
   flexDirection: "column",
   gap: "30px",
+  animation: `${fadeIn} 0.7s ease-out forwards`,
 
   "@media (max-width: 399px)": {
     padding: "0px",
     gap: "15px",
   },
 });
-
 /* HEADER */
 const Header = styled("div")({
   display: "flex",
@@ -34,7 +39,7 @@ const Header = styled("div")({
   padding: "18px 28px",
   backdropFilter: "blur(8px)",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
-  borderRadius: "20px",
+  borderRadius: "10px",
   border: "1px solid rgba(255,255,255,0.1)",
   "@media (min-width: 768px)": {
     flexDirection: "row",
@@ -81,7 +86,7 @@ const Hero = styled("div")({
   padding: "30px",
   color: "white",
    boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
-  borderRadius: "20px",
+  borderRadius: "10px",
   border: "1px solid rgba(255, 255, 255, 0.25)",
 });
 
@@ -161,7 +166,7 @@ const ProfileCard = styled("div")({
   color: "white",
   textAlign: "center",
    boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
-  borderRadius: "20px",
+  borderRadius: "10px",
   transition: "all 0.2s ease",
 });
 
