@@ -23,15 +23,17 @@ const Container = styled("div")({
   },
 });
 
+/* HEADER */
 const Header = styled("div")({
   display: "flex",
   flexDirection: "column",
-  gap: "15px",
-  background: "rgba(0,0,0,0.4)",
-  padding: "15px 25px",
-  borderRadius: "8px",
-
-  boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+  gap: "20px",
+  background: "rgba(255,255,255,0.05)",
+  padding: "18px 28px",
+  borderRadius: "14px",
+  backdropFilter: "blur(8px)",
+  boxShadow: "0 6px 18px rgba(0,0,0,0.25)",
+  border: "1px solid rgba(255,255,255,0.1)",
   "@media (min-width: 768px)": {
     flexDirection: "row",
     alignItems: "center",
@@ -40,21 +42,22 @@ const Header = styled("div")({
 });
 
 const HeaderLeft = styled("div")({
-  color: "white",
-  fontWeight: "bold",
-  fontSize: "clamp(1rem, 1.5vw, 1.4rem)",
+  color: "#FFD166",
+  fontWeight: 700,
+  fontSize: "clamp(1rem, 1.6vw, 1.5rem)",
+  letterSpacing: "0.5px",
 });
 
 const HeaderCenter = styled("div")({
   flex: 1,
   padding: "0 20px",
-  transform: "translateY(-8px)",
 });
 
 const HeaderRight = styled("div")({
-  color: "#EAEAEA",
-  fontSize: "clamp(0.75rem, 1vw, 0.85rem)",
-  lineHeight: 1.4,
+  color: "#E0E0E0",
+  fontSize: "clamp(0.8rem, 1vw, 0.95rem)",
+  lineHeight: 1.5,
+  textAlign: "right",
 });
 
 const Main = styled("div")({

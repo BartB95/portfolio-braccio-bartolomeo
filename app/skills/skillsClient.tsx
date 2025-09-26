@@ -163,10 +163,8 @@ const SkillsClient = ({ initialSkills }: Props) => {
       <span style={{ color: "#E6E2C8" }}>Le percentuali indicano le tecnologie con cui mi sento più sicuro e competente.</span>
 
       <FormRow>
-        <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} containerSx={{ marginBottom: 23 }} />
-
+        <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
         <Input type="text" value={newSkill} placeholder="Aggiungi skill" onChange={(e) => setNewSkill(e.target.value)} />
-
         <SmallInput type="number" value={newSkillPercent} onChange={(e) => setNewSkillPercent(Number(e.target.value))} placeholder="%" min={0} max={100} />
 
         <Button
