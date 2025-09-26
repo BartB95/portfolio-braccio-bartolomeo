@@ -254,7 +254,7 @@ export default function AboutPage() {
   sx={{
     p: 4,
     cursor: cursor ?? "default",
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: "rgba(212, 185, 185, 0.1)",
     backdropFilter: "blur(3px) saturate(160%)",
     WebkitBackdropFilter: "blur(12px) saturate(160%)",
     boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",

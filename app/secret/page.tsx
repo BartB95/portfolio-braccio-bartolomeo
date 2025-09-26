@@ -20,8 +20,8 @@ const Box = styled("div")({
   background: "rgba(255, 255, 255, 0.08)",
   padding: "20px 25px",
   borderRadius: "20px",
-  backdropFilter: "blur(5px)",
-  boxShadow: "0 8px 30px rgba(0, 0, 0, 0.4)",
+  backdropFilter: "blur(3px)",
+  boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   maxWidth: "400px",
   animation: "fadeIn 0.8s ease-in-out",
 });
