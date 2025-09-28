@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import { styled } from "@mui/system";
 import { useGlobalStore } from "@/app/State/GlobalContext";
 
@@ -16,31 +16,30 @@ const Overlay = styled("div")({
   justifyContent: "center",
   zIndex: 9999,
 });
+
 const ModalBox = styled("div")({
-  background: "linear-gradient(135deg, rgba(155, 183, 212, 0.9), rgba(227, 227, 238, 0.85))", 
+  background: "linear-gradient(135deg, rgba(155, 183, 212, 0.9), rgba(227, 227, 238, 0.85))",
   backdropFilter: "blur(6px) saturate(180%)",
   WebkitBackdropFilter: "blur(12px) saturate(180%)",
-  border: "1px solid rgba(255, 255, 255, 2)",
+  border: "1px solid rgba(255, 255, 255, 0.2)",
   padding: 24,
   borderRadius: 20,
   width: "90%",
   maxWidth: 420,
   textAlign: "center",
-  boxShadow: "0 12px 40px rgba(0,0,0,1)", 
-  color: "#f5f7fa", 
+  boxShadow: "0 12px 40px rgba(0,0,0,0.3)",
+  color: "#333",
   fontFamily: "'Poppins', sans-serif",
 });
 
 const Title = styled("h3")({
   marginBottom: 16,
   fontSize: "20px",
-  color: "#333",
 });
 
-const Message = styled("p")({
+const Message = styled("div")({
   marginBottom: 24,
   fontSize: "16px",
-  color: "#555",
 });
 
 const Actions = styled("div")({
@@ -71,8 +70,9 @@ const Button = styled("button")<{ variant?: "confirm" | "cancel" }>(({ variant }
 
 export type ModalOptions = {
   title?: string;
-  message: string;
-  onConfirm: () => void;
+  message: string | ReactNode;
+  showInput?: boolean;
+  onConfirm: (inputValue?: string) => void;
   onCancel?: () => void;
   confirmText?: string;
   cancelText?: string;
@@ -80,19 +80,15 @@ export type ModalOptions = {
 
 const ModalProvider = ({ children }: { children: ReactNode }) => {
   const { state, dispatch } = useGlobalStore();
-
-  const showModal = (opts: ModalOptions) => {
-    dispatch({ type: "SHOW_MODAL", payload: opts });
-    dispatch({ type: "SET_CURSOR", payload: "default" });
-  };
+  const [inputValue, setInputValue] = useState("");
 
   const hideModal = () => {
     dispatch({ type: "HIDE_MODAL" });
-    dispatch({ type: "SET_CURSOR", payload: "pointer" });
+    setInputValue("");
   };
 
   const handleConfirm = () => {
-    state.modal?.onConfirm();
+    state.modal?.onConfirm(inputValue);
     hideModal();
   };
 
@@ -108,7 +104,26 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
         <Overlay>
           <ModalBox>
             {state.modal.title && <Title>{state.modal.title}</Title>}
-            <Message>{state.modal.message}</Message>
+            <Message>
+              {state.modal.message}
+              {state.modal.showInput && (
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Token..."
+                  style={{
+                    padding: "10px",
+                    borderRadius: "8px",
+                    border: "1px solid #ccc",
+                    fontSize: "14px",
+                    marginTop: "10px",
+                    width: "80%",
+                  }}
+                  autoFocus
+                />
+              )}
+            </Message>
             <Actions>
               <Button variant="cancel" onClick={handleCancel}>
                 {state.modal.cancelText || "Annulla"}
