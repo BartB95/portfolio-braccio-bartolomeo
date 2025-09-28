@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   // Server-side: prendi token dalla variabile d'ambiente
-  const token = process.env.NEXT_PUBLIC_OWNER_TOKEN;
+  const token = process.env.OWNER_TOKEN;
 
   return NextResponse.json({ token });
 }

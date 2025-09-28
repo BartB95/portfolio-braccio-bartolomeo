@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { ISkill } from "./ISkill";
-import { prm_CreateSkill, prm_DeleteSkill } from "../api/skills/apiSkill";
+
 import CircularSkillChart from "../Shared/components/CircularSkillChart";
 import FilterSearch from "../Shared/components/FilterSearch";
 import { keyframes, styled } from "@mui/system";
 import { useGlobalStore } from "../State/GlobalContext";
 import { DragDropList } from "../Shared/components/DragDrop";
+import { createSkill, deleteSkill } from "@/utility/api/skill_api";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -19,23 +20,15 @@ const Container = styled("div")({
   maxWidth: "1200px",
   padding: "30px",
   borderRadius: "16px",
-  background: "rgba(0, 0, 0, 0.35)", // trasparente per far vedere il background globale
+  background: "rgba(0, 0, 0, 0.35)",
   backdropFilter: "blur(3px) saturate(180%)",
   WebkitBackdropFilter: "blur(15px) saturate(180%)",
-  border: "1px solid rgba(255, 255, 255, 0.15)", // bordo leggero per definire il vetro
+  border: "1px solid rgba(255, 255, 255, 0.15)",
   color: "#f0f0f5",
   display: "flex",
   flexDirection: "column",
   gap: "20px",
-  animation: `${fadeIn} 0.7s ease-out forwards`, // corretto in oggetti JS
-  "@media (max-width: 768px)": {
-    padding: "20px",
-    borderRadius: "12px",
-  },
-  "@media (max-width: 480px)": {
-    padding: "15px",
-    borderRadius: "10px",
-  },
+  animation: `${fadeIn} 0.7s ease-out forwards`,
 });
 
 const Header = styled("h3")({
@@ -50,19 +43,19 @@ const Input = styled("input")({
   height: "50px",
   padding: "0 30px",
   borderRadius: "12px",
-  background: "#f0f0f5", // input scuro
+  background: "#f0f0f5",
   boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
   backdropFilter: "blur(10px)",
   fontFamily: "'Poppins', sans-serif",
   fontSize: 16,
   outline: "none",
-  border: "1px solid #4a4a6a", // bordo professionale
-  color: "#0f0f10ff", // testo chiaro
+  border: "1px solid #4a4a6a",
+  color: "#0f0f10ff",
   "&:focus": {
-    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)", // focus dorato
+    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)",
   },
   "&::placeholder": {
-    color: "#b0b0c1", // placeholder leggermente chiaro
+    color: "#b0b0c1",
     opacity: 1,
   },
 });
@@ -73,10 +66,10 @@ const SmallInput = styled("input")({
   width: "100px",
   borderRadius: "12px",
   "&:focus": {
-    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)", // focus dorato
+    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)",
   },
   "&::placeholder": {
-    color: "#b0b0c1", // placeholder leggermente chiaro
+    color: "#b0b0c1",
     opacity: 1,
   },
 });
@@ -85,7 +78,7 @@ const Button = styled("button")<{ hovered: boolean; cursor: "default" | "pointer
   height: "50px",
   padding: "0 20px",
   borderRadius: "12px",
-  background: "linear-gradient(135deg, #4a90e2, #0070f3)", // blu professionale
+  background: "linear-gradient(135deg, #4a90e2, #0070f3)",
   color: "#ffffff",
   fontFamily: "'Poppins', sans-serif",
   fontSize: 16,
@@ -105,10 +98,7 @@ const FormRow = styled("div")({
   gap: "12px",
   alignItems: "center",
   justifyContent: "center",
-  flexWrap: "wrap", 
-  "@media (max-width: 768px)": {
-    justifyContent: "flex-start", 
-  },
+  flexWrap: "wrap",
 });
 
 const SkillGrid = styled("div")({
@@ -134,79 +124,93 @@ const SkillsClient = ({ initialSkills }: Props) => {
   const isHovered = state.hoveredId === "button";
   const cursor = state.cursor;
 
-const addSkill = async () => {
-  if (!newSkill.trim()) return;
+  const addSkill = async () => {
+    if (!newSkill.trim()) return;
 
-  // Leggi il token dai cookie
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("token="))
-    ?.split("=")[1];
-
-  const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
-
-  if (!isOwner) {
-    // Mostra il modal se non sei l'owner
-    dispatch({
-      type: "SHOW_MODAL",
-      payload: {
-        title: "Inserimento Skill Negato!",
-        message: "Le skill possono essere inserite solo dall'amministratore del sito.",
-        onConfirm: () => {}, // chiudi solo il modal
-        onCancel: undefined,
-        confirmText: "Ok",
-        cancelText: undefined,
-      },
-    });
-    return;
-  }
-
-  setLoading(true);
-  try {
-    await prm_CreateSkill({ name: newSkill, percent: Number(newSkillPercent) });
-    setSkills((prev) => [...prev, { name: newSkill, percent: Number(newSkillPercent) }]);
-    setNewSkill("");
-    setNewSkillPercent("50");
-  } catch (err) {
-    console.error("Error creating skill:", err);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  const removeSkill = async (skillName: string) => {
+    setLoading(true);
     try {
-      await prm_DeleteSkill(skillName);
-      setSkills((prev) => prev.filter((s) => s.name !== skillName));
+      const result = await createSkill({ name: newSkill, percent: Number(newSkillPercent) });
+
+      if (result.err) {
+        dispatch({
+          type: "SHOW_MODAL",
+          payload: {
+            title: "Errore!",
+            message: result.message || "Errore durante l'inserimento della skill.",
+            onConfirm: () => {},
+            confirmText: "Ok",
+          },
+        });
+        return;
+      }
+
+      setSkills((prev) => [...prev, { name: newSkill, percent: Number(newSkillPercent) }]);
+      setNewSkill("");
+      setNewSkillPercent("50");
     } catch (err) {
-      console.error("Error deleting skill:", err);
+      console.error("Error creating skill:", err);
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: {
+          title: "Errore!",
+          message: "Errore durante l'inserimento della skill.",
+          onConfirm: () => {},
+          confirmText: "Ok",
+        },
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-const confirmDeleteSkill = (skillName: string) => {
-  // Leggi il token dai cookie
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("token="))
-    ?.split("=")[1];
+  const removeSkill = async (skillName: string) => {
+    setLoading(true);
+    try {
+      const result = await deleteSkill(skillName);
 
-  const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN; // variabile d'ambiente pubblica
+      if (result.err) {
+        dispatch({
+          type: "SHOW_MODAL",
+          payload: {
+            title: "Errore!",
+            message: result.message || "Errore durante l'eliminazione della skill.",
+            onConfirm: () => {},
+            confirmText: "Ok",
+          },
+        });
+        return;
+      }
 
-  dispatch({
-    type: "SHOW_MODAL",
-    payload: {
-      title: isOwner ? "Elimina Skill" : "Eliminazione Skill Negata!",
-      message: isOwner
-        ? `Sei sicuro di voler eliminare "${skillName}"?`
-        : "Non puoi eliminare questa skill. Contatta l'amministratore del sito.",
-      onConfirm: isOwner ? () => removeSkill(skillName) : () => dispatch({ type: "HIDE_MODAL" }),
-      onCancel: isOwner ? () => dispatch({ type: "HIDE_MODAL" }) : undefined,
-      confirmText: isOwner ? "Elimina" : "Ok",
-      cancelText: isOwner ? "Annulla" : undefined,
-    },
-  });
-};
+      setSkills((prev) => prev.filter((s) => s.name !== skillName));
+    } catch (err) {
+      console.error("Error deleting skill:", err);
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: {
+          title: "Errore!",
+          message: "Errore durante l'eliminazione della skill.",
+          onConfirm: () => {},
+          confirmText: "Ok",
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const confirmDeleteSkill = (skillName: string) => {
+    dispatch({
+      type: "SHOW_MODAL",
+      payload: {
+        title: "Elimina Skill",
+        message: `Sei sicuro di voler eliminare "${skillName}"?`,
+        onConfirm: () => removeSkill(skillName),
+        onCancel: () => dispatch({ type: "HIDE_MODAL" }),
+        confirmText: "Elimina",
+        cancelText: "Annulla",
+      },
+    });
+  };
 
   const filteredSkills = skills.filter((skill) => skill.name.toLowerCase().includes(searchInput.toLowerCase()));
 
@@ -221,7 +225,7 @@ const confirmDeleteSkill = (skillName: string) => {
         <SmallInput
           type="number"
           value={newSkillPercent}
-          onChange={(e) => setNewSkillPercent(e.target.value)} // <-- sempre stringa
+          onChange={(e) => setNewSkillPercent(e.target.value)}
           placeholder="%"
           min={0}
           max={100}
@@ -240,7 +244,7 @@ const confirmDeleteSkill = (skillName: string) => {
           }}
           disabled={loading}
         >
-          {loading ? "..." : "Inserisci"}
+          Inserisci
         </Button>
       </FormRow>
 
