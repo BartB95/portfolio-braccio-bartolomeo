@@ -3,6 +3,8 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useGlobalStore } from "../State/GlobalContext";
+import Rocket from "../Shared/components/Rocket";
 
 const Container = styled.div`
   display: flex;
@@ -48,8 +50,6 @@ const FormCard = styled.form`
   }
 `;
 
-
-
 const FullWidth = styled.div`
   grid-column: 1 / -1;
 `;
@@ -76,7 +76,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 100%;
-  box-sizing: border-box;   /* 👈 include padding e border nel calcolo della larghezza */
+  box-sizing: border-box; /* 👈 include padding e border nel calcolo della larghezza */
   padding: 0.5rem;
   border-radius: 12px;
   border: 1px solid #9bb7d4;
@@ -97,7 +97,7 @@ const Input = styled.input`
 
 const Textarea = styled.textarea`
   width: 100%;
-  box-sizing: border-box;   /* 👈 fondamentale */
+  box-sizing: border-box; /* 👈 fondamentale */
   padding: 0.75rem 1rem;
   border-radius: 12px;
   border: 1px solid #9bb7d4;
@@ -117,9 +117,18 @@ const Textarea = styled.textarea`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  grid-column: 1 / -1;
+  position: relative;
+  width: 100%;
+`;
 
 const Button = styled.button`
-  grid-column: 1 / -1;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem 1.2rem;
   border-radius: 16px;
   border: none;
@@ -131,6 +140,7 @@ const Button = styled.button`
   cursor: pointer;
   transition: all 0.4s ease;
   box-shadow: 0 12px 25px rgba(29, 114, 184, 0.3);
+  overflow: visible;
 
   &:hover {
     background-position: right center;
@@ -139,7 +149,15 @@ const Button = styled.button`
   }
 `;
 
+const ButtonText = styled.span`
+  flex: 1; // prende tutta la larghezza disponibile
+  text-align: center;
+  transition: margin 0.2s ease;
+`;
+
 export default function ContactForm() {
+  const { dispatch } = useGlobalStore();
+  const [isLaunching, setIsLaunching] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -157,18 +175,50 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch("/api/rsvp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    alert("Modulo inviato con successo!");
+    if (isLaunching) return;
+
+    setIsLaunching(true);
+
+    try {
+      const response = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nella risposta dal server");
+      }
+
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: {
+          title: "🎉 Modulo inviato con successo!",
+          message: "Il modulo è stato inviato correttamente. La richiesta è stata inoltrata e verrà presa in carico al più presto.",
+          confirmText: "OK",
+          onConfirm: () => {},
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: {
+          title: "⚠️ Errore durante l'invio",
+          message: "Si è verificato un errore. Il modulo non è stato inviato. Riprova più tardi.",
+          confirmText: "Chiudi",
+          onConfirm: () => {},
+        },
+      });
+    } finally {
+      setIsLaunching(false);
+    }
   };
 
   return (
     <Container>
       <FormCard onSubmit={handleSubmit}>
-      <Title>Modulo HR - Richiesta Informazioni</Title>
+        <Title>Modulo HR - Richiesta Informazioni</Title>
 
         <div>
           <Label>👤 Nome</Label>
@@ -210,7 +260,12 @@ export default function ContactForm() {
           <Textarea name="message" value={formData.message} onChange={handleChange} />
         </FullWidth>
 
-        <Button type="submit">Invia</Button>
+        <ButtonWrapper>
+          <Button type="submit" aria-disabled={isLaunching}>
+            <ButtonText style={{ marginRight: "30px" }}>Invia</ButtonText>
+            <Rocket isLaunching={isLaunching} style={{ right: 10, top: "50%" }} />
+          </Button>
+        </ButtonWrapper>
       </FormCard>
     </Container>
   );

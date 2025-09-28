@@ -3,6 +3,7 @@ import Image from "next/image";
 import NavbarClient from "./navbar";
 import { Providers } from "./State/Providers";
 import LogoutButton from "./logout/page";
+import ModalProvider from "./Shared/components/Modal";
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
@@ -32,16 +33,11 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
             overflow: "hidden",
           }}
         >
-          <Image
-            src="/sfondo_studio.jpg"
-            alt="Sfondo"
-            fill
-            style={{ objectFit: "cover" }}
-            priority
-          />
+          <Image src="/sfondo_studio.jpg" alt="Sfondo" fill style={{ objectFit: "cover" }} priority />
         </div>
 
         <Providers>
+          <ModalProvider>
           {token ? <NavbarClient /> : null}
           {token ? <LogoutButton /> : null}
 
@@ -55,8 +51,12 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
               textAlign: "center",
             }}
           >
+            
+            
+
             {children}
           </main>
+          </ModalProvider>
         </Providers>
       </body>
     </html>

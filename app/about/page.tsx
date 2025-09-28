@@ -254,7 +254,7 @@ export default function AboutPage() {
       sx={{
         p: 4,
         cursor: cursor ?? "default",
-        background: "linear-gradient(135deg, rgba(15,32,39,0.2), rgba(32,58,67,0.2), rgba(44,83,100,0.3))",
+        background: "linear-gradient(135deg, rgba(15,32,39,0.1), rgba(32,58,67,0.1), rgba(44,83,100,0.2))",
         backdropFilter: "blur(3px) saturate(160%)",
         WebkitBackdropFilter: "blur(12px) saturate(160%)",
         boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",

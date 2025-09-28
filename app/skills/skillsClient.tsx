@@ -104,8 +104,11 @@ const FormRow = styled("div")({
   display: "flex",
   gap: "12px",
   alignItems: "center",
-  justifyContent: "center", // ⬅ centra tutti gli elementi orizzontalmente
-  flexWrap: "wrap",
+  justifyContent: "center",
+  flexWrap: "wrap", 
+  "@media (max-width: 768px)": {
+    justifyContent: "flex-start", 
+  },
 });
 
 const SkillGrid = styled("div")({
@@ -123,7 +126,7 @@ const SkillsClient = ({ initialSkills }: Props) => {
   const [skills, setSkills] = useState<ISkill[]>(initialSkills);
   const [searchInput, setSearchInput] = useState("");
   const [newSkill, setNewSkill] = useState("");
-  const [newSkillPercent, setNewSkillPercent] = useState(50);
+  const [newSkillPercent, setNewSkillPercent] = useState<string>("50");
   const [loading, setLoading] = useState(false);
   const [animated, setAnimated] = useState(true);
   const { state, dispatch } = useGlobalStore();
@@ -131,20 +134,46 @@ const SkillsClient = ({ initialSkills }: Props) => {
   const isHovered = state.hoveredId === "button";
   const cursor = state.cursor;
 
-  const addSkill = async () => {
-    if (!newSkill.trim()) return;
-    setLoading(true);
-    try {
-      await prm_CreateSkill({ name: newSkill, percent: newSkillPercent });
-      setSkills((prev) => [...prev, { name: newSkill, percent: newSkillPercent }]);
-      setNewSkill("");
-      setNewSkillPercent(50);
-    } catch (err) {
-      console.error("Error creating skill:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+const addSkill = async () => {
+  if (!newSkill.trim()) return;
+
+  // Leggi il token dai cookie
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("token="))
+    ?.split("=")[1];
+
+  const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
+
+  if (!isOwner) {
+    // Mostra il modal se non sei l'owner
+    dispatch({
+      type: "SHOW_MODAL",
+      payload: {
+        title: "Inserimento Skill Negato!",
+        message: "Le skill possono essere inserite solo dall'amministratore del sito.",
+        onConfirm: () => {}, // chiudi solo il modal
+        onCancel: undefined,
+        confirmText: "Ok",
+        cancelText: undefined,
+      },
+    });
+    return;
+  }
+
+  setLoading(true);
+  try {
+    await prm_CreateSkill({ name: newSkill, percent: Number(newSkillPercent) });
+    setSkills((prev) => [...prev, { name: newSkill, percent: Number(newSkillPercent) }]);
+    setNewSkill("");
+    setNewSkillPercent("50");
+  } catch (err) {
+    console.error("Error creating skill:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const removeSkill = async (skillName: string) => {
     try {
@@ -154,6 +183,30 @@ const SkillsClient = ({ initialSkills }: Props) => {
       console.error("Error deleting skill:", err);
     }
   };
+
+const confirmDeleteSkill = (skillName: string) => {
+  // Leggi il token dai cookie
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("token="))
+    ?.split("=")[1];
+
+  const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN; // variabile d'ambiente pubblica
+
+  dispatch({
+    type: "SHOW_MODAL",
+    payload: {
+      title: isOwner ? "Elimina Skill" : "Eliminazione Skill Negata!",
+      message: isOwner
+        ? `Sei sicuro di voler eliminare "${skillName}"?`
+        : "Non puoi eliminare questa skill. Contatta l'amministratore del sito.",
+      onConfirm: isOwner ? () => removeSkill(skillName) : () => dispatch({ type: "HIDE_MODAL" }),
+      onCancel: isOwner ? () => dispatch({ type: "HIDE_MODAL" }) : undefined,
+      confirmText: isOwner ? "Elimina" : "Ok",
+      cancelText: isOwner ? "Annulla" : undefined,
+    },
+  });
+};
 
   const filteredSkills = skills.filter((skill) => skill.name.toLowerCase().includes(searchInput.toLowerCase()));
 
@@ -165,8 +218,14 @@ const SkillsClient = ({ initialSkills }: Props) => {
       <FormRow>
         <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
         <Input type="text" value={newSkill} placeholder="Aggiungi skill" onChange={(e) => setNewSkill(e.target.value)} />
-        <SmallInput type="number" value={newSkillPercent} onChange={(e) => setNewSkillPercent(Number(e.target.value))} placeholder="%" min={0} max={100} />
-
+        <SmallInput
+          type="number"
+          value={newSkillPercent}
+          onChange={(e) => setNewSkillPercent(e.target.value)} // <-- sempre stringa
+          placeholder="%"
+          min={0}
+          max={100}
+        />
         <Button
           onClick={addSkill}
           cursor={cursor}
@@ -189,7 +248,7 @@ const SkillsClient = ({ initialSkills }: Props) => {
         <DragDropList
           items={filteredSkills}
           onChange={(newOrder) => setSkills(newOrder)}
-          renderItem={(skill) => <CircularSkillChart key={skill.name} skill={skill} animated={animated} onDelete={removeSkill} />}
+          renderItem={(skill) => <CircularSkillChart key={skill.name} skill={skill} animated={animated} onDelete={confirmDeleteSkill} />}
         />
       </SkillGrid>
     </Container>

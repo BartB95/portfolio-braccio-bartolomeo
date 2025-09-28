@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useGlobalStore } from "./State/GlobalContext";
 import { styled } from "@mui/material";
+import Rocket from "./Shared/components/Rocket";
 
 const PageWrapper = styled("div")({
   display: "flex",
@@ -25,15 +26,22 @@ export default function LoginPage() {
   const { state, dispatch } = useGlobalStore();
   const [isLaunching, setIsLaunching] = useState(false);
 
-  function handleLogin() {
+  async function handleLogin() {
     if (isLaunching) return;
     setIsLaunching(true);
 
     const ANIMATION_DURATION = 800;
 
-    setTimeout(() => {
-      document.cookie = "token=abc123; path=/";
-      window.location.href = "/secret";
+    setTimeout(async () => {
+      try {
+        const res = await fetch("/api/token");
+        const data = await res.json();
+        document.cookie = `token=${data.token}; path=/`;
+        window.location.href = "/secret";
+      } catch (err) {
+        console.error("Errore login:", err);
+        setIsLaunching(false);
+      }
     }, ANIMATION_DURATION);
   }
 
@@ -59,10 +67,13 @@ export default function LoginPage() {
           }}
         >
           <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>✨ Benvenuto ✨</h1>
-          <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.</p>
-          <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>🔒 Il token viene salvato come cookie e garantisce accesso sicuro e autenticato alle funzionalità riservate.</p>
+          <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>
+            Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.
+          </p>
+          <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>
+            🔒 Il token viene salvato come cookie e garantisce accesso sicuro e autenticato alle funzionalità riservate.
+          </p>
 
-          {/* Wrapper relativo per pulsante + razzo */}
           <div style={{ position: "relative", display: "inline-block" }}>
             <button
               onClick={handleLogin}
@@ -104,42 +115,8 @@ export default function LoginPage() {
               </span>
             </button>
 
-            <span
-              className={isLaunching ? "rocket rocket--launch" : "rocket"}
-              aria-hidden
-              style={{
-                position: "absolute",
-                right: 10,
-                top: "50%",
-                transform: "translateY(-50%)",
-                fontSize: "1.5rem",
-                pointerEvents: "none",
-              }}
-            >
-              🚀
-            </span>
+            <Rocket isLaunching={isLaunching} />
           </div>
-
-          <style jsx>{`
-            .rocket--launch {
-              animation: launch 1.1s ease-in forwards;
-            }
-
-            @keyframes launch {
-              0% {
-                transform: translateY(-50%) translateX(0) rotate(0deg) scale(1);
-                opacity: 1;
-              }
-              30% {
-                transform: translateY(-60px) rotate(-10deg) scale(1.05);
-                opacity: 1;
-              }
-              100% {
-                transform: translateY(-300px) rotate(-45deg) scale(0.6);
-                opacity: 0;
-              }
-            }
-          `}</style>
         </div>
       </Container>
     </PageWrapper>
