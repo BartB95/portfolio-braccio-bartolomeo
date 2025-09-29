@@ -252,13 +252,10 @@ export default function AboutPage() {
   return (
     <Box
       sx={{
-        p: 4,
+        p: 2,
         cursor: cursor ?? "default",
-        background: "linear-gradient(135deg, rgba(15,32,39,0.1), rgba(32,58,67,0.1), rgba(223, 234, 239, 0.1))",
-        backdropFilter: "blur(3px) saturate(160%)",
-        WebkitBackdropFilter: "blur(12px) saturate(160%)",
         boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",
-        borderRadius: "20px",
+        borderRadius: "15px",
         animation: "fadeIn 0.6s ease-out forwards",
         "@keyframes fadeIn": {
           "0%": { opacity: 0, transform: "translateY(-20px)" },
@@ -277,8 +274,9 @@ export default function AboutPage() {
           width: "100%",
           maxWidth: 1200,
           margin: "0 auto",
-          background: "rgba(0,0,0,0.1)",
-          backdropFilter: "blur(8px)",
+          background: "rgba(63, 81, 181, 0.3)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(12px)",
           boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",
           borderRadius: "12px",
         }}
@@ -288,13 +286,13 @@ export default function AboutPage() {
           onChange={handleChange}
           variant="fullWidth"
           textColor="inherit"
-          indicatorColor="secondary"
+          indicatorColor="primary"
           sx={{
-            backgroundColor: "rgba(255,255,255,0.15)",
+            background: "rgba(63, 81, 181, 0.5)",
             "& .MuiTab-root": {
               color: "#F5EEDC",
               fontWeight: "bold",
-              fontSize: "1rem", 
+              fontSize: "1rem",
               "@media (max-width:480px)": {
                 fontSize: "10px",
               },

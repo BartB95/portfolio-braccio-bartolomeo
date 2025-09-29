@@ -79,7 +79,7 @@ const SmallInput = styled("input")({
     opacity: 1,
   },
   // MOBILE / TABLET: rimane sulla stessa riga
-  flex: "1 1 100px",
+  flex: "0 0 60px",
 
 });
 

@@ -73,7 +73,7 @@ const Main = styled("div")({
 });
 
 const Hero = styled("div")({
-  flex: 1,
+  flex: "1 1 55%", // occupa circa 2/3 dello spazio
   background: "rgba(63, 81, 181, 0.3)",
   backdropFilter: "blur(3px)",
   WebkitBackdropFilter: "blur(12px)",
