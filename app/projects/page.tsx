@@ -6,6 +6,7 @@ import CircularSkillChart from "../Shared/components/CircularSkillChart";
 import { DragDropList } from "../Shared/components/DragDrop";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import PieChartComponent from "../Shared/components/PieChart";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -17,7 +18,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  min-height: 100vh;
   background: rgba(255, 255, 255, 0.1); /* vetro trasparente */
   backdrop-filter: blur(3px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
@@ -85,9 +85,9 @@ const SkillContainer = styled.div`
 
 const Projects = () => {
   const skills: ISkill[] = [
-    { name: "GisWrapper", percent: 85 },
-    { name: "GisViewer", percent: 75 },
-    { name: "Blastness", percent: 65 },
+    { name: "GisWrapper", percent: 36 },
+    { name: "GisViewer", percent: 34 },
+    { name: "Blastness", percent: 10 },
   ];
 
   const [skill, setSkill] = useState<ISkill[]>(skills);
@@ -146,7 +146,19 @@ const Projects = () => {
 
         {/* Skills */}
         <SkillContainer>
-          <DragDropList items={skill} onChange={setSkill} renderItem={(skill) => <CircularSkillChart key={skill.name} skill={skill} animated={true} />} />
+          <Paragraph
+            style={{
+              color: "#FFD700", 
+              textShadow: "2px 2px 6px rgba(0, 0, 0, 1.5)", 
+              fontWeight: 600, 
+              fontSize: "1.1rem", 
+            }}
+          >
+            Qui vengono mostrati i grafici che evidenziano chiaramente la <strong>percentuale di lavoro</strong> dedicata a ciascun progetto nel corso dei miei tre anni di esperienza, mostrando su
+            quale progetto ho concentrato maggiormente il mio impegno.
+          </Paragraph>
+
+          <PieChartComponent data={skill.map((s) => ({ name: s.name, value: s.percent }))} />
         </SkillContainer>
       </Card>
     </Container>
