@@ -13,6 +13,7 @@ const Container = styled("div")({
   flex: "1 1 300px",
   minWidth: "300px",
   position: "relative",
+  boxShadow: "0 8px 24px rgba(0, 0, 0, 1.5)",
 });
 
 const DeleteButton = styled("button")({

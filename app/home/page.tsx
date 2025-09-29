@@ -19,7 +19,6 @@ const Container = styled("div")({
   flexDirection: "column",
   gap: "30px",
 
-
   "@media (max-width: 399px)": {
     padding: "0px",
     gap: "15px",
@@ -80,7 +79,7 @@ const Hero = styled("div")({
   WebkitBackdropFilter: "blur(12px)",
   padding: "30px",
   color: "white",
-   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
+  boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
   border: "1px solid rgba(255, 255, 255, 0.25)",
 });
@@ -98,8 +97,8 @@ const HeroText = styled("p")({
 });
 
 const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
-  display: "block",           // forza il bottone a comportarsi come blocco
-  margin: "50px auto 15px",   // centrato orizzontalmente e spazio sotto
+  display: "block", // forza il bottone a comportarsi come blocco
+  margin: "50px auto 15px", // centrato orizzontalmente e spazio sotto
   padding: "12px 24px",
   background: "linear-gradient(90deg, #FF7E5F, #FD3A69)",
   border: "none",
@@ -110,13 +109,14 @@ const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "poi
   cursor: cursor ?? "default",
   transition: "transform 0.2s ease, box-shadow 0.2s ease",
   transform: hovered ? "scale(1.05)" : "scale(1)",
-  width: "280px", 
+  width: "280px",
   textAlign: "center",
+  boxShadow: hovered ? "0 8px 24px rgba(0, 0, 0, 1)" : "0 4px 12px rgba(0, 0, 0, 0.25)",
 }));
 
-const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab"  }>(({ hovered, cursor }) => ({
-  display: "block",          
-  margin: "20px auto 0",      // centrato, spazio sopra
+const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
+  display: "block",
+  margin: "20px auto 0", // centrato, spazio sopra
   padding: "12px 24px",
   background: "#c2a35cff",
   border: "none",
@@ -129,8 +129,8 @@ const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "point
   transform: hovered ? "scale(1.05)" : "scale(1)",
   width: "280px",
   textAlign: "center",
+  boxShadow: hovered ? "0 8px 24px rgba(0, 0, 0, 1)" : "0 4px 12px rgba(0, 0, 0, 0.25)",
 }));
-
 
 const Projects = styled("div")({
   flex: 1,
@@ -160,7 +160,7 @@ const ProfileCard = styled("div")({
   padding: "20px",
   color: "white",
   textAlign: "center",
-   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
+  boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
   transition: "all 0.2s ease",
 });

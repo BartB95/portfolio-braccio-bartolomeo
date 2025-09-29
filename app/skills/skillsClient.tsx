@@ -17,7 +17,7 @@ const fadeIn = keyframes`
 const Container = styled("div")({
   width: "100%",
   maxWidth: "1200px",
-  padding: "30px",
+  padding: "20px",
   borderRadius: "16px",
   background: "rgba(0, 0, 0, 0.35)", // trasparente per far vedere il background globale
   backdropFilter: "blur(3px) saturate(180%)",
@@ -79,7 +79,7 @@ const SmallInput = styled("input")({
     opacity: 1,
   },
   // MOBILE / TABLET: rimane sulla stessa riga
-  flex: "0 0 100px",
+  flex: "1 1 100px",
 
 });
 

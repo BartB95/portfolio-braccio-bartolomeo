@@ -254,12 +254,16 @@ export default function AboutPage() {
       sx={{
         p: 4,
         cursor: cursor ?? "default",
-        background: "linear-gradient(135deg, rgba(15,32,39,0.1), rgba(32,58,67,0.1), rgba(44,83,100,0.2))",
+        background: "linear-gradient(135deg, rgba(15,32,39,0.1), rgba(32,58,67,0.1), rgba(223, 234, 239, 0.1))",
         backdropFilter: "blur(3px) saturate(160%)",
         WebkitBackdropFilter: "blur(12px) saturate(160%)",
         boxShadow: "0 8px 32px rgba(0, 0, 0, 1.5)",
         borderRadius: "20px",
         animation: "fadeIn 0.6s ease-out forwards",
+        "@keyframes fadeIn": {
+          "0%": { opacity: 0, transform: "translateY(-20px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
       }}
     >
       <Paper
@@ -290,9 +294,9 @@ export default function AboutPage() {
             "& .MuiTab-root": {
               color: "#F5EEDC",
               fontWeight: "bold",
-              fontSize: "1rem", // default
+              fontSize: "1rem", 
               "@media (max-width:480px)": {
-                fontSize: "10px", // ridotto su schermi piccoli
+                fontSize: "10px",
               },
             },
             cursor: cursor ?? "default",

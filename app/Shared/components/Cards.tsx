@@ -10,7 +10,7 @@ type ProjectCardProps = {
 };
 
 const ProjectCard = styled("div")<{ hovered?: boolean }>(({ hovered }) => ({
-  background: "linear-gradient(135deg, #3A3F68, #292B4A)",
+  background: "linear-gradient(135deg, rgba(58,63,104,0.85), rgba(119,145,223,0.85))",
   padding: "15px",
   borderRadius: "8px",
   color: "white",
@@ -48,6 +48,7 @@ const CardLink = styled("div")({
   transition: "opacity 0.3s ease",
   "&:hover": {
     opacity: 0.85,
+    boxShadow: "0 8px 24px rgba(0,0,0,1)",
   },
 });
 
