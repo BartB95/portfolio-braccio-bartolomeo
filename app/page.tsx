@@ -29,29 +29,33 @@ export default function LoginPage() {
   async function handleLogin() {
     if (isLaunching) return;
 
-    const generateRandomToken = () => Math.random().toString(36).substring(2, 16);
-
     dispatch({
       type: "SHOW_MODAL",
       payload: {
-        title: "Inserisci il token",
-        message: "Inserisci il token di accesso oppure lascia vuoto per generarne uno casuale.",
+        title: "Inserisci il token!",
+        message: "Inserisci o genera un token di accesso.",
         showInput: true,
+        showGenerate: true,
         confirmText: "Conferma",
         cancelText: "Annulla",
         onConfirm: (inputToken?: string) => {
-          if (isLaunching) return; // evita doppio click
+          if (isLaunching) return;
+
+          // ❌ blocco se non c’è nessun token
+          if (!inputToken || inputToken.trim() === "") {
+            alert("⚠️ Devi inserire un token o generarne uno!");
+            return;
+          }
+
           setIsLaunching(true); // parte il razzo
 
-          const tokenToUse = inputToken || generateRandomToken();
           const ANIMATION_DURATION = 800;
 
           setTimeout(() => {
-            document.cookie = `token=${tokenToUse}; path=/`;
+            document.cookie = `token=${inputToken}; path=/`;
             window.location.href = "/secret"; // redirect finale
           }, ANIMATION_DURATION);
         },
-
         onCancel: () => {
           setIsLaunching(false);
         },
@@ -81,8 +85,12 @@ export default function LoginPage() {
           }}
         >
           <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>✨ Benvenuto ✨</h1>
-          <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.</p>
-          <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>🔒 Il token viene salvato come cookie e garantisce accesso sicuro e autenticato alle funzionalità riservate.</p>
+          <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>
+            Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.
+          </p>
+          <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>
+            🔒 Il token viene salvato come cookie e garantisce accesso sicuro e autenticato alle funzionalità riservate.
+          </p>
 
           <div style={{ position: "relative", display: "inline-block" }}>
             <button
@@ -107,7 +115,9 @@ export default function LoginPage() {
                 color: "white",
                 borderRadius: "30px",
                 cursor: cursor ?? "default",
-                boxShadow: isHovered ? "0 6px 20px rgba(229, 46, 113, 1.5)" : "0 4px 15px rgba(0, 0, 0, 0.2)",
+                boxShadow: isHovered
+                  ? "0 6px 20px rgba(229, 46, 113, 1.5)"
+                  : "0 4px 15px rgba(0, 0, 0, 0.2)",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 overflow: "visible",
               }}

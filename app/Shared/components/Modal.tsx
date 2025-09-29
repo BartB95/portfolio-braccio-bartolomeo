@@ -22,7 +22,7 @@ const ModalBox = styled("div")({
   backdropFilter: "blur(6px) saturate(180%)",
   WebkitBackdropFilter: "blur(12px) saturate(180%)",
   border: "1px solid rgba(255, 255, 255, 0.2)",
-  padding: 24,
+  padding: 15,
   borderRadius: 20,
   width: "90%",
   maxWidth: 420,
@@ -45,11 +45,11 @@ const Message = styled("div")({
 const Actions = styled("div")({
   display: "flex",
   justifyContent: "space-around",
-  gap: "12px",
+  gap: "10px",
 });
 
-const Button = styled("button")<{ variant?: "confirm" | "cancel" }>(({ variant }) => ({
-  padding: "10px 18px",
+const Button = styled("button")<{ variant?: "confirm" | "cancel" | "generate" }>(({ variant }) => ({
+  padding: "10px 12px",
   borderRadius: 8,
   border: "none",
   fontSize: "14px",
@@ -66,12 +66,19 @@ const Button = styled("button")<{ variant?: "confirm" | "cancel" }>(({ variant }
     color: "#fff",
     "&:hover": { background: "#c0392b" },
   }),
+  ...(variant === "generate" && {
+    background: "#3498db",
+    color: "#fff",
+    "&:hover": { background: "#2980b9" },
+  }),
 }));
+
 
 export type ModalOptions = {
   title?: string;
   message: string | ReactNode;
   showInput?: boolean;
+  showGenerate?: boolean;
   onConfirm: (inputValue?: string) => void;
   onCancel?: () => void;
   confirmText?: string;
@@ -97,6 +104,11 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
     hideModal();
   };
 
+  const handleGenerate = () => {
+    const randomToken = Math.random().toString(36).substring(2, 16);
+    setInputValue(randomToken); // lo inserisce nell'input automaticamente
+  };
+
   return (
     <>
       {children}
@@ -113,12 +125,12 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Token..."
                   style={{
-                    padding: "10px",
+                    padding: "8px",
                     borderRadius: "8px",
                     border: "1px solid #ccc",
                     fontSize: "14px",
                     marginTop: "10px",
-                    width: "80%",
+                    width: "60%",
                   }}
                   autoFocus
                 />
@@ -128,6 +140,14 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
               <Button variant="cancel" onClick={handleCancel}>
                 {state.modal.cancelText || "Annulla"}
               </Button>
+
+              {/* 🔑 Mostra solo se showGenerate === true */}
+              {state.modal.showGenerate && (
+                <Button variant="generate" onClick={handleGenerate}>
+                  Generate Token
+                </Button>
+              )}
+
               <Button variant="confirm" onClick={handleConfirm}>
                 {state.modal.confirmText || "Conferma"}
               </Button>

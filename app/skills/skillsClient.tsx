@@ -70,7 +70,6 @@ const Input = styled("input")({
 const SmallInput = styled("input")({
   height: "50px",
   padding: "0 20px",
-  width: "100px",
   borderRadius: "12px",
   "&:focus": {
     boxShadow: "0 0 0 2px rgba(255,215,0,0.6)", // focus dorato
@@ -79,7 +78,11 @@ const SmallInput = styled("input")({
     color: "#b0b0c1", // placeholder leggermente chiaro
     opacity: 1,
   },
+  // MOBILE / TABLET: rimane sulla stessa riga
+  flex: "0 0 100px",
+
 });
+
 
 const Button = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
   height: "50px",
