@@ -7,7 +7,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, PieLabelRenderProps, BarChart, Ba
 const ChartWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 80px;
 
   @media (max-width: 768px) {
     flex-direction: column; /* Pie sopra, Bar sotto su mobile */
@@ -67,11 +67,28 @@ const PieChartComponent = ({ data }: SkillPieChartProps) => {
             fontSize: 12,
           }}
         />
-        <Legend verticalAlign="bottom" height={30} iconType="circle" wrapperStyle={{ fontSize: 12, fontWeight: 500 }} />
+        <Legend
+          verticalAlign="bottom"
+          height={40} // leggermente più alto per più spazio
+          iconType="line"
+          wrapperStyle={{
+            fontSize: 15, // più leggibile
+            fontWeight: 600,
+            color: "#ffffff", // bianco visibile su sfondo scuro
+            display: "flex",
+            justifyContent: "center",
+            gap: "15px", // spazio tra elementi
+            textTransform: "capitalize", // se vuoi iniziali maiuscole
+          }}
+          iconSize={15} // icone leggermente più grandi
+        />
       </PieChart>
 
-      <BarChart width={250} height={200} data={data} layout="horizontal">
+      <BarChart width={250} height={250} data={data} layout="horizontal">
         <CartesianGrid strokeDasharray="3 3" />
+        <XAxis type="category" dataKey="name" tick={{ fontSize: 12 }} />
+        <YAxis type="number" domain={[0, 100]} hide />
+
         <Tooltip
           formatter={(value: any, name: string, props: any) => [`${value}%`, props.payload.name]}
           contentStyle={{
@@ -88,14 +105,7 @@ const PieChartComponent = ({ data }: SkillPieChartProps) => {
           {data.map((entry, index) => (
             <Cell key={`cell-bar-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
-          <LabelList
-            dataKey="value"
-            position="insideRight"
-            fill="#fff"
-            fontSize={10}
-            fontWeight={500}
-            formatter={(value) => `${value}%`} 
-          />
+          <LabelList dataKey="value" position="insideRight" fill="#fff" fontSize={10} fontWeight={500} formatter={(value) => `${value}%`} />
         </Bar>
       </BarChart>
     </ChartWrapper>

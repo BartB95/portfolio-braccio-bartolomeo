@@ -7,6 +7,7 @@ import { DragDropList } from "../Shared/components/DragDrop";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import PieChartComponent from "../Shared/components/PieChart";
+import LazyLoading from "../Shared/components/LazyLoading";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -84,10 +85,11 @@ const SkillContainer = styled.div`
 `;
 
 const Projects = () => {
-  const skills: ISkill[] = [
-    { name: "GisWrapper", percent: 36 },
-    { name: "GisViewer", percent: 34 },
-    { name: "Blastness", percent: 10 },
+  const skills = [
+    { name: "GisWrapper", percent: 43.9 },
+    { name: "GisViewer", percent: 36.6 },
+    { name: "Blastness", percent: 12.2 },
+    { name: "Portfolio", percent: 7.3 },
   ];
 
   const [skill, setSkill] = useState<ISkill[]>(skills);
@@ -119,9 +121,8 @@ const Projects = () => {
           disponibili, offrendo una soluzione performante per la rappresentazione grafica di informazioni geospaziali.
         </Paragraph>
         <Paragraph>
-          Il componente è stato sviluppato in React, utilizzando librerie avanzate come <strong>Deck.gl</strong> e <strong>Leaflet</strong>. Deck.gl è una libreria potente per la visualizzazione di
-          grandi dataset geospaziali con WebGL, ideale per creare mappe interattive ad alte prestazioni. Leaflet è una libreria leggera e flessibile per mappe interattive, molto apprezzata per la sua
-          semplicità e l’estensibilità.
+          Il componente è stato sviluppato in React, utilizzando librerie avanzate come <strong>Deck.gl</strong>. Deck.gl è una libreria potente per la visualizzazione di grandi dataset geospaziali
+          con WebGL, ideale per creare mappe interattive ad alte prestazioni.
         </Paragraph>
         <Paragraph>Grazie a queste tecnologie, ho implementato numerose funzionalità, tra cui:</Paragraph>
         <ul style={{ marginRight: "20px", color: "#FCE77D" }}>
@@ -144,21 +145,48 @@ const Projects = () => {
           affrontare sfide complesse e di contribuire significativamente alla qualità complessiva del progetto.
         </Paragraph>
 
+        {/* Portfolio personale */}
+        <ProjectTitle>Portfolio personale - Realizzazione autonoma con React & Next.js</ProjectTitle>
+        <Paragraph>
+          Dall'estate ad oggi sto realizzando un portfolio personale con <strong>React</strong> e <strong>Next.js</strong> per mettere in pratica e mostrare le mie competenze. L'autenticazione tramite
+          middleware di Next.js protegge le sezioni riservate.
+        </Paragraph>
+        <Paragraph>
+          Il portfolio include diverse sezioni chiave: presentazione personale, certificati, grafico personale per visualizzare il tempo dedicato a lavoro, sport e hobby, skill interattive con ricerca
+          e <strong>drag & drop</strong>, e sezioni di contatto.
+        </Paragraph>
+        <Paragraph>
+          Le funzionalità principali comprendono un <strong>grafico circolare interattivo</strong>, gestione dinamica delle skill tramite API routes, <strong>drag & drop</strong> per l'ordinamento
+          personalizzato e l’uso di SSR/CSR per prestazioni ottimali.
+        </Paragraph>
+        <Paragraph>
+          Lo <strong>stato globale con Context API</strong> centralizza le interazioni, rendendo l'interfaccia fluida e coerente.
+        </Paragraph>
+
         {/* Skills */}
         <SkillContainer>
+          {/* Paragrafo visibile subito */}
           <Paragraph
             style={{
-              color: "#FFD700", 
-              textShadow: "2px 2px 6px rgba(0, 0, 0, 1.5)", 
-              fontWeight: 600, 
-              fontSize: "1.1rem", 
+              color: "#FFD700",
+              textShadow: "2px 2px 6px rgba(0, 0, 0, 1.5)",
+              fontWeight: 600,
+              fontSize: "1.1rem",
+              border: "1px solid #FFD700",
+              textAlign: "center",
+              marginBottom: "1rem",
+              width: "100%",
             }}
           >
-            Qui vengono mostrati i grafici che evidenziano chiaramente la <strong>percentuale di lavoro</strong> dedicata a ciascun progetto nel corso dei miei tre anni di esperienza, mostrando su
-            quale progetto ho concentrato maggiormente il mio impegno.
+            Qui vengono mostrati i grafici che evidenziano la percentuale di tempo trascorso su ciascun progetto nei miei tre anni di esperienza.
           </Paragraph>
 
-          <PieChartComponent data={skill.map((s) => ({ name: s.name, value: s.percent }))} />
+          {/* Grafici con lazy loading */}
+          <LazyLoading>
+            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+              <PieChartComponent data={skill.map((s) => ({ name: s.name, value: s.percent }))} />
+            </div>
+          </LazyLoading>
         </SkillContainer>
       </Card>
     </Container>
