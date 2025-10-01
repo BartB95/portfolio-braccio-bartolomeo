@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import Image from "next/image";
-import NavbarClient from "./navbar";
 import { Providers } from "./State/Providers";
 import ModalProvider from "./Shared/components/Modal";
+import WidgetWrapper from "./Shared/components/Widget/widgetWrapper";
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
@@ -20,7 +20,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           position: "relative",
         }}
       >
-        {/* Sfondo fisso */}
         <div
           style={{
             position: "fixed",
@@ -37,23 +36,21 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
         <Providers>
           <ModalProvider>
-          {token ? <NavbarClient /> : null}
+            {/* Client component che gestisce token e pathname */}
+            {token && <WidgetWrapper token={token} />}
 
-          <main
-            style={{
-              padding: 20,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
-            
-            
-
-            {children}
-          </main>
+            <main
+              style={{
+                padding: 20,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              {children}
+            </main>
           </ModalProvider>
         </Providers>
       </body>

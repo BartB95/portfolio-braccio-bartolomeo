@@ -6,7 +6,6 @@ import Card from "../Shared/components/Cards";
 import { styled } from "@mui/system";
 import HobbySection from "./hobby/hobby";
 import { useGlobalStore } from "../State/GlobalContext";
-import MiniDraggableWidget from "../Shared/components/DraggableWidget";
 
 const Container = styled("div")({
   fontFamily: "'Poppins', sans-serif",
@@ -284,131 +283,131 @@ const Home = () => {
 
   return (
     <>
-    <Container>
-      {/* HEADER */}
-      <Header>
-        <HeaderLeft>💻 Il Mio Portfolio</HeaderLeft>
-        <HeaderCenter>
-          <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
-        </HeaderCenter>
-        <HeaderRight>
-          <div>💼 Lavoro in Betacom da 3 anni</div>
-          <div>🎓 Laurea Triennale in Ingegneria Informatica</div>
-          <div>🌍 Appassionato di tecnologia e innovazione</div>
-        </HeaderRight>
-      </Header>
+      <Container>
+        {/* HEADER */}
+        <Header>
+          <HeaderLeft>💻 Il Mio Portfolio</HeaderLeft>
+          <HeaderCenter>
+            <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
+          </HeaderCenter>
+          <HeaderRight>
+            <div>💼 Lavoro in Betacom da 3 anni</div>
+            <div>🎓 Laurea Triennale in Ingegneria Informatica</div>
+            <div>🌍 Appassionato di tecnologia e innovazione</div>
+          </HeaderRight>
+        </Header>
 
-      {/* MAIN */}
-      <Main>
-        <Hero>
-          <HeroTitle>Benvenuto nel mio angolo digitale</HeroTitle>
-          <HeroText>
-            Qui condivido il mio viaggio nel mondo della tecnologia, esplorando nuove frontiere, realizzando progetti stimolanti, affrontando sfide complesse e trasformando idee innovative in
-            soluzioni concrete. Ogni progetto rappresenta un’opportunità di crescita, apprendimento e sperimentazione, e spero che il mio percorso possa ispirare chi, come me, ama innovare e costruire
-            esperienze digitali di valore.
-          </HeroText>
-          <HeroButton
-            hovered={state.hoveredId === "heroButton"}
-            cursor={cursor}
-            onClick={() => (window.location.href = "/about")}
-            onMouseEnter={() => {
-              dispatch({ type: "SET_HOVER", payload: "heroButton" });
-              dispatch({ type: "SET_CURSOR", payload: "pointer" });
-            }}
-            onMouseLeave={() => {
-              dispatch({ type: "CLEAR_HOVER" });
-              dispatch({ type: "SET_CURSOR", payload: "default" });
-            }}
-          >
-            🔍 Scopri di più
-          </HeroButton>
+        {/* MAIN */}
+        <Main>
+          <Hero>
+            <HeroTitle>Benvenuto nel mio angolo digitale</HeroTitle>
+            <HeroText>
+              Qui condivido il mio viaggio nel mondo della tecnologia, esplorando nuove frontiere, realizzando progetti stimolanti, affrontando sfide complesse e trasformando idee innovative in
+              soluzioni concrete. Ogni progetto rappresenta un’opportunità di crescita, apprendimento e sperimentazione, e spero che il mio percorso possa ispirare chi, come me, ama innovare e
+              costruire esperienze digitali di valore.
+            </HeroText>
+            <HeroButton
+              hovered={state.hoveredId === "heroButton"}
+              cursor={cursor}
+              onClick={() => (window.location.href = "/about")}
+              onMouseEnter={() => {
+                dispatch({ type: "SET_HOVER", payload: "heroButton" });
+                dispatch({ type: "SET_CURSOR", payload: "pointer" });
+              }}
+              onMouseLeave={() => {
+                dispatch({ type: "CLEAR_HOVER" });
+                dispatch({ type: "SET_CURSOR", payload: "default" });
+              }}
+            >
+              🔍 Scopri di più
+            </HeroButton>
 
-          <CvButton
-            hovered={state.hoveredId === "cvButton"}
-            cursor={cursor}
-            onClick={() => window.open("/BartolomeoBraccio_CV.pdf", "_blank")}
-            onMouseEnter={() => {
-              dispatch({ type: "SET_HOVER", payload: "cvButton" });
-              dispatch({ type: "SET_CURSOR", payload: "pointer" });
-            }}
-            onMouseLeave={() => {
-              dispatch({ type: "CLEAR_HOVER" });
-              dispatch({ type: "SET_CURSOR", payload: "default" });
-            }}
-          >
-            📄 Scarica CV
-          </CvButton>
-        </Hero>
-        <ProfileCard>
-          <ProfileImage src="/bart.webp" alt="Foto Profilo" width={150} height={150} />
-          <ProfileName>Bartolomeo Braccio</ProfileName>
-          <ProfileRole>Full Stack Developer</ProfileRole>
-          <PersonalInfo>
-            📍 Portico di Caserta <br />
-            📞 366 409 9541 <br />
-            📧 bartolomeobraccio95@live.com <br />
-            🎂 08/03/1995
-          </PersonalInfo>
-          <ProfileLinks>
-            <LinkButton href="https://linkedin.com" target="_blank">
-              LinkedIn
-            </LinkButton>
-            <LinkButton href="https://github.com" target="_blank">
-              GitHub
-            </LinkButton>
-          </ProfileLinks>
-        </ProfileCard>
-        <Projects>
-          {filteredProjects.map((p) => (
-            <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
-          ))}
-        </Projects>
-      </Main>
+            <CvButton
+              hovered={state.hoveredId === "cvButton"}
+              cursor={cursor}
+              onClick={() => window.open("/BartolomeoBraccio_CV.pdf", "_blank")}
+              onMouseEnter={() => {
+                dispatch({ type: "SET_HOVER", payload: "cvButton" });
+                dispatch({ type: "SET_CURSOR", payload: "pointer" });
+              }}
+              onMouseLeave={() => {
+                dispatch({ type: "CLEAR_HOVER" });
+                dispatch({ type: "SET_CURSOR", payload: "default" });
+              }}
+            >
+              📄 Scarica CV
+            </CvButton>
+          </Hero>
+          <ProfileCard>
+            <ProfileImage src="/bart.webp" alt="Foto Profilo" width={150} height={150} />
+            <ProfileName>Bartolomeo Braccio</ProfileName>
+            <ProfileRole>Full Stack Developer</ProfileRole>
+            <PersonalInfo>
+              📍 Portico di Caserta <br />
+              📞 366 409 9541 <br />
+              📧 bartolomeobraccio95@live.com <br />
+              🎂 08/03/1995
+            </PersonalInfo>
+            <ProfileLinks>
+              <LinkButton href="https://linkedin.com" target="_blank">
+                LinkedIn
+              </LinkButton>
+              <LinkButton href="https://github.com" target="_blank">
+                GitHub
+              </LinkButton>
+            </ProfileLinks>
+          </ProfileCard>
+          <Projects>
+            {filteredProjects.map((p) => (
+              <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
+            ))}
+          </Projects>
+        </Main>
 
-      {/* FOOTER */}
-      <Footer>
-        <div style={{ flex: 2, display: "flex", flexDirection: "column", gap: "15px" }}>
-          <InfoSection>
-            <Description>
-              Costantemente motivato dal desiderio di acquisire nuove competenze e assumere maggiori responsabilità, punto a crescere professionalmente affrontando ogni sfida con impegno e
-              determinazione. Il mio contributo è stato riconosciuto dalla mia azienda, avendo vinto un progetto di rilievo e collaborato all’interno di un team di sviluppo altamente competente.
-            </Description>
-            <Skills>
-              <ul>
-                <li>
-                  <strong>Linguaggi:</strong> JavaScript, TypeScript, HTML5, SCSS/CSS3
-                </li>
-                <li>
-                  <strong>Framework & Librerie:</strong> React, Material UI, deck.gl, Leaflet, Axios
-                </li>
-                <li>
-                  <strong>Database:</strong> MongoDB, Oracle, SQL
-                </li>
-                <li>
-                  <strong>Testing & Debug:</strong> Postman, Chrome DevTools
-                </li>
-                <li>
-                  <strong>Versionamento & DevOps:</strong> Git, GitHub, Bitbucket, Bamboo
-                </li>
-                <li>
-                  <strong>Design & UI/UX:</strong> Figma, Lokalise
-                </li>
-                <li>
-                  <strong>Project Management:</strong> Jira, Confluence
-                </li>
-                <li>
-                  <strong>Dev Tools & IDE:</strong> Visual Studio Code, Lens
-                </li>
-              </ul>
-            </Skills>
-          </InfoSection>
-          <HobbyWrapper>
-            <HobbySection />
-          </HobbyWrapper>
-        </div>
-      </Footer>
-    </Container>
-    <MiniDraggableWidget/>
+        {/* FOOTER */}
+        <Footer>
+          <div style={{ flex: 2, display: "flex", flexDirection: "column", gap: "15px" }}>
+            <InfoSection>
+              <Description>
+                Costantemente motivato dal desiderio di acquisire nuove competenze e assumere maggiori responsabilità, punto a crescere professionalmente affrontando ogni sfida con impegno e
+                determinazione. Il mio contributo è stato riconosciuto dalla mia azienda, avendo vinto un progetto di rilievo e collaborato all’interno di un team di sviluppo altamente competente.
+              </Description>
+              <Skills>
+                <ul>
+                  <li>
+                    <strong>Linguaggi:</strong> JavaScript, TypeScript, HTML5, SCSS/CSS3
+                  </li>
+                  <li>
+                    <strong>Framework & Librerie:</strong> React, Material UI, deck.gl, Leaflet, Axios
+                  </li>
+                  <li>
+                    <strong>Database:</strong> MongoDB, Oracle, SQL
+                  </li>
+                  <li>
+                    <strong>Testing & Debug:</strong> Postman, Chrome DevTools
+                  </li>
+                  <li>
+                    <strong>Versionamento & DevOps:</strong> Git, GitHub, Bitbucket, Bamboo
+                  </li>
+                  <li>
+                    <strong>Design & UI/UX:</strong> Figma, Lokalise
+                  </li>
+                  <li>
+                    <strong>Project Management:</strong> Jira, Confluence
+                  </li>
+                  <li>
+                    <strong>Dev Tools & IDE:</strong> Visual Studio Code, Lens
+                  </li>
+                </ul>
+              </Skills>
+            </InfoSection>
+            <HobbyWrapper>
+              <HobbySection />
+            </HobbyWrapper>
+          </div>
+        </Footer>
+      </Container>
+    
     </>
   );
 };

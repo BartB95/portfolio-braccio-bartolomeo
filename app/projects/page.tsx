@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import PieChartComponent from "../Shared/components/PieChart";
 import LazyLoading from "../Shared/components/LazyLoading";
-import MiniDraggableWidget from "../Shared/components/DraggableWidget";
+
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -192,7 +192,6 @@ const Projects = () => {
         </SkillContainer>
       </Card>
     </Container>
-    <MiniDraggableWidget/>
     </>
   );
 };

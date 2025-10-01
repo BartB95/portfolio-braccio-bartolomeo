@@ -8,7 +8,6 @@ import FilterSearch from "../Shared/components/FilterSearch";
 import { keyframes, styled } from "@mui/system";
 import { useGlobalStore } from "../State/GlobalContext";
 import { DragDropList } from "../Shared/components/DragDrop";
-import MiniDraggableWidget from "../Shared/components/DraggableWidget";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -257,7 +256,7 @@ const confirmDeleteSkill = (skillName: string) => {
         />
       </SkillGrid>
     </Container>
-    <MiniDraggableWidget/>
+
     </>
   );
 };

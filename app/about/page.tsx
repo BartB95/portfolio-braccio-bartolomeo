@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Box, Typography, Tabs, Tab, Paper } from "@mui/material";
 import { useGlobalStore } from "../State/GlobalContext";
-import MiniDraggableWidget from "../Shared/components/DraggableWidget";
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState(0);
@@ -320,7 +319,6 @@ export default function AboutPage() {
         </Box>
       </Paper>
     </Box>
-    <MiniDraggableWidget/>
     </>
   );
 }
