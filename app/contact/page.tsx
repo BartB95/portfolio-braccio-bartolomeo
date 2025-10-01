@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useGlobalStore } from "../State/GlobalContext";
 import Rocket from "../Shared/components/Rocket";
+import MiniDraggableWidget from "../Shared/components/DraggableWidget";
 
 const Container = styled.div`
   display: flex;
@@ -216,6 +217,7 @@ export default function ContactForm() {
   };
 
   return (
+    <>
     <Container>
       <FormCard onSubmit={handleSubmit}>
         <Title>Modulo HR - Richiesta Informazioni</Title>
@@ -268,5 +270,7 @@ export default function ContactForm() {
         </ButtonWrapper>
       </FormCard>
     </Container>
+    <MiniDraggableWidget/>
+    </>
   );
 }

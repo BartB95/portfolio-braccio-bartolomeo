@@ -8,6 +8,7 @@ import FilterSearch from "../Shared/components/FilterSearch";
 import { keyframes, styled } from "@mui/system";
 import { useGlobalStore } from "../State/GlobalContext";
 import { DragDropList } from "../Shared/components/DragDrop";
+import MiniDraggableWidget from "../Shared/components/DraggableWidget";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -214,6 +215,7 @@ const confirmDeleteSkill = (skillName: string) => {
   const filteredSkills = skills.filter((skill) => skill.name.toLowerCase().includes(searchInput.toLowerCase()));
 
   return (
+    <>
     <Container>
       <Header>📚 Le mie Competenze</Header>
       <span style={{ color: "#E6E2C8" }}>Le percentuali indicano le tecnologie con cui mi sento più sicuro e competente.</span>
@@ -255,6 +257,8 @@ const confirmDeleteSkill = (skillName: string) => {
         />
       </SkillGrid>
     </Container>
+    <MiniDraggableWidget/>
+    </>
   );
 };
 

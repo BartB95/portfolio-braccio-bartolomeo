@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import NavbarClient from "./navbar";
 import { Providers } from "./State/Providers";
-import LogoutButton from "./logout/page";
 import ModalProvider from "./Shared/components/Modal";
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -39,7 +38,6 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         <Providers>
           <ModalProvider>
           {token ? <NavbarClient /> : null}
-          {token ? <LogoutButton /> : null}
 
           <main
             style={{

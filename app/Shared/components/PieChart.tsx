@@ -86,7 +86,6 @@ const PieChartComponent = ({ data }: SkillPieChartProps) => {
 
       <BarChart width={250} height={250} data={data} layout="horizontal">
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="category" dataKey="name" tick={{ fontSize: 12 }} />
         <YAxis type="number" domain={[0, 100]} hide />
 
         <Tooltip

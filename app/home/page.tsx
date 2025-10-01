@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import FilterSearch from "../Shared/components/FilterSearch";
 import Card from "../Shared/components/Cards";
 import { styled } from "@mui/system";
 import HobbySection from "./hobby/hobby";
 import { useGlobalStore } from "../State/GlobalContext";
+import MiniDraggableWidget from "../Shared/components/DraggableWidget";
 
 const Container = styled("div")({
   fontFamily: "'Poppins', sans-serif",
@@ -282,6 +283,7 @@ const Home = () => {
   const filteredProjects = projects.filter((p) => p.title.toLowerCase().includes(searchInput.toLowerCase()));
 
   return (
+    <>
     <Container>
       {/* HEADER */}
       <Header>
@@ -406,6 +408,8 @@ const Home = () => {
         </div>
       </Footer>
     </Container>
+    <MiniDraggableWidget/>
+    </>
   );
 };
 
