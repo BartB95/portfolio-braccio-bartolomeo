@@ -14,7 +14,6 @@ const useStyles = makeStyles(() => ({
     top: "40px",
     right: "75px",
     zIndex: 1000,
-    touchAction: "none",
   },
   profileImage: {
     borderRadius: "50%",
