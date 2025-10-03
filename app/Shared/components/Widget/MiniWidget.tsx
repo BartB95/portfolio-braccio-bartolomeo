@@ -8,10 +8,10 @@ import Link from "next/link";
 import LogoutButton from "@/app/logout/page";
 
 const Container = styled("div")({
-  position: "fixed",   
-  top: "2%",            
-  right: "50px",         
-  transform: "none",     
+  position: "fixed",
+  top: "2%",
+  right: "50px",
+  transform: "none",
   zIndex: 1000,
   touchAction: "none",
 });
@@ -49,12 +49,8 @@ const MenuItemDiv = styled("div")({
   cursor: "pointer",
   fontSize: "0.85rem",
   color: "#fff",
-  borderBottom: "1px solid rgba(255,255,255,0.1)",
   "&:hover": {
     backgroundColor: "#3e98a2",
-  },
-  "&:last-child": {
-    borderBottom: "none",
   },
 });
 
@@ -94,6 +90,10 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
         { name: "✉️ Contact", path: "/contact" },
       ],
     },
+    {
+      title: "📝 Quiz (facoltativo)",
+      subRoutes: [{ name: "🖋️ Fai il Quiz", path: "/quiz" }],
+    },
   ];
 
   useEffect(() => {
@@ -107,8 +107,7 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
   };
 
   const handleToggleMenu = () => setMenuOpen((prev) => !prev);
-  const toggleSubMenu = (title: string) =>
-    setOpenSubMenu(openSubMenu === title ? null : title);
+  const toggleSubMenu = (title: string) => setOpenSubMenu(openSubMenu === title ? null : title);
 
   const isHovered = state.hoveredId === "profile";
 
@@ -126,12 +125,7 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
         onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
       >
         <ProfileImageWrapper>
-          <Image
-            src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")}
-            alt="Avatar"
-            width={60}
-            height={60}
-          />
+          <Image src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")} alt="Avatar" width={60} height={60} />
         </ProfileImageWrapper>
 
         {isHovered && (
@@ -162,15 +156,11 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
         <Menu>
           {menuItems.map((item) => (
             <div key={item.title}>
-              <MenuItemDiv
-                onClick={() => (item.subRoutes ? toggleSubMenu(item.title) : null)}
-              >
-                {item.title}
-              </MenuItemDiv>
+              <MenuItemDiv onClick={() => (item.subRoutes ? toggleSubMenu(item.title) : null)}>{item.title}</MenuItemDiv>
               {item.subRoutes && openSubMenu === item.title && (
                 <SubMenu>
                   {item.subRoutes.map((sub) => (
-                    <Link key={sub.path} href={sub.path}>
+                    <Link key={sub.path} href={sub.path} style={{ textDecoration: "none", display: "block" }}>
                       <MenuItemDiv>{sub.name}</MenuItemDiv>
                     </Link>
                   ))}
@@ -186,13 +176,7 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
         </Menu>
       )}
 
-      {showAvatarPopup && (
-        <Avatar
-          avatarList={avatarList}
-          onSelect={handleSelectAvatar}
-          onClose={() => setShowAvatarPopup(false)}
-        />
-      )}
+      {showAvatarPopup && <Avatar avatarList={avatarList} onSelect={handleSelectAvatar} onClose={() => setShowAvatarPopup(false)} />}
     </Container>
   );
 };
