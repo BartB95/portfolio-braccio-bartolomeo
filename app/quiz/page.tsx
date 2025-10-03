@@ -121,7 +121,6 @@ const Textarea = styled.textarea`
   border-radius: 12px;
   border: 1px solid #9bb7d4;
   font-size: 1rem;
-  min-height: 160px;
   resize: vertical;
   transition: all 0.25s ease;
 
