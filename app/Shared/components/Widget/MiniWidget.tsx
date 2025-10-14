@@ -114,7 +114,7 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
     },
     {
       title: "🏢 Carriera",
-      subRoutes: [{ name: "🔀 FlowChart", path: "/flowChart" }],
+      subRoutes: [{ name: "🏆 Progressi", path: "/flowChart" }],
     },
     {
       title: "📝 Quiz (facoltativo)",
