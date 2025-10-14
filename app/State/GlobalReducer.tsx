@@ -3,7 +3,7 @@ import { ModalOptions } from "../Shared/components/Modal";
 // ✅ Stato globale
 export type GlobalState = {
   hoveredId: string | null;
-  cursor: "default" | "pointer" | "grab";
+  cursor: "default" | "pointer" | "grab" | "grabbing";
   modal: ModalOptions | null;
 };
 
@@ -11,7 +11,7 @@ export type GlobalState = {
 export type GlobalAction =
   | { type: "SET_HOVER"; payload: string }
   | { type: "CLEAR_HOVER" }
-  | { type: "SET_CURSOR"; payload: "default" | "pointer" | "grab" }
+  | { type: "SET_CURSOR"; payload: "default" | "pointer" | "grab" | "grabbing" }
   | { type: "SHOW_MODAL"; payload: ModalOptions }
   | { type: "HIDE_MODAL" };
 

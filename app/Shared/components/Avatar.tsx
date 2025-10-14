@@ -44,19 +44,22 @@ type AvatarProps = {
   avatarList: string[];
   onSelect: (src: string) => void;
   onClose: () => void;
-}
+};
 
-  export const avatarList = [
-    "/avatar/3d-avatar.webp",
-    "/avatar/avatar-female.jpg",
-    "/avatar/avatar1.webp",
-    "/avatar/avatar2.jpg",
-    "/avatar/avatar3.jpg",
-    "/avatar/avatar4.webp",
-    "/avatar/avatar5.jpg",
-    "/avatar/avatar6.jpg",
-    "/bart.jpg",
-  ];
+export const avatarList = [
+  "/avatar/3d-avatar.webp",
+  "/avatar/avatar-female.jpg",
+  "/avatar/avatar1.webp",
+  "/avatar/avatar2.jpg",
+  "/avatar/avatar3.jpg",
+  "/avatar/avatar4.webp",
+  "/avatar/avatar5.jpg",
+  "/avatar/avatar6.jpg",
+  "/avatar/happy-man-white.jpg",
+  "/avatar/africa.jpg",
+  "/avatar/3d-happy-africa.jpg",
+  "/bart.jpg",
+];
 
 const Avatar: React.FC<AvatarProps> = ({ avatarList, onSelect, onClose }) => {
   const classes = useStyles();
@@ -65,7 +68,9 @@ const Avatar: React.FC<AvatarProps> = ({ avatarList, onSelect, onClose }) => {
     <>
       <div className={classes.overlay} onClick={onClose} />
       <div className={classes.popup}>
-        <h3 style={{ color: "#fff", marginBottom: "10px" }}>Scegli un Avatar</h3>
+        <h3 style={{ color: "#fff", marginBottom: "10px" }}>
+          Scegli un Avatar
+        </h3>
         <div className={classes.avatarGrid}>
           {avatarList.map((src, index) => (
             <Image

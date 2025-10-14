@@ -84,7 +84,7 @@ const SmallInput = styled("input")({
 });
 
 
-const Button = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
+const Button = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" | "grabbing" }>(({ hovered, cursor }) => ({
   height: "50px",
   padding: "0 20px",
   borderRadius: "12px",

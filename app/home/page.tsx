@@ -96,7 +96,7 @@ const HeroText = styled("p")({
   color: "#EAEAEA",
 });
 
-const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
+const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab"| "grabbing" }>(({ hovered, cursor }) => ({
   display: "block", // forza il bottone a comportarsi come blocco
   margin: "50px auto 15px", // centrato orizzontalmente e spazio sotto
   padding: "12px 24px",
@@ -114,7 +114,7 @@ const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "poi
   boxShadow: hovered ? "0 8px 24px rgba(0, 0, 0, 1)" : "0 4px 12px rgba(0, 0, 0, 0.25)",
 }));
 
-const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
+const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" | "grabbing" }>(({ hovered, cursor }) => ({
   display: "block",
   margin: "20px auto 0", // centrato, spazio sopra
   padding: "12px 24px",
@@ -325,7 +325,7 @@ const Home = () => {
             <CvButton
               hovered={state.hoveredId === "cvButton"}
               cursor={cursor}
-              onClick={() => window.open("/BartolomeoBraccio_CV.pdf", "_blank")}
+              onClick={() => window.open("/Bartolomeo_B_CV.pdf", "_blank")}
               onMouseEnter={() => {
                 dispatch({ type: "SET_HOVER", payload: "cvButton" });
                 dispatch({ type: "SET_CURSOR", payload: "pointer" });
@@ -335,7 +335,7 @@ const Home = () => {
                 dispatch({ type: "SET_CURSOR", payload: "default" });
               }}
             >
-              📄 Scarica CV
+              📄 Visualizza CV
             </CvButton>
           </Hero>
           <ProfileCard>

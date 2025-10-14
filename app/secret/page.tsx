@@ -42,7 +42,7 @@ const Paragraph = styled("p")({
 
 const ProfileImageWrapper = styled(Link, {
   shouldForwardProp: (prop) => prop !== "hovered" && prop !== "cursor", // 👈 blocca anche "cursor"
-})<{ hovered?: boolean; cursor?: "default" | "pointer" | "grab" }>(({ hovered, cursor }) => ({
+})<{ hovered?: boolean; cursor?: "default" | "pointer" | "grab"| "grabbing" }>(({ hovered, cursor }) => ({
   display: "inline-block",
   borderRadius: "50%",
   border: "6px solid #FFD166",

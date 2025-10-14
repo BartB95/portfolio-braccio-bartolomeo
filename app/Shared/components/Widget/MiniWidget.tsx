@@ -14,6 +14,7 @@ const Container = styled("div")({
   transform: "none",
   zIndex: 1000,
   touchAction: "none",
+  transition: "all 0.4s ease",
 });
 
 const ProfileImageWrapper = styled("div")({
@@ -38,11 +39,20 @@ const Menu = styled("div")({
   background: "#1f2f3a",
   borderRadius: 8,
   boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
-  overflowY: "auto",
+  overflowY: "auto", // serve per lo scroll
   maxHeight: 350,
   minWidth: 150,
   zIndex: 1001,
+
+  // 🔹 Scroll invisibile
+  "&::-webkit-scrollbar": {
+    width: 0,
+    height: 0,
+  },
+  scrollbarWidth: "none", // per Firefox
+  msOverflowStyle: "none", // per IE/Edge
 });
+
 
 const MenuItemDiv = styled("div")({
   padding: "8px 12px",
@@ -59,9 +69,15 @@ const SubMenu = styled("div")({
 });
 
 // Types
+type SubRoute = {
+  name: string;
+  path: string;
+  onClick?: () => void;
+};
+
 type MenuItem = {
   title: string;
-  subRoutes?: { name: string; path: string }[];
+  subRoutes?: SubRoute[];
 };
 
 type MiniWidgetProps = {
@@ -74,10 +90,16 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [showAvatarPopup, setShowAvatarPopup] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
+  const [containerPosition, setContainerPosition] = useState<"right" | "left">(
+    "left"
+  );
 
   if (!token) return null;
 
   const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
+
+  const moveLeft = () => setContainerPosition("left");
+  const moveRight = () => setContainerPosition("right");
 
   const menuItems: MenuItem[] = [
     {
@@ -91,8 +113,19 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
       ],
     },
     {
+      title: "🏢 Carriera",
+      subRoutes: [{ name: "🔀 FlowChart", path: "/flowChart" }],
+    },
+    {
       title: "📝 Quiz (facoltativo)",
       subRoutes: [{ name: "🖋️ Fai il Quiz", path: "/quiz" }],
+    },
+    {
+      title: "🔀 Sposta Widget",
+      subRoutes: [
+        { name: "👈 Sinistra", path: "#left", onClick: moveLeft },
+        { name: "👉 Destra", path: "#right", onClick: moveRight },
+      ],
     },
   ];
 
@@ -107,16 +140,22 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
   };
 
   const handleToggleMenu = () => setMenuOpen((prev) => !prev);
-  const toggleSubMenu = (title: string) => setOpenSubMenu(openSubMenu === title ? null : title);
+  const toggleSubMenu = (title: string) =>
+    setOpenSubMenu(openSubMenu === title ? null : title);
 
   const isHovered = state.hoveredId === "profile";
 
   return (
-    <Container>
+    <Container
+      style={{
+        right: containerPosition === "right" ? "50px" : "auto",
+        left: containerPosition === "left" ? "50px" : "auto",
+      }}
+    >
       <div
         style={{
           position: "relative",
-          cursor: isHovered ? "pointer" : "default",
+          cursor: state.cursor, // <-- usa lo stato globale
           transform: isHovered ? "scale(1.05)" : "scale(1)",
           transition: "transform 0.3s ease, boxShadow 0.3s ease",
         }}
@@ -125,7 +164,12 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
         onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
       >
         <ProfileImageWrapper>
-          <Image src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")} alt="Avatar" width={60} height={60} />
+          <Image
+            src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")}
+            alt="Avatar"
+            width={60}
+            height={60}
+          />
         </ProfileImageWrapper>
 
         {isHovered && (
@@ -156,27 +200,53 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
         <Menu>
           {menuItems.map((item) => (
             <div key={item.title}>
-              <MenuItemDiv onClick={() => (item.subRoutes ? toggleSubMenu(item.title) : null)}>{item.title}</MenuItemDiv>
+              <MenuItemDiv
+                onClick={() =>
+                  item.subRoutes ? toggleSubMenu(item.title) : null
+                }
+              >
+                {item.title}
+              </MenuItemDiv>
               {item.subRoutes && openSubMenu === item.title && (
                 <SubMenu>
-                  {item.subRoutes.map((sub) => (
-                    <Link key={sub.path} href={sub.path} style={{ textDecoration: "none", display: "block" }}>
-                      <MenuItemDiv>{sub.name}</MenuItemDiv>
-                    </Link>
-                  ))}
+                  {item.subRoutes.map((sub) =>
+                    sub.onClick ? (
+                      // Bottone che esegue funzione
+                      <MenuItemDiv key={sub.name} onClick={sub.onClick}>
+                        {sub.name}
+                      </MenuItemDiv>
+                    ) : (
+                      // Link per navigazione normale
+                      <Link
+                        key={sub.path}
+                        href={sub.path || "#"}
+                        style={{ textDecoration: "none", display: "block" }}
+                      >
+                        <MenuItemDiv>{sub.name}</MenuItemDiv>
+                      </Link>
+                    )
+                  )}
                 </SubMenu>
               )}
             </div>
           ))}
 
-          <MenuItemDiv onClick={() => setShowAvatarPopup(true)}>👤 Cambia Avatar</MenuItemDiv>
+          <MenuItemDiv onClick={() => setShowAvatarPopup(true)}>
+            👤 Cambia Avatar
+          </MenuItemDiv>
           <MenuItemDiv>
             <LogoutButton />
           </MenuItemDiv>
         </Menu>
       )}
 
-      {showAvatarPopup && <Avatar avatarList={avatarList} onSelect={handleSelectAvatar} onClose={() => setShowAvatarPopup(false)} />}
+      {showAvatarPopup && (
+        <Avatar
+          avatarList={avatarList}
+          onSelect={handleSelectAvatar}
+          onClose={() => setShowAvatarPopup(false)}
+        />
+      )}
     </Container>
   );
 };
