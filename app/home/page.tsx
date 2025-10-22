@@ -72,6 +72,7 @@ const Main = styled("div")({
   flexWrap: "wrap",
   "@media (min-width: 768px)": {
     flexDirection: "row",
+    flexWrap: "nowrap",//forza per restare sulla stessa riga
     gap: "20px",
   },
 });
@@ -450,12 +451,13 @@ const Portofolio = () => {
               </LinkButton>
             </ProfileLinks>
           </ProfileCard>
+          </Main>
           <CardsGrid>
             {filteredProjects.map((p) => (
               <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
             ))}
           </CardsGrid>
-        </Main>
+        
 
         {/* FOOTER */}
         <Footer>
