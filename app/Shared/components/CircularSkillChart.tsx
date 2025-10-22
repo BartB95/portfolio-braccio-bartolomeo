@@ -1,15 +1,18 @@
 import React from "react";
 import { styled } from "@mui/system";
 import { ISkill } from "@/app/skills/ISkill";
+import Animated from "./Animated";
+import LazyLoading from "./LazyLoading";
 
 const Container = styled("div")({
   display: "flex",
   alignItems: "center",
   gap: "16px",
-  background: "radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), rgba(173, 216, 230, 0.2))",
+  background:
+    "radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), rgba(173, 216, 230, 0.2))",
   backdropFilter: "blur(12px)",
   borderRadius: "12px",
-  padding: "16px",
+  padding: "5px",
   flex: "1 1 300px",
   minWidth: "300px",
   position: "relative",
@@ -39,7 +42,11 @@ const SkillBarContainer = styled("div")({
   overflow: "hidden",
 });
 
-const SkillBar = styled("div")<{ percent: number; color: string; animated: boolean }>(({ percent, color, animated }) => ({
+const SkillBar = styled("div")<{
+  percent: number;
+  color: string;
+  animated: boolean;
+}>(({ percent, color, animated }) => ({
   height: "20px",
   background: color,
   width: animated ? `${percent}%` : "0%",
@@ -56,44 +63,84 @@ type CircularSkillChartProps = {
 const GOLD_COLOR = "#ff8a00";
 const LIGHT_YELLOW = "#ffe066";
 
-const CircularSkillChart = ({ skill, animated, onDelete, icon }: CircularSkillChartProps) => {
+const CircularSkillChart = ({
+  skill,
+  animated,
+  onDelete,
+  icon,
+}: CircularSkillChartProps) => {
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const offset = animated ? circumference - (skill.percent / 100) * circumference : circumference;
+  const offset = animated
+    ? circumference - (skill.percent / 100) * circumference
+    : circumference;
   const color = skill.percent < 75 ? LIGHT_YELLOW : GOLD_COLOR;
 
   return (
-    <Container>
-      {onDelete && <DeleteButton onClick={() => onDelete(skill.name)}>x</DeleteButton>}
+      <Container>
+        {onDelete && (
+          <DeleteButton onClick={() => onDelete(skill.name)}>x</DeleteButton>
+        )}
 
-      {icon && <div style={{ fontSize: "2rem", position: "absolute", top: "25px", left: "45%", transform: "translateX(-50%)" }}>{icon}</div>}
+        {icon && (
+          <div
+            style={{
+              fontSize: "2rem",
+              position: "absolute",
+              top: "15px",
+              left: "42%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            {icon}
+          </div>
+        )}
 
-      <svg width="100" height="100">
-        <circle stroke="rgba(255,255,255,0.1)" fill="transparent" strokeWidth="8" r={radius} cx="50" cy="50" />
-        <circle
-          stroke={color}
-          fill="transparent"
-          strokeWidth="8"
-          r={radius}
-          cx="50"
-          cy="50"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset.toString()}
-          strokeLinecap="round"
-          style={{ transition: "stroke-dashoffset 1.5s ease-in-out" }}
-        />
-        <text x="50%" y="50%" textAnchor="middle" dy=".3em" fontSize="20" fill="white" fontWeight="bold">
-          {skill.percent}%
-        </text>
-      </svg>
+        <svg width="100" height="100">
+          <circle
+            stroke="rgba(255,255,255,0.1)"
+            fill="transparent"
+            strokeWidth="8"
+            r={radius}
+            cx="50"
+            cy="50"
+          />
+          <circle
+            stroke={color}
+            fill="transparent"
+            strokeWidth="8"
+            r={radius}
+            cx="50"
+            cy="50"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset.toString()}
+            strokeLinecap="round"
+            style={{ transition: "stroke-dashoffset 1.5s ease-in-out" }}
+          />
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dy=".3em"
+            fontSize="20"
+            fill="white"
+            fontWeight="bold"
+          >
+            {skill.percent}%
+          </text>
+        </svg>
 
-      <div style={{ flex: 1 }}>
-        <SkillName>{skill.name}</SkillName>
-        <SkillBarContainer>
-          <SkillBar percent={skill.percent} color={color} animated={animated} />
-        </SkillBarContainer>
-      </div>
-    </Container>
+        <div style={{ flex: 1 }}>
+          <SkillName>{skill.name}</SkillName>
+          <SkillBarContainer>
+            <SkillBar
+              percent={skill.percent}
+              color={color}
+              animated={animated}
+            />
+          </SkillBarContainer>
+        </div>
+      </Container>
   );
 };
 

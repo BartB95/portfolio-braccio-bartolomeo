@@ -9,19 +9,22 @@ import LogoutButton from "@/app/logout/page";
 
 const Container = styled("div")({
   position: "fixed",
-  top: "2%",
-  right: "50px",
+  top: "10px",
+  left: "6rem",
   transform: "none",
   zIndex: 1000,
   touchAction: "none",
   transition: "all 0.4s ease",
+  "@media (max-width: 768px)": {
+    left: "4rem", 
+  },
 });
 
 const ProfileImageWrapper = styled("div")({
   borderRadius: "50%",
   border: "3px solid #FFD166",
-  width: 60,
-  height: 60,
+  width: 40,
+  height: 40,
   overflow: "hidden",
   transition: "transform 0.3s ease, box-shadow 0.3s ease",
   cursor: "pointer",
@@ -33,7 +36,7 @@ const ProfileImageWrapper = styled("div")({
 
 const Menu = styled("div")({
   position: "absolute",
-  top: 70,
+  top: 60,
   left: "50%",
   transform: "translateX(-50%)",
   background: "#1f2f3a",
@@ -103,29 +106,12 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
 
   const menuItems: MenuItem[] = [
     {
-      title: "🧭 Navigazione",
-      subRoutes: [
-        { name: "🏠 Home", path: "/home" },
-        { name: "ℹ️ About", path: "/about" },
-        { name: "🛠️ Skills", path: "/skills" },
-        { name: "📁 Projects", path: "/projects" },
-        { name: "✉️ Contact", path: "/contact" },
-      ],
-    },
-    {
       title: "🏢 Carriera",
       subRoutes: [{ name: "🏆 Progressi", path: "/flowChart" }],
     },
     {
       title: "📝 Quiz (facoltativo)",
       subRoutes: [{ name: "🖋️ Fai il Quiz", path: "/quiz" }],
-    },
-    {
-      title: "🔀 Sposta Widget",
-      subRoutes: [
-        { name: "👈 Sinistra", path: "#left", onClick: moveLeft },
-        { name: "👉 Destra", path: "#right", onClick: moveRight },
-      ],
     },
   ];
 
@@ -143,15 +129,10 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
   const toggleSubMenu = (title: string) =>
     setOpenSubMenu(openSubMenu === title ? null : title);
 
-  const isHovered = state.hoveredId === "profile";
+  const isHovered = state.hoveredId === "widget-avatar";
 
   return (
-    <Container
-      style={{
-        right: containerPosition === "right" ? "50px" : "auto",
-        left: containerPosition === "left" ? "50px" : "auto",
-      }}
-    >
+    <Container>
       <div
         style={{
           position: "relative",
@@ -160,15 +141,15 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
           transition: "transform 0.3s ease, boxShadow 0.3s ease",
         }}
         onClick={handleToggleMenu}
-        onMouseEnter={() => dispatch({ type: "SET_HOVER", payload: "profile" })}
+        onMouseEnter={() => dispatch({ type: "SET_HOVER", payload: "widget-avatar" })}
         onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
       >
         <ProfileImageWrapper>
           <Image
             src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")}
             alt="Avatar"
-            width={60}
-            height={60}
+            width={40}
+            height={40}
           />
         </ProfileImageWrapper>
 
@@ -176,16 +157,16 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
           <div
             style={{
               position: "absolute",
-              top: 75,
+              top: 60,
               left: "50%",
               transform: "translateX(-50%)",
-              background: "#1f2f3a",
-              color: "#fff",
+              background: "white",
+              color: "#000",
               padding: "6px 12px",
               borderRadius: 8,
-              fontSize: 13,
+              fontSize: 10,
               fontWeight: 500,
-              boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
+              boxShadow: "0 4px 15px rgba(0,0,0,1)",
               zIndex: 1002,
               whiteSpace: "nowrap",
               pointerEvents: "none",

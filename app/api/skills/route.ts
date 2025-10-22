@@ -5,7 +5,6 @@ import { ISkill } from "@/app/skills/ISkill";
 // Dati in memoria (puoi sostituire con DB)
 let skills: ISkill[] = [
   { name: "React", percent: 90 },
-  { name: "CSS", percent: 75 },
   { name: "Next.js", percent: 60 },
   { name: "JavaScript", percent: 85 },
   { name: "Angular", percent: 70 },

@@ -19,7 +19,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
+  margin: 2rem;
   background: rgba(255, 255, 255, 0.1); /* vetro trasparente */
   backdrop-filter: blur(3px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
@@ -36,7 +37,6 @@ const Card = styled.div`
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   width: 100%;
-  max-width: 1200px;
   box-sizing: border-box;
 
   @media (max-width: 768px) {

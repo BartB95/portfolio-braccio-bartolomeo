@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-
+  margin: 1rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 1.5);
 `;
 

@@ -2,48 +2,52 @@
 import { useState } from "react";
 import Image from "next/image";
 import FilterSearch from "../Shared/components/FilterSearch";
-import Card from "../Shared/components/Cards";
+import Card, { CardsGrid } from "../Shared/components/Cards";
 import { styled } from "@mui/system";
 import HobbySection from "./hobby/hobby";
 import { useGlobalStore } from "../State/GlobalContext";
+import Animated from "../Shared/components/Animated";
 
 const Container = styled("div")({
   fontFamily: "'Poppins', sans-serif",
-  padding: "20px",
-  maxWidth: "1300px",
-  margin: "0 auto",
-  background: "linear-gradient(135deg, rgba(1, 6, 33, 0.5), rgba(144,202,249,0.3))",
-  boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
+  padding: "10px",
   borderRadius: "10px",
+  maxWidth: "100%",
+  margin: "0 auto",
   display: "flex",
   flexDirection: "column",
-  gap: "30px",
+  gap: "20px",
+  boxSizing: "border-box",
 
-  "@media (max-width: 399px)": {
-    padding: "0px",
-    gap: "15px",
+  "@media (min-width: 768px)": {
+    padding: "20px",
+    maxWidth: 1500,
   },
 });
+
 /* HEADER */
 const Header = styled("div")({
   display: "flex",
   flexDirection: "column",
-  gap: "20px",
-  background: "rgba(255,255,255,0.05)",
-  padding: "18px 28px",
+  gap: "15px",
+  background: "rgba(63, 81, 181, 0.3)",
+  padding: "15px",
   backdropFilter: "blur(8px)",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
-  border: "1px solid rgba(255,255,255,0.1)",
+  textAlign: "center",
+
   "@media (min-width: 768px)": {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    textAlign: "left",
   },
 });
 
+
 const HeaderLeft = styled("div")({
-  color: "#FFD166",
+  color: "#B8860B",
   fontWeight: 700,
   fontSize: "clamp(1rem, 1.6vw, 1.5rem)",
   letterSpacing: "0.5px",
@@ -55,7 +59,7 @@ const HeaderCenter = styled("div")({
 });
 
 const HeaderRight = styled("div")({
-  color: "#E0E0E0",
+  color: "#000",
   fontSize: "clamp(0.8rem, 1vw, 0.95rem)",
   lineHeight: 1.5,
   textAlign: "right",
@@ -66,23 +70,51 @@ const Main = styled("div")({
   flexDirection: "column",
   gap: "30px",
   flexWrap: "wrap",
-  "@media (min-width: 1024px)": {
+  "@media (min-width: 768px)": {
     flexDirection: "row",
     gap: "20px",
   },
 });
 
-const Hero = styled("div")({
-  flex: "1 1 55%", // occupa circa 2/3 dello spazio
-  background: "rgba(63, 81, 181, 0.3)",
-  backdropFilter: "blur(3px)",
-  WebkitBackdropFilter: "blur(12px)",
+const Hero = styled("div")<{ hovered: boolean }>(({ hovered }) => ({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center", // centra verticalmente tutto
+  flex: "1 1 50%",
   padding: "30px",
-  color: "white",
-  boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
+  color: "#ffffff",
+  textShadow: "0 2px 6px rgba(0,0,0,1.5)",
   borderRadius: "10px",
-  border: "1px solid rgba(255, 255, 255, 0.25)",
-});
+  overflow: "hidden",
+  textAlign: "center", // centra orizzontalmente testo e bottoni
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background: hovered ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.2)",
+    zIndex: 1,
+  },
+  "& video": {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    zIndex: 0,
+    pointerEvents: "none",
+    filter: "brightness(1) contrast(1.1)",
+  },
+  "& > *": {
+    position: "relative",
+    zIndex: 2,
+  },
+}));
 
 const HeroTitle = styled("h1")({
   fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
@@ -93,43 +125,47 @@ const HeroTitle = styled("h1")({
 const HeroText = styled("p")({
   fontSize: "clamp(0.9rem, 1.5vw, 1rem)",
   marginBottom: "20px",
-  color: "#EAEAEA",
+  color: "#ffffff",
 });
 
-const HeroButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab"| "grabbing" }>(({ hovered, cursor }) => ({
-  display: "block", // forza il bottone a comportarsi come blocco
-  margin: "50px auto 15px", // centrato orizzontalmente e spazio sotto
-  padding: "12px 24px",
-  background: "linear-gradient(90deg, #FF7E5F, #FD3A69)",
+const ButtonWrapper = styled("div")({
+  whiteSpace: "nowrap", // forza i bottoni sulla stessa riga
+});
+
+const HeroButton = styled("button")<{
+  hovered: boolean;
+  cursor: "default" | "pointer" | "grab" | "grabbing";
+}>(({ hovered, cursor }) => ({
+  display: "inline-block",
+  margin: "0 10px",
+  background: "none",
   border: "none",
-  borderRadius: "30px",
-  color: "#fff",
+  padding: 0,
+  color: hovered ? "#FFD700" : "#B8860B", // colore oro chiaro di default
   fontWeight: "bold",
   fontSize: "clamp(0.9rem, 1vw, 1rem)",
-  cursor: cursor ?? "default",
-  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-  transform: hovered ? "scale(1.05)" : "scale(1)",
-  width: "280px",
+  cursor: cursor ?? "pointer",
   textAlign: "center",
-  boxShadow: hovered ? "0 8px 24px rgba(0, 0, 0, 1)" : "0 4px 12px rgba(0, 0, 0, 0.25)",
+  transform: hovered ? "scale(1.1)" : "scale(1)",
+  transition: "transform 0.2s ease, color 0.2s ease",
 }));
 
-const CvButton = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" | "grabbing" }>(({ hovered, cursor }) => ({
-  display: "block",
-  margin: "20px auto 0", // centrato, spazio sopra
-  padding: "12px 24px",
-  background: "#c2a35cff",
+const CvButton = styled("button")<{
+  hovered: boolean;
+  cursor: "default" | "pointer" | "grab" | "grabbing";
+}>(({ hovered, cursor }) => ({
+  display: "inline-block",
+  margin: "0 10px",
+  background: "none",
   border: "none",
-  borderRadius: "30px",
-  color: "#fff",
+  padding: 0,
+  color: hovered ? "#FFD700" : "#B8860B", // colore oro chiaro di default
   fontWeight: "bold",
   fontSize: "clamp(0.9rem, 1vw, 1rem)",
-  cursor: cursor ?? "default",
-  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-  transform: hovered ? "scale(1.05)" : "scale(1)",
-  width: "280px",
+  cursor: cursor ?? "pointer",
   textAlign: "center",
-  boxShadow: hovered ? "0 8px 24px rgba(0, 0, 0, 1)" : "0 4px 12px rgba(0, 0, 0, 0.25)",
+  transform: hovered ? "scale(1.1)" : "scale(1)",
+  transition: "transform 0.2s ease, color 0.2s ease",
 }));
 
 const Projects = styled("div")({
@@ -154,11 +190,9 @@ const Footer = styled("div")({
 
 const ProfileCard = styled("div")({
   flexShrink: 0,
-  width: "100%",
-  maxWidth: "300px",
   background: "rgba(0,0,0,0.3)",
-  padding: "20px",
-  color: "white",
+  padding: "40px",
+  color: "#000",
   textAlign: "center",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
@@ -203,7 +237,7 @@ const LinkButton = styled("a")({
   background: "linear-gradient(90deg, #6A82FB, #FC5C7D)",
   padding: "6px 12px",
   borderRadius: "6px",
-  color: "#fff",
+  color: "#000",
   textDecoration: "none",
   fontSize: "0.8rem",
 });
@@ -222,8 +256,8 @@ const Description = styled("div")({
   padding: "18px 20px",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
-  color: "#f5f5f5",
-  fontSize: "0.95rem",
+  color: "#000",
+  fontSize: "1.2rem",
   lineHeight: 1.6,
   "&::before": {
     content: '"📜 Descrizione"',
@@ -241,8 +275,8 @@ const Skills = styled("div")({
   padding: "18px 20px",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "10px",
-  color: "#f5f5f5",
-  fontSize: "0.95rem",
+  color: "#000",
+  fontSize: "1.2rem",
   "&::before": {
     content: '"💡 Competenze Tecniche"',
     display: "block",
@@ -264,22 +298,54 @@ const HobbyWrapper = styled("div")({
   "@media (min-width: 768px)": { flexDirection: "row", gap: "15px" },
 });
 
-const Home = () => {
+const Portofolio = () => {
   const [searchInput, setSearchInput] = useState("");
   const { state, dispatch } = useGlobalStore();
+  const videoSrc = "/videoCode.mp4";
 
   const cursor = state.cursor;
 
   const projects = [
-    { title: "Portfolio Web", desc: "Sito web personale responsivo in React + Next.js", link: "#" },
-    { title: "Dashboard Analytics", desc: "Visualizzazione dati in tempo reale con chart interattivi", link: "#" },
-    { title: "Accademy Java", desc: "Academy 500 ore di Java con esercizi e progetti reali", link: "#" },
-    { title: "Corso React", desc: "Apprendimento di React, componenti, state management, routing e redux.", link: "/certificato corso react.pdf" },
-    { title: "Corso JavaScript", desc: "Corso completo di JavaScript da base a livello avanzato", link: "/certificato corso javaScript.pdf" },
-    { title: "Corso MongoDB", desc: "Operazioni CRUD, aggregazioni e design database", link: "/bartolomeo-braccio-certificate.pdf" },
+    {
+      title: "Portfolio Web",
+      desc: "Sito web personale responsivo in React + Next.js",
+      link: "#",
+    },
+    {
+      title: "Dashboard Analytics",
+      desc: "Visualizzazione dati in tempo reale con chart interattivi",
+      link: "#",
+    },
+    {
+      title: "Accademy Java",
+      desc: "Academy 500 ore di Java con esercizi e progetti reali",
+      link: "#",
+    },
+    {
+      title: "Corso React",
+      desc: "Apprendimento di React, componenti, state management, routing e redux.",
+      link: "/certificato corso react.pdf",
+    },
+    {
+      title: "Corso JavaScript",
+      desc: "Corso completo di JavaScript da base a livello avanzato",
+      link: "/certificato corso javaScript.pdf",
+    },
+    {
+      title: "Corso MongoDB",
+      desc: "Operazioni CRUD, aggregazioni e design database",
+      link: "/bartolomeo-braccio-certificate.pdf",
+    },
+    {
+      title: "Intelligenza Artificiale",
+      desc: "Corso Udemy completato presso Betacom su intelligenza artificiale",
+      link: "#",
+    },
   ];
 
-  const filteredProjects = projects.filter((p) => p.title.toLowerCase().includes(searchInput.toLowerCase()));
+  const filteredProjects = projects.filter((p) =>
+    p.title.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
     <>
@@ -288,7 +354,10 @@ const Home = () => {
         <Header>
           <HeaderLeft>💻 Il Mio Portfolio</HeaderLeft>
           <HeaderCenter>
-            <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
+            <FilterSearch
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
+            />
           </HeaderCenter>
           <HeaderRight>
             <div>💼 Lavoro in Betacom da 3 anni</div>
@@ -299,47 +368,71 @@ const Home = () => {
 
         {/* MAIN */}
         <Main>
-          <Hero>
+          <Hero
+            hovered={state.hoveredId === "hero"}
+            onMouseEnter={() => {
+              dispatch({ type: "SET_HOVER", payload: "hero" });
+            }}
+            onMouseLeave={() => {
+              dispatch({ type: "CLEAR_HOVER" });
+            }}
+          >
+            <video autoPlay loop muted>
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+            <Animated>
             <HeroTitle>Benvenuto nel mio angolo digitale</HeroTitle>
             <HeroText>
-              Qui condivido il mio viaggio nel mondo della tecnologia, esplorando nuove frontiere, realizzando progetti stimolanti, affrontando sfide complesse e trasformando idee innovative in
-              soluzioni concrete. Ogni progetto rappresenta un’opportunità di crescita, apprendimento e sperimentazione, e spero che il mio percorso possa ispirare chi, come me, ama innovare e
-              costruire esperienze digitali di valore.
+              Qui condivido il mio viaggio nel mondo della tecnologia,
+              esplorando nuove frontiere, realizzando progetti stimolanti,
+              affrontando sfide complesse e trasformando idee innovative in
+              soluzioni concrete. Ogni progetto rappresenta un’opportunità di
+              crescita, apprendimento e sperimentazione, e spero che il mio
+              percorso possa ispirare chi, come me, ama innovare e costruire
+              esperienze digitali di valore.
             </HeroText>
-            <HeroButton
-              hovered={state.hoveredId === "heroButton"}
-              cursor={cursor}
-              onClick={() => (window.location.href = "/about")}
-              onMouseEnter={() => {
-                dispatch({ type: "SET_HOVER", payload: "heroButton" });
-                dispatch({ type: "SET_CURSOR", payload: "pointer" });
-              }}
-              onMouseLeave={() => {
-                dispatch({ type: "CLEAR_HOVER" });
-                dispatch({ type: "SET_CURSOR", payload: "default" });
-              }}
-            >
-              🔍 Scopri di più
-            </HeroButton>
+            <ButtonWrapper>
+              <HeroButton
+                hovered={state.hoveredId === "heroButton"}
+                cursor={cursor}
+                onClick={() => (window.location.href = "/about")}
+                onMouseEnter={() => {
+                  dispatch({ type: "SET_HOVER", payload: "heroButton" });
+                  dispatch({ type: "SET_CURSOR", payload: "pointer" });
+                }}
+                onMouseLeave={() => {
+                  dispatch({ type: "CLEAR_HOVER" });
+                  dispatch({ type: "SET_CURSOR", payload: "default" });
+                }}
+              >
+                🔍 Scopri di più
+              </HeroButton>
 
-            <CvButton
-              hovered={state.hoveredId === "cvButton"}
-              cursor={cursor}
-              onClick={() => window.open("/Bartolomeo_B_CV.pdf", "_blank")}
-              onMouseEnter={() => {
-                dispatch({ type: "SET_HOVER", payload: "cvButton" });
-                dispatch({ type: "SET_CURSOR", payload: "pointer" });
-              }}
-              onMouseLeave={() => {
-                dispatch({ type: "CLEAR_HOVER" });
-                dispatch({ type: "SET_CURSOR", payload: "default" });
-              }}
-            >
-              📄 Visualizza CV
-            </CvButton>
+              <CvButton
+                hovered={state.hoveredId === "cvButton"}
+                cursor={cursor}
+                onClick={() => window.open("/Bartolomeo_B_CV.pdf", "_blank")}
+                onMouseEnter={() => {
+                  dispatch({ type: "SET_HOVER", payload: "cvButton" });
+                  dispatch({ type: "SET_CURSOR", payload: "pointer" });
+                }}
+                onMouseLeave={() => {
+                  dispatch({ type: "CLEAR_HOVER" });
+                  dispatch({ type: "SET_CURSOR", payload: "default" });
+                }}
+              >
+                📄 Visualizza CV
+              </CvButton>
+            </ButtonWrapper>
+            </Animated>
           </Hero>
           <ProfileCard>
-            <ProfileImage src="/bart.webp" alt="Foto Profilo" width={150} height={150} />
+            <ProfileImage
+              src="/BartolomeoScrivania.png"
+              alt="Foto Profilo"
+              width={150}
+              height={150}
+            />
             <ProfileName>Bartolomeo Braccio</ProfileName>
             <ProfileRole>Full Stack Developer</ProfileRole>
             <PersonalInfo>
@@ -357,59 +450,74 @@ const Home = () => {
               </LinkButton>
             </ProfileLinks>
           </ProfileCard>
-          <Projects>
+          <CardsGrid>
             {filteredProjects.map((p) => (
               <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
             ))}
-          </Projects>
+          </CardsGrid>
         </Main>
 
         {/* FOOTER */}
         <Footer>
-          <div style={{ flex: 2, display: "flex", flexDirection: "column", gap: "15px" }}>
-            <InfoSection>
-              <Description>
-                Costantemente motivato dal desiderio di acquisire nuove competenze e assumere maggiori responsabilità, punto a crescere professionalmente affrontando ogni sfida con impegno e
-                determinazione. Il mio contributo è stato riconosciuto dalla mia azienda, avendo vinto un progetto di rilievo e collaborato all’interno di un team di sviluppo altamente competente.
-              </Description>
-              <Skills>
-                <ul>
-                  <li>
-                    <strong>Linguaggi:</strong> JavaScript, TypeScript, HTML5, SCSS/CSS3
-                  </li>
-                  <li>
-                    <strong>Framework & Librerie:</strong> React, Material UI, deck.gl, Leaflet, Axios
-                  </li>
-                  <li>
-                    <strong>Database:</strong> MongoDB, Oracle, SQL
-                  </li>
-                  <li>
-                    <strong>Testing & Debug:</strong> Postman, Chrome DevTools
-                  </li>
-                  <li>
-                    <strong>Versionamento & DevOps:</strong> Git, GitHub, Bitbucket, Bamboo
-                  </li>
-                  <li>
-                    <strong>Design & UI/UX:</strong> Figma, Lokalise
-                  </li>
-                  <li>
-                    <strong>Project Management:</strong> Jira, Confluence
-                  </li>
-                  <li>
-                    <strong>Dev Tools & IDE:</strong> Visual Studio Code, Lens
-                  </li>
-                </ul>
-              </Skills>
-            </InfoSection>
+          <div
+            style={{
+              flex: 2,
+              display: "flex",
+              flexDirection: "column",
+              gap: "15px",
+            }}
+          >
+            <Animated>
+              <InfoSection>
+                <Description>
+                  Costantemente motivato dal desiderio di acquisire nuove
+                  competenze e assumere maggiori responsabilità, punto a
+                  crescere professionalmente affrontando ogni sfida con impegno
+                  e determinazione. Il mio contributo è stato riconosciuto dalla
+                  mia azienda, avendo vinto un progetto di rilievo e collaborato
+                  all’interno di un team di sviluppo altamente competente.
+                </Description>
+                <Skills>
+                  <ul>
+                    <li>
+                      <strong>Linguaggi:</strong> JavaScript, TypeScript, HTML5,
+                      SCSS/CSS3
+                    </li>
+                    <li>
+                      <strong>Framework & Librerie:</strong> React, Material UI,
+                      deck.gl, Leaflet, Axios
+                    </li>
+                    <li>
+                      <strong>Database:</strong> MongoDB, Oracle, SQL
+                    </li>
+                    <li>
+                      <strong>Testing & Debug:</strong> Postman, Chrome DevTools
+                    </li>
+                    <li>
+                      <strong>Versionamento & DevOps:</strong> Git, GitHub,
+                      Bitbucket, Bamboo
+                    </li>
+                    <li>
+                      <strong>Design & UI/UX:</strong> Figma, Lokalise
+                    </li>
+                    <li>
+                      <strong>Project Management:</strong> Jira, Confluence
+                    </li>
+                    <li>
+                      <strong>Dev Tools & IDE:</strong> Visual Studio Code, Lens
+                    </li>
+                  </ul>
+                </Skills>
+              </InfoSection>
+            </Animated>
             <HobbyWrapper>
               <HobbySection />
             </HobbyWrapper>
           </div>
         </Footer>
       </Container>
-    
     </>
   );
 };
 
-export default Home;
+export default Portofolio;

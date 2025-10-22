@@ -192,74 +192,77 @@ export default function FlowChart() {
   }, [isMobile, setNodes]);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        padding: "20px",
-        boxSizing: "border-box",
-        background: "linear-gradient(135deg, rgba(15,32,39,0.7), rgba(32,58,67,0.7), rgba(44,83,100,0.7))",
-        minHeight: "100vh",
-        borderRadius: "16px",
-      }}
+<div
+  style={{
+    background: "linear-gradient(135deg, rgba(15,32,39,0.9), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
+    padding: "20px",
+    minHeight: "100vh", // assicura che l'intero viewport sia riempito
+    boxSizing: "border-box",
+    width: "100%",
+  }}
+>
+  <h2
+    style={{
+      textAlign: "center",
+      color: "#FFD700",
+      marginBottom: "30px",
+      fontSize: "2.2rem",
+      fontWeight: 600,
+      lineHeight: 1.3,
+      textShadow: "0 4px 16px rgba(0,0,0,0.5)",
+      background: "transparent",
+    }}
+  >
+    Percorso conseguito in Betacom! 💼
+  </h2>
+
+  <div
+    style={{
+      width: "100%",
+      height: "80vh", // altezza fissa visibile per ReactFlow
+      borderRadius: "12px",
+      overflow: "hidden",
+      boxShadow: "0 12px 24px rgba(0,0,0,1.5)",
+    }}
+  >
+    <ReactFlow
+      nodes={nodes.map((n) => ({
+        ...n,
+        style: {
+          background: "rgba(255, 255, 255, 0.08)",
+          border: "2px solid #FFD700",
+          borderRadius: "14px",
+          padding: "12px 16px",
+          color: "#f0e6d2",
+          fontWeight: 500,
+          fontSize: "0.95rem",
+          boxShadow: "0 8px 20px rgba(0,0,0,1)",
+          transition: "all 0.3s ease",
+        },
+      }))}
+      edges={edgesState.map((e) => ({
+        ...e,
+        style: {
+          stroke: e.source === "2" && e.target === "7" ? "#FFA500" : "#FFD700",
+          strokeWidth: 2,
+        },
+        animated: true,
+      }))}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      fitView
+      minZoom={0.2}
+      maxZoom={2}
+      style={{ width: "100%", height: "100%" }} // fondamentale per riempire il contenitore
     >
-      <h2
-        style={{
-          textAlign: "left",
-          color: "#FFD700", // testo dorato più visibile
-          marginBottom: "20px",
-          fontSize: "2.2rem",
-          textShadow: "0 4px 16px rgba(0,0,0,0.4)",
-          
-        }}
-      >
-        Percorso conseguito in Betacom! 💼
-      </h2>
+      <Controls />
+      <Background gap={20} color="#444" />
+    </ReactFlow>
+  </div>
+</div>
+
   
-      <div
-        style={{
-          height: "75vh",
-          minHeight: "500px",
-          maxHeight: "900px",
-          background: "rgba(255,255,255,0.05)", // vetro semi-trasparente
-          backdropFilter: "blur(3px)",
-          WebkitBackdropFilter: "blur(12px)",
-          boxShadow: "0 12px 40px rgba(0,0,0,0.5)",
-          borderRadius: "16px",
-          padding: "20px",
-        }}
-      >
-        <ReactFlow
-          nodes={nodes.map((n) => ({
-            ...n,
-            style: {
-              background: "rgba(255, 255, 255, 0.08)",
-              border: "2px solid #FFD700",
-              borderRadius: 12,
-              padding: "10px 14px",
-              color: "#f0e6d2",
-              fontWeight: 500,
-              fontSize: "0.9rem",
-              boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
-              transition: "all 0.3s ease",
-            },
-          }))}
-          edges={edgesState.map((e) => ({
-            ...e,
-            style: { stroke: e.source === "2" && e.target === "7" ? "#FFA500" : "#FFD700", strokeWidth: 2 },
-            animated: true,
-          }))}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          fitView
-          minZoom={0.2}
-          maxZoom={2}
-        >
-          <Controls />
-          <Background gap={20} color="#444" />
-        </ReactFlow>
-      </div>
-    </div>
   );
   
 }

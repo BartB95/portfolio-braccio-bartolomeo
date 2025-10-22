@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { Providers } from "./State/Providers";
 import ModalProvider from "./Shared/components/Modal";
 import ClientAppWrapper from "./ClientAppWrapper";
+import Footer from "./footer";
+import NavbarClient from "./navbar";
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
@@ -17,15 +19,19 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           color: "white",
           minHeight: "100vh",
           position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          overflowX: "hidden",
         }}
       >
         <Providers>
           <ModalProvider>
+            <NavbarClient token={token}/>
             {/* Client wrapper gestisce montaggio e loader */}
             <ClientAppWrapper token={token}>
               <main
                 style={{
-                  padding: 20,
+                  flex: 1, // 👈 permette al footer di restare in fondo
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -35,6 +41,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
               >
                 {children}
               </main>
+
+              {/* 👇 Aggiungiamo il footer qui */}
+              <Footer token={token} />
             </ClientAppWrapper>
           </ModalProvider>
         </Providers>

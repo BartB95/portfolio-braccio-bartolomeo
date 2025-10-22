@@ -47,6 +47,15 @@ export default function LoginPage() {
             return;
           }
 
+          // 🔒 Controllo token valido (es: almeno 10 caratteri alfanumerici)
+          const isValidToken = /^[A-Za-z0-9_-]{10,}$/.test(inputToken.trim());
+          if (!isValidToken) {
+            alert(
+              "⚠️ Token non valido! Inserisci o genera un token di almeno 10 caratteri alfanumerici."
+            );
+            return;
+          }
+
           setIsLaunching(true); // parte il razzo
 
           const ANIMATION_DURATION = 800;
@@ -56,6 +65,7 @@ export default function LoginPage() {
             window.location.href = "/secret"; // redirect finale
           }, ANIMATION_DURATION);
         },
+
         onCancel: () => {
           setIsLaunching(false);
         },
@@ -71,7 +81,8 @@ export default function LoginPage() {
       <Container>
         <div
           style={{
-            background: "linear-gradient(135deg, rgba(15,32,39,0.5), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
+            background:
+              "linear-gradient(135deg, rgba(15,32,39,0.5), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
             borderRadius: "25px",
             padding: "30px 15px",
             maxWidth: 400,
@@ -84,12 +95,16 @@ export default function LoginPage() {
             animation: "slideUpFade 1s ease forwards",
           }}
         >
-          <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>✨ Benvenuto ✨</h1>
+          <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>
+            ✨ Benvenuto ✨
+          </h1>
           <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>
-            Accedi per ottenere un token di sicurezza che ti permetterà di accedere alle pagine protette dell’app.
+            Accedi per ottenere un token di sicurezza che ti permetterà di
+            accedere alle pagine protette dell’app.
           </p>
           <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>
-            🔒 Il token viene salvato come cookie e garantisce accesso sicuro e autenticato alle funzionalità riservate.
+            🔒 Il token viene salvato come cookie e garantisce accesso sicuro e
+            autenticato alle funzionalità riservate.
           </p>
 
           <div style={{ position: "relative", display: "inline-block" }}>

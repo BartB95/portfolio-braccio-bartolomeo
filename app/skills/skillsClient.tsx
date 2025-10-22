@@ -15,26 +15,21 @@ const fadeIn = keyframes`
 `;
 
 const Container = styled("div")({
-  width: "100%",
-  maxWidth: "1200px",
-  padding: "20px",
+  padding: "5px",
   borderRadius: "16px",
+  margin: "1rem",
   background: "rgba(0, 0, 0, 0.35)", // trasparente per far vedere il background globale
   backdropFilter: "blur(3px) saturate(180%)",
   WebkitBackdropFilter: "blur(15px) saturate(180%)",
-  border: "1px solid rgba(255, 255, 255, 0.15)", // bordo leggero per definire il vetro
+  border: "2px solid #374151", // bordo leggero per definire il vetro
   color: "#f0f0f5",
   display: "flex",
   flexDirection: "column",
   gap: "20px",
   animation: `${fadeIn} 0.7s ease-out forwards`, // corretto in oggetti JS
   "@media (max-width: 768px)": {
-    padding: "20px",
+    padding: "10px",
     borderRadius: "12px",
-  },
-  "@media (max-width: 480px)": {
-    padding: "15px",
-    borderRadius: "10px",
   },
 });
 
@@ -252,7 +247,7 @@ const confirmDeleteSkill = (skillName: string) => {
         <DragDropList
           items={filteredSkills}
           onChange={(newOrder) => setSkills(newOrder)}
-          renderItem={(skill) => <CircularSkillChart key={skill.name} skill={skill} animated={animated} onDelete={confirmDeleteSkill} />}
+          renderItem={(skill) => <CircularSkillChart key={skill.name} skill={skill} icon={skill.icon} animated={animated} onDelete={confirmDeleteSkill} />}
         />
       </SkillGrid>
     </Container>

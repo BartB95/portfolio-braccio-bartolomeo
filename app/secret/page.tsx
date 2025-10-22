@@ -1,87 +1,189 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
 import { styled } from "@mui/material/styles";
+import { motion } from "framer-motion";
 import { useGlobalStore } from "../State/GlobalContext";
+import DigitalMission from "../Shared/components/Circle";
+import Animated from "../Shared/components/Animated";
+import Link from "next/link";
+import { Tooltip } from "@mui/material";
 
-const Container = styled("div")({
+// ===== Styled Components =====
+const HeroSection = styled("section")({
+  width: "100%",
+  height: "120vh", // fullscreen
   display: "flex",
-  flexDirection: "column",
-  justifyContent: "flex-start",
+  justifyContent: "center",
   alignItems: "center",
   textAlign: "center",
-  padding: "60px 20px 20px 20px",
   fontFamily: "'Poppins', sans-serif",
-  color: "white",
+  color: "#fff",
+  backgroundImage:
+    "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/BartolomeoScrivania.png')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  overflowX: "hidden",
 });
 
-const Box = styled("div")({
-   background: "linear-gradient(135deg, rgba(15,32,39,0.5), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
-  padding: "20px 25px",
-  borderRadius: "20px",
-  backdropFilter: "blur(3px)",
-  boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
-  maxWidth: "400px",
-  animation: "fadeIn 0.8s ease-in-out",
+const Box = styled(motion.div)({
+  padding: "20px",
+  borderRadius: "16px",
+  backgroundColor: "rgba(50,50,50,0.55)",
+  textAlign: "center",
+  boxShadow: "0 6px 20px rgba(0,0,0,1)",
+  cursor: "default",
+  maxWidth: "500px",
+  margin: "0 20px",
 });
-
-const HeaderText = styled("h1")({
-  fontSize: "1.5rem",
-  marginBottom: 15,
-  background: "linear-gradient(90deg, #ff8a00, #e52e71)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  fontWeight: "bold",
-});
-
-const Paragraph = styled("p")({
-  fontSize: "1rem",
-  marginBottom: 20,
-  opacity: 0.85,
-});
-
-const ProfileImageWrapper = styled(Link, {
-  shouldForwardProp: (prop) => prop !== "hovered" && prop !== "cursor", // 👈 blocca anche "cursor"
-})<{ hovered?: boolean; cursor?: "default" | "pointer" | "grab"| "grabbing" }>(({ hovered, cursor }) => ({
-  display: "inline-block",
-  borderRadius: "50%",
-  border: "6px solid #FFD166",
-  overflow: "hidden",
-  width: "250px",
-  height: "250px",
-  marginBottom: "20px",
-  cursor: cursor ?? "default",
-  transition: "transform 0.4s ease, box-shadow 0.4s ease",
-  transform: hovered ? "scale(1.05)" : "scale(1)",
-  boxShadow: hovered ? "0 0 50px rgba(255,255,255,0.6), 0 12px 30px rgba(0,0,0,0.3)" : "none",
-}));
 
 const Title = styled("h1")({
-  fontSize: "1.5rem",
-  color: "#FFD166",
-  fontWeight: "bold",
-  textShadow: "0 0 20px rgba(255,255,255,0.8), 3px 3px 15px rgba(0,0,0,0.6)",
-  margin: 0,
-  transition: "color 0.3s ease, text-shadow 0.3s ease",
+  fontSize: "2.5rem",
+  fontWeight: 700,
+  marginBottom: "30px",
+  color: "#FF8A00",
+  textShadow: "0 2px 12px rgba(0,0,0,0.5)",
+  "&::after": {
+    content: '""',
+    display: "block",
+    width: "80px",
+    height: "4px",
+    backgroundColor: "#f1c40f",
+    margin: "10px auto 0",
+    borderRadius: "2px",
+  },
 });
 
+const SubTitle = styled("p")({
+  fontSize: "1.2rem",
+  color: "#fff",
+  opacity: 0.9,
+  marginBottom: "25px",
+});
+
+const ButtonLink = styled(Link)({
+  display: "inline-block",
+  padding: "12px 26px",
+  borderRadius: "8px",
+  backgroundColor: "#FF8A00",
+  color: "#fff",
+  fontWeight: 600,
+  textDecoration: "none",
+  transition: "all 0.3s ease",
+  "&:hover": { backgroundColor: "#e67600", transform: "translateY(-3px)" },
+});
+
+// ===== Protected Box =====
+const ProtectedBox = styled(motion.div)({
+  padding: "4px 6px", // più piccolo
+  borderRadius: "12px",
+  backdropFilter: "blur(6px)",
+  backgroundColor: "rgba(50,50,50,0.7)",
+  textAlign: "center",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+  cursor: "default",
+  maxWidth: "150px", // piccolo badge
+  position: "absolute", // posizione assoluta
+  top: "5rem", // distanza dal top
+  right: "20px", // distanza dal lato destro
+  zIndex: 10,
+  border: "1px solid #f1c40f",
+});
+
+const HeaderText = styled("h2")({
+  fontSize: "0.9rem",
+  fontWeight: 700,
+  color: "#FF8A00",
+});
+
+// ===== Services Section =====
+const ServicesSection = styled("section")({
+  padding: "60px 20px",
+  textAlign: "center",
+});
+
+const ServicesGrid = styled("div")(({ theme }) => ({
+  display: "grid",
+  gap: "2rem",
+  maxWidth: "1200px",
+  margin: "0 auto",
+  gridTemplateColumns: "1fr",
+  [theme.breakpoints.up("sm")]: { gridTemplateColumns: "repeat(2, 1fr)" },
+  [theme.breakpoints.up("md")]: { gridTemplateColumns: "repeat(3, 1fr)" },
+}));
+
+const ServiceCard = styled(motion.div)({
+  backgroundColor: "rgba(255,255,255,0.05)",
+  borderRadius: "16px",
+  padding: "25px",
+  cursor: "default",
+  transition: "all 0.3s ease",
+  boxShadow: "0 6px 15px rgba(0,0,0,0.2)",
+  border: "3px solid #f1c40f",
+  "&:hover": {
+    transform: "scale(1.05)",
+    boxShadow: "0 10px 25px rgba(255,165,0,0.3)",
+  },
+});
+
+const CardTitle = styled("h3")({
+  fontSize: "1.3rem",
+  color: "#f1c40f",
+  marginBottom: "10px",
+  fontWeight: 600,
+});
+
+const CardText = styled("p")({
+  fontSize: "1rem",
+  color: "#fff",
+  lineHeight: 1.6,
+});
+
+// ===== Page Component =====
 const SecretPortfolioPage = () => {
   const { state, dispatch } = useGlobalStore();
 
-  const isHovered = state.hoveredId === "profile";
-  const cursor = state.cursor;
+  const services = [
+    {
+      title: "Layout Responsive",
+      description:
+        "Siti ottimizzati per smartphone, tablet e PC, con performance elevate.",
+    },
+    {
+      title: "UX/UI Intuitive",
+      description:
+        "Design pensato per massimizzare l'engagement e fidelizzare i visitatori.",
+    },
+    {
+      title: "Full Stack",
+      description:
+        "App moderne con Next.js e React, backend sicuro e performante.",
+    },
+    {
+      title: "SEO Avanzata",
+      description:
+        "Ottimizzazione tecnica e contenutistica per emergere su Google.",
+    },
+    {
+      title: "Software su misura",
+      description:
+        "Soluzioni software che trasformano idee in strumenti pratici e performanti",
+    },
+    {
+      title: "Sicurezza continua",
+      description:
+        "Monitoraggio costante, aggiornamenti periodici e protezione avanzata.",
+    },
+  ];
 
   return (
-    <Container>
-      <Box>
-        <HeaderText>🔒 Area Protetta</HeaderText>
-        <Paragraph>Benvenuto! Sei autenticato e puoi esplorare l'app! ✨</Paragraph>
-
-        <ProfileImageWrapper
-          href="/home"
-          title="Vai alla home"
-          hovered={isHovered}
-          cursor={cursor}
+    <>
+      {/* Hero Section */}
+      <HeroSection>
+        <Box
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           onMouseEnter={() => {
             dispatch({ type: "SET_HOVER", payload: "profile" });
             dispatch({ type: "SET_CURSOR", payload: "pointer" });
@@ -91,12 +193,51 @@ const SecretPortfolioPage = () => {
             dispatch({ type: "SET_CURSOR", payload: "default" });
           }}
         >
-          <Image src="/bart.webp" alt="Foto Profilo" width={250} height={250} />
-        </ProfileImageWrapper>
+          <Title>Braccio Bartolomeo</Title>
+          <SubTitle>Ingegnere Informatico - Web Developer Full Stack</SubTitle>
+          <Tooltip
+            title="🚀 Clicca per accedere al Portfolio!"
+            arrow
+          >
+            <ButtonLink href="/home">Vai al mio Portfolio →</ButtonLink>
+          </Tooltip>
+        </Box>
 
-        <Title>Portfolio Personale Braccio Bartolomeo</Title>
-      </Box>
-    </Container>
+        <Tooltip
+          title="Benvenuto! Sei autenticato e puoi esplorare l'app! ✨"
+          arrow
+        >
+          <ProtectedBox>
+            <HeaderText>🔒 Area Protetta</HeaderText>
+          </ProtectedBox>
+        </Tooltip>
+      </HeroSection>
+
+      {/* Services Section */}
+      <ServicesSection>
+        <Title>Cosa so fare?</Title>
+        <ServicesGrid>
+          {services.map((service, i) => (
+            <Animated key={service.title} index={i}>
+              <ServiceCard
+                onMouseEnter={() =>
+                  dispatch({ type: "SET_CURSOR", payload: "pointer" })
+                }
+                onMouseLeave={() =>
+                  dispatch({ type: "SET_CURSOR", payload: "default" })
+                }
+              >
+                <CardTitle>{service.title}</CardTitle>
+                <CardText>{service.description}</CardText>
+              </ServiceCard>
+            </Animated>
+          ))}
+        </ServicesGrid>
+      </ServicesSection>
+
+      {/* Digital Mission Section */}
+      <DigitalMission />
+    </>
   );
 };
 

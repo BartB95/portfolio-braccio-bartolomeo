@@ -12,6 +12,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  margin: 1rem;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.1); /* vetro trasparente */
   backdrop-filter: blur(3px) saturate(160%);

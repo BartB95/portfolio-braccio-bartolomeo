@@ -9,53 +9,73 @@ type ProjectCardProps = {
   link?: string;
 };
 
-const ProjectCard = styled("div")<{ hovered?: boolean }>(({ hovered }) => ({
-  background: "linear-gradient(135deg, rgba(58,63,104,0.85), rgba(119,145,223,0.85))",
-  padding: "15px",
-  borderRadius: "8px",
-  color: "white",
+// 🔹 Griglia flessibile con flex-wrap
+export const CardsGrid = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "1.5rem",
+  width: "100%",
+  margin: "0 auto",
+  justifyContent: "stretch",
+}));
+
+// 🔹 Card responsive
+const ProjectCard = styled("div")<{ hovered?: boolean }>(({ hovered, theme }) => ({
+  flex: "1 1 0", // occupa tutto lo spazio disponibile nella riga
+  minWidth: "250px",
+  background: hovered
+  ? "linear-gradient(135deg, rgba(40, 55, 70, 1), rgba(74, 101, 114, 1))"
+  : "linear-gradient(135deg, rgba(31, 42, 56, 0.7), rgba(58, 80, 107, 0.7))",
+  padding: "1.2rem",
+  borderRadius: "16px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
-  boxShadow: hovered ? "0 8px 24px rgba(0,0,0,0.4)" : "0 4px 16px rgba(0,0,0,0.3)",
-  transform: hovered ? "translateY(-5px) scale(1.05)" : "none",
-  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  transition: "all 0.3s ease",
+  boxShadow: "0 6px 18px rgba(0,0,0,1.5)",
+  transform: hovered ? "translateY(-5px)" : "translateY(0)",
+  cursor: "pointer",
+
+  [theme.breakpoints.down("sm")]: {
+    flex: "1 1 100%", // occupa tutta la larghezza su mobile
+    padding: "1rem",
+  },
 }));
 
 const CardTitle = styled("h3")({
-  fontWeight: "bold",
-  marginBottom: "8px",
-  fontSize: "1rem",
+  fontWeight: 800,
+  fontSize: "1.1rem",
   color: "#FFD166",
+  marginBottom: "0.5rem",
+  lineHeight: 1.3,
 });
 
 const CardDesc = styled("p")({
-  fontSize: "0.85rem",
-  color: "#DADADA",
-  marginBottom: "12px",
+  fontSize: "0.9rem",
+  color: "#000",
+  lineHeight: 1.4,
+  marginBottom: "0.8rem",
   flexGrow: 1,
 });
 
-const CardLink = styled("div")({
-  textDecoration: "none",
-  color: "#fff",
-  fontWeight: "bold",
-  padding: "6px 10px",
+const CardButton = styled("button")({
+  padding: "0.4rem 0.8rem",
+  border: "none",
   borderRadius: "8px",
-  background: "linear-gradient(90deg, #6A82FB, #FC5C7D)",
-  textAlign: "center",
-  fontSize: "0.8rem",
-  transition: "opacity 0.3s ease",
+  background: "#FFD166",
+  color: "#1f2a38",
+  fontWeight: 600,
+  cursor: "pointer",
+  alignSelf: "center",
+  transition: "all 0.2s ease",
   "&:hover": {
-    opacity: 0.85,
-    boxShadow: "0 8px 24px rgba(0,0,0,1)",
+    background: "#FFC857",
   },
 });
 
 const Card = ({ title, desc, link }: ProjectCardProps) => {
   const { state, dispatch } = useGlobalStore();
   const isHovered = state.hoveredId === title;
-  const cursor = state.cursor;
 
   const handleClick = () => {
     if (link && link !== "#") {
@@ -68,7 +88,6 @@ const Card = ({ title, desc, link }: ProjectCardProps) => {
   return (
     <ProjectCard
       hovered={isHovered}
-      style={{ cursor: cursor ?? "default" }}
       onMouseEnter={() => {
         dispatch({ type: "SET_HOVER", payload: title });
         dispatch({ type: "SET_CURSOR", payload: "pointer" });
@@ -81,7 +100,7 @@ const Card = ({ title, desc, link }: ProjectCardProps) => {
     >
       <CardTitle>{title}</CardTitle>
       <CardDesc>{desc}</CardDesc>
-      {link && <CardLink>Visualizza</CardLink>}
+      <CardButton>Apri PDF</CardButton>
     </ProjectCard>
   );
 };
