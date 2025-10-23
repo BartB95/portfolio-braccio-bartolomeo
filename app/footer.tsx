@@ -147,12 +147,28 @@ const Footer: React.FC<FooterProps> = ({ token }) => {
 
         {/* Servizi Offerti */}
         <div>
-          <SectionTitle>Servizi Offerti</SectionTitle>
+          <SectionTitle>Servizi e Supporto</SectionTitle>
           <List>
-            <ListItem>🌐 Realizzazione Siti Web</ListItem>
-            <ListItem>🎨 Web Design Professionale</ListItem>
-            <ListItem>⚙️ Ottimizzazione SEO Avanzata</ListItem>
-            <ListItem>🛠️ Assistenza e Manutenzione</ListItem>
+            <ListItem>
+              <FooterLink href="/contact">
+                🌐 Sviluppo siti web moderni e responsivi
+              </FooterLink>
+            </ListItem>
+            <ListItem>
+              <FooterLink href="/contact">
+                🎨 Design professionale e interfacce intuitive
+              </FooterLink>
+            </ListItem>
+            <ListItem>
+              <FooterLink href="/contact">
+                ⚙️ Ottimizzazione SEO per visibilità e performance
+              </FooterLink>
+            </ListItem>
+            <ListItem>
+              <FooterLink href="/contact">
+                🛠️ Supporto, manutenzione e aggiornamenti continui
+              </FooterLink>
+            </ListItem>
           </List>
         </div>
 
@@ -172,7 +188,10 @@ const Footer: React.FC<FooterProps> = ({ token }) => {
             <ListItem>
               📞 Cell: <span style={{ color: "#fff" }}>+39 3664099541</span>
             </ListItem>
-            <ListItem>📍 Disponibile in tutta Italia, anche da remoto</ListItem>
+            <ListItem>
+              📍 Massima disponibilità per progetti locali o collaborazioni a
+              distanza.
+            </ListItem>
           </List>
         </div>
       </FooterGrid>

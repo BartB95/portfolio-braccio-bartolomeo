@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { useGlobalStore } from "./State/GlobalContext";
 import { styled } from "@mui/material";
 import Rocket from "./Shared/components/Rocket";
+import Animated from "./Shared/components/Animated";
 
 const Background = styled("div")({
   minHeight: "100vh",
   width: "100%",
-  background: "linear-gradient(135deg, rgba(15,32,39,0.9), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
+  background:
+    "linear-gradient(135deg, rgba(15,32,39,0.9), rgba(32,58,67,0.5), rgba(44,83,100,0.5))",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -23,7 +25,7 @@ const Container = styled("div")({
   textAlign: "center",
   fontFamily: "'Poppins', sans-serif",
   color: "white",
-  backgroundColor: "rgba(0,0,0,0.3)", 
+  backgroundColor: "rgba(0,0,0,0.3)",
   boxShadow: "0 8px 30px rgba(0, 0, 0, 1.5)",
   borderRadius: "14px",
   padding: "25px 10px",
@@ -75,13 +77,6 @@ const Container = styled("div")({
   },
   "& button:hover": {
     boxShadow: "0 6px 25px rgba(255,193,7,1)",
-  },
-
-  // Animazione fade-in per il container
-  animation: "fadeIn 1s ease-out",
-  "@keyframes fadeIn": {
-    from: { opacity: 0, transform: "translateY(30px)" },
-    to: { opacity: 1, transform: "translateY(0)" },
   },
 });
 
@@ -141,64 +136,66 @@ export default function LoginPage() {
 
   return (
     <Background>
-    <Container>
-      <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>
-        ✨ Benvenuto ✨
-      </h1>
-      <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>
-        Accedi per ottenere un token di sicurezza che ti permetterà di accedere
-        alle pagine protette dell’app.
-      </p>
-      <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>
-        🔒 Il token viene salvato come cookie e garantisce accesso sicuro e
-        autenticato alle funzionalità riservate.
-      </p>
+      <Animated once amount={0.2}>
+        <Container>
+          <h1 style={{ fontSize: "1.5rem", marginBottom: 10 }}>
+            ✨ Benvenuto ✨
+          </h1>
+          <p style={{ fontSize: "1rem", marginBottom: 15, opacity: 0.8 }}>
+            Accedi per ottenere un token di sicurezza che ti permetterà di
+            accedere alle pagine protette dell’app.
+          </p>
+          <p style={{ fontSize: "0.85rem", marginBottom: 30, opacity: 0.6 }}>
+            🔒 Il token viene salvato come cookie e garantisce accesso sicuro e
+            autenticato alle funzionalità riservate.
+          </p>
 
-      <div style={{ position: "relative", display: "inline-block" }}>
-        <button
-          onClick={handleLogin}
-          onMouseEnter={() => {
-            dispatch({ type: "SET_HOVER", payload: "authentication" });
-            dispatch({ type: "SET_CURSOR", payload: "pointer" });
-          }}
-          onMouseLeave={() => {
-            dispatch({ type: "CLEAR_HOVER" });
-            dispatch({ type: "SET_CURSOR", payload: "default" });
-          }}
-          style={{
-            position: "relative",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "linear-gradient(90deg, #ff8a00, #e52e71)",
-            border: "none",
-            padding: "12px 25px",
-            fontSize: "1rem",
-            color: "white",
-            borderRadius: "30px",
-            cursor: cursor ?? "default",
-            boxShadow: isHovered
-              ? "0 6px 20px rgba(229, 46, 113, 1.5)"
-              : "0 4px 15px rgba(0, 0, 0, 0.2)",
-            transition: "transform 0.2s ease, box-shadow 0.2s ease",
-            overflow: "visible",
-          }}
-          aria-disabled={isLaunching}
-        >
-          <span
-            style={{
-              fontSize: "12px",
-              marginRight: isLaunching ? "0px" : "30px",
-              display: "inline-block",
-              transition: "margin 0.2s ease",
-            }}
-          >
-            {isLaunching ? "Caricamento..." : "Accedi in sicurezza"}
-          </span>
-        </button>
-        <Rocket isLaunching={isLaunching} />
-      </div>
-    </Container>
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <button
+              onClick={handleLogin}
+              onMouseEnter={() => {
+                dispatch({ type: "SET_HOVER", payload: "authentication" });
+                dispatch({ type: "SET_CURSOR", payload: "pointer" });
+              }}
+              onMouseLeave={() => {
+                dispatch({ type: "CLEAR_HOVER" });
+                dispatch({ type: "SET_CURSOR", payload: "default" });
+              }}
+              style={{
+                position: "relative",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "linear-gradient(90deg, #ff8a00, #e52e71)",
+                border: "none",
+                padding: "12px 25px",
+                fontSize: "1rem",
+                color: "white",
+                borderRadius: "30px",
+                cursor: cursor ?? "default",
+                boxShadow: isHovered
+                  ? "0 6px 20px rgba(229, 46, 113, 1.5)"
+                  : "0 4px 15px rgba(0, 0, 0, 0.2)",
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                overflow: "visible",
+              }}
+              aria-disabled={isLaunching}
+            >
+              <span
+                style={{
+                  fontSize: "12px",
+                  marginRight: isLaunching ? "0px" : "30px",
+                  display: "inline-block",
+                  transition: "margin 0.2s ease",
+                }}
+              >
+                {isLaunching ? "Caricamento..." : "Accedi in sicurezza"}
+              </span>
+            </button>
+            <Rocket isLaunching={isLaunching} />
+          </div>
+        </Container>
+      </Animated>
     </Background>
   );
 }

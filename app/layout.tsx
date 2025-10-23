@@ -26,9 +26,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       >
         <Providers>
           <ModalProvider>
-            <NavbarClient token={token}/>
             {/* Client wrapper gestisce montaggio e loader */}
             <ClientAppWrapper token={token}>
+              <NavbarClient token={token} />
               <main
                 style={{
                   flex: 1, // 👈 permette al footer di restare in fondo

@@ -235,12 +235,13 @@ const ProfileLinks = styled("div")({
 });
 
 const LinkButton = styled("a")({
-  background: "linear-gradient(90deg, #6A82FB, #FC5C7D)",
+  background: "#FFD166",
   padding: "6px 12px",
   borderRadius: "6px",
   color: "#000",
   textDecoration: "none",
   fontSize: "0.8rem",
+  border: "1px solid black"
 });
 
 const InfoSection = styled("div")({
