@@ -215,7 +215,7 @@ const SecretPortfolioPage = () => {
 
       {/* Services Section */}
       <ServicesSection>
-        <Title>Cosa so fare?</Title>
+        <Title>Cosa realizzo?</Title>
         <ServicesGrid>
           {services.map((service, i) => (
             <Animated key={service.title} index={i}>

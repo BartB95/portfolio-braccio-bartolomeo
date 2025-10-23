@@ -7,7 +7,6 @@ import { DragDropList } from "@/app/Shared/components/DragDrop";
 import Animated from "@/app/Shared/components/Animated";
 import { styled } from "@mui/styles";
 
-// ===== STILE CONTENITORE =====
 const HobbyContainer = styled("section")({
   display: "flex",
   flexDirection: "column",
@@ -50,12 +49,13 @@ type IHobby = ISkill & { icon: string };
 
 const hobbies: IHobby[] = [
   { name: "Coding", percent: 40, icon: "💻" },
-  { name: "Fitness", percent: 15, icon: "🏋️‍♂️" },
-  { name: "Viaggi", percent: 15, icon: "🌍" },
+  { name: "Crescita", percent: 15, icon: "📈" },
+  { name: "Tech", percent: 15, icon: "💡" },
+  { name: "Fitness", percent: 10, icon: "🏋️‍♂️" },
+  { name: "Lettura", percent: 10, icon: "📚" },
   { name: "Cucina", percent: 10, icon: "🍳" },
-  { name: "Crescita", percent: 10, icon: "📈" },
-  { name: "Tech", percent: 10, icon: "💡" },
 ];
+
 
 
 const HobbySection = React.memo(() => {

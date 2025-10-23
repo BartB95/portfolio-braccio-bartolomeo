@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Box, Typography, Tabs, Tab, Paper } from "@mui/material";
 import { useGlobalStore } from "../State/GlobalContext";
+import Link from "next/link";
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState(0);
@@ -50,7 +51,18 @@ export default function AboutPage() {
             </li>
             <li>
               <Typography>
-                Corsi di approfondimento su <b>JavaScript, React e Redux</b>.
+                Corso completo di <b>Angular e TypeScript</b> (Betacom).
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                Corsi di approfondimento su <b>JavaScript</b>: dal livello base
+                fino al master.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                Corso avanzato su <b>React e Redux</b>.
               </Typography>
             </li>
           </Box>
@@ -58,19 +70,35 @@ export default function AboutPage() {
           <Typography variant="h6" sx={{ mb: 1 }}>
             🚀 Progetti personali
           </Typography>
-          <Typography variant="body1" sx={{ mb: 3 }}>
+          <Typography variant="body1" sx={{ mb: 2 }}>
             Attualmente sto sviluppando un <b>progetto personale con Next.js</b>{" "}
             che racconta la mia carriera e le mie competenze. L’app utilizza{" "}
             <b>API interne</b>, <b>rendering ibrido</b> (SSR + SSG) e
             ottimizzazioni come <code>next/image</code> e prefetch automatico.
           </Typography>
+          <Typography variant="body1" sx={{ mb: 3 }}>
+            Inoltre, ho realizzato un{" "}
+            <b>sistema di inviti con menu e countdown</b> utilizzando{" "}
+            <b>NodeMailer</b> per inviare le email, perfetto per eventi o
+            workshop personali.
+          </Typography>
 
           <Typography variant="h6" sx={{ mb: 1 }}>
             🛠️ Altri sviluppi
           </Typography>
-          <Typography variant="body1">
-            Ho realizzato anche <b>mappe interattive</b>, <b>dashboard</b> e{" "}
-            <b>applicazioni real-time</b> per la gestione dei dati.
+          <Typography variant="body1" sx={{ textAlign: "center" }}>
+            Scopri la sezione{" "}
+            <Link
+              href="/projects"
+              style={{
+                textDecoration: "none",
+                color: "#0b3d91",
+                display: "inline-block",
+              }}
+            >
+              progetti 📁
+            </Link>
+            , dove puoi vedere gli sviluppi per i clienti.
           </Typography>
         </Box>
       ),
@@ -83,21 +111,25 @@ export default function AboutPage() {
             variant="h5"
             sx={{ mb: 2, color: "#0b3d91", fontWeight: "bold" }}
           >
-            Cos’è Next.js
+            Next.js: caratteristiche e motivazioni dell’uso
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
-            Next.js è un framework full-stack basato su <b>React</b> che offre
+            Next.js è un framework full-stack basato su <b>React</b> che combina
             routing, API interne e varie modalità di rendering in un unico
-            ambiente.
+            ambiente. L’ho scelto per il mio portfolio e per progetti clienti
+            perché consente di creare applicazioni web performanti, SEO-friendly
+            e moderne, con gestione ottimizzata di immagini, prefetch automatico
+            dei link e middleware per autenticazione o redirect.
           </Typography>
 
           <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
             🔹 Routing
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Usa il <b>file-based routing</b>: la struttura delle cartelle
-            definisce le pagine, con supporto a rotte dinamiche, parametri e API
-            routes per gestire logica backend.
+            Next.js usa il <b>file-based routing</b>: la struttura delle
+            cartelle definisce le pagine. Supporta rotte dinamiche, parametri e
+            API routes, permettendomi di gestire logica backend direttamente nel
+            progetto.
           </Typography>
 
           <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
@@ -106,17 +138,27 @@ export default function AboutPage() {
           <Box component="ul" sx={{ pl: 3, mb: 3 }}>
             <li>
               <Typography>
-                SSR – contenuti aggiornati ad ogni richiesta.
+                SSR – contenuti aggiornati ad ogni richiesta, ottimo per SEO e
+                dati dinamici.
               </Typography>
             </li>
             <li>
-              <Typography>SSG – pagine statiche veloci.</Typography>
+              <Typography>
+                SSG – pagine statiche veloci per performance ottimali e
+                caricamento immediato.
+              </Typography>
             </li>
             <li>
-              <Typography>ISR – rigenerazione programmata.</Typography>
+              <Typography>
+                ISR – rigenerazione programmata delle pagine per contenuti
+                sempre aggiornati.
+              </Typography>
             </li>
             <li>
-              <Typography>CSR – interazioni lato client.</Typography>
+              <Typography>
+                CSR – interazioni lato client per funzionalità dinamiche e UI
+                reattive.
+              </Typography>
             </li>
           </Box>
 
@@ -126,21 +168,26 @@ export default function AboutPage() {
           <Box component="ul" sx={{ pl: 3, mb: 3 }}>
             <li>
               <Typography>
-                <code>next/image</code> – immagini responsive e lazy loading.
+                <code>next/image</code> – immagini responsive e lazy loading per
+                velocità e risorse ottimizzate.
               </Typography>
             </li>
             <li>
               <Typography>
-                <code>next/script</code> – caricamento intelligente degli
-                script.
+                <code>next/script</code> – caricamento intelligente degli script
+                per migliorare le performance.
               </Typography>
             </li>
             <li>
-              <Typography>Prefetch automatico dei link.</Typography>
+              <Typography>
+                Prefetch automatico dei link per navigazione fluida e tempi di
+                risposta ridotti.
+              </Typography>
             </li>
             <li>
               <Typography>
-                Supporto per CSS Modules, Styled JSX e Tailwind.
+                Supporto per CSS Modules, Styled JSX e Tailwind, garantendo
+                organizzazione e stile coerente.
               </Typography>
             </li>
           </Box>
@@ -149,23 +196,24 @@ export default function AboutPage() {
             🔹 Middleware
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
-            Permettono di intercettare richieste per autenticazione, redirect o
-            localizzazione.
+            Utilizzati per intercettare richieste e implementare funzionalità
+            come autenticazione, redirect personalizzati o gestione della
+            localizzazione nei progetti dei clienti.
           </Typography>
 
           <Typography variant="h6" sx={{ mb: 1, mt: 2 }}>
             🔹 Deploy
           </Typography>
           <Typography variant="body1">
-            Si sviluppa in locale con <code>npm run dev</code> e si distribuisce
-            facilmente, con integrazione nativa su <b>Vercel</b> per build e
-            deploy ottimizzati.
+            Sviluppato localmente con <code>npm run dev</code> e distribuito
+            facilmente su <b>Vercel</b>, che permette build e deploy
+            ottimizzati, garantendo continuità e aggiornamenti rapidi.
           </Typography>
         </Box>
       ),
     },
     {
-      label: "Il mio progetto",
+      label: "Documentazione",
       content: (
         <Box sx={{ lineHeight: 1.8 }}>
           <Typography
@@ -178,9 +226,9 @@ export default function AboutPage() {
           <Typography variant="body1" sx={{ mb: 3 }}>
             Ho realizzato un <b>portfolio</b> con <b>React</b> e <b>Next.js</b>{" "}
             per mettere in pratica e dimostrare le mie competenze. Ho sfruttato
-            i <b>middleware</b> di Next.js per proteggere le rotte sensibili,
-            come l’autenticazione: una volta ottenuto il token, l’utente può
-            accedere alla sezione <i>secret</i> e navigare nelle aree riservate.
+            i <b>middleware</b> di Next.js per proteggere le rotte sensibili e
+            gestire l’autenticazione: l’utente con il token può accedere alla
+            sezione <i>secret</i> e navigare nelle aree riservate.
           </Typography>
 
           <Typography variant="h6" sx={{ mb: 2 }}>
@@ -189,60 +237,52 @@ export default function AboutPage() {
           <Box component="ul" sx={{ pl: 3, mb: 3 }}>
             <li>
               <Typography>
-                <b>Home</b> – Presentazione personale.
+                <b>Home</b> – Presentazione personale e overview del portfolio.
               </Typography>
             </li>
             <li>
               <Typography>
-                <b>Certificati</b> – Componente riutilizzabile di card.
+                <b>Certificati</b> – Componente card riutilizzabile per mostrare
+                corsi e certificazioni.
               </Typography>
             </li>
             <li>
               <Typography>
-                <b>Grafico personale</b> – Distribuzione del tempo tra lavoro,
-                sport e hobby.
+                <b>Grafico personale</b> – Visualizzazione distribuzione del
+                tempo tra lavoro, sport e hobby.
               </Typography>
             </li>
             <li>
               <Typography>
-                <b>Scopri di più</b> – Sezione in cui racconto chi sono e
-                descrivo il progetto.
+                <b>Scopri di più</b> – Sezione di documentazione, in cui spiego
+                dettagliatamente il progetto.
               </Typography>
             </li>
             <li>
               <Typography>
-                <b>Skill</b> – Mostra le competenze in modo interattivo con un
-                grafico circolare riutilizzabile. Ho aggiunto un campo di
-                ricerca per filtrare le skill, un sistema per aggiungerle o
-                rimuoverle dinamicamente tramite <b>API Routes</b>, e un
-                componente di <b>drag & drop</b> per ordinarle a piacimento.
-              </Typography>
-
-              <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
-                ⚙️ Funzionalità principali
+                <b>Skill</b> – Visualizzazione interattiva delle competenze:
               </Typography>
               <Box component="ul" sx={{ pl: 3 }}>
                 <li>
                   <Typography>
-                    <b>Grafico Circolare</b> – Mostra visivamente il livello di
-                    ogni competenza.
+                    <b>Grafico Circolare</b> – Livello di ogni competenza.
                   </Typography>
                 </li>
                 <li>
                   <Typography>
-                    <b>Filtri e ricerca</b> – Permette di trovare velocemente le
-                    skill desiderate.
+                    <b>Filtri e ricerca</b> – Trova rapidamente le skill
+                    desiderate.
                   </Typography>
                 </li>
                 <li>
                   <Typography>
                     <b>Gestione dinamica</b> – Aggiunta/rimozione skill lato
-                    server.
+                    server tramite API Routes.
                   </Typography>
                 </li>
                 <li>
                   <Typography>
-                    <b>Drag & Drop</b> – Riordinamento personalizzato delle
+                    <b>Drag & Drop</b> – Riordino personalizzato delle
                     competenze.
                   </Typography>
                 </li>
@@ -256,15 +296,15 @@ export default function AboutPage() {
             </li>
             <li>
               <Typography>
-                <b>Progetti personali</b> – Dimostrazione pratica di <b>SSG</b>{" "}
-                e<b> SSR</b>. Ho usato <code>page.tsx</code> per rotte statiche
-                e<code> Image</code> per ottimizzare le immagini.
+                <b>Widget carriera</b> – Mostra il percorso in Betacom fino alla
+                creazione del portfolio: include diagramma di flusso, quiz
+                facoltativo e possibilità di cambiare avatar.
               </Typography>
             </li>
             <li>
               <Typography>
-                <b>Logout e Contatti</b> – Gestione autenticazione e sezione per
-                contattarmi facilmente.
+                <b>Logout e Contatti</b> – Gestione autenticazione e possibilità
+                di contattarmi facilmente.
               </Typography>
             </li>
           </Box>
@@ -275,22 +315,62 @@ export default function AboutPage() {
           <Box component="ul" sx={{ pl: 3, mb: 3 }}>
             <li>
               <Typography>
-                Ho implementato un <b>Global Store</b> con Context API per
-                gestire lo stato comune all’app.
+                <b>Global Store</b> con Context API per gestire stato condiviso.
               </Typography>
             </li>
             <li>
               <Typography>
-                Ho centralizzato la gestione di <b>hover</b>, <b>cursor</b> e
-                interazioni globali per garantire coerenza nell’esperienza
-                utente.
+                Centralizzazione di <b>hover</b>, <b>cursor</b> e interazioni
+                globali per coerenza UI.
               </Typography>
             </li>
             <li>
               <Typography>
-                Questo approccio rende l’interfaccia più fluida, migliora
-                l’esperienza dell’utente e mantiene il codice scalabile e
-                pulito.
+                Miglioramento esperienza utente, codice scalabile e pulito.
+              </Typography>
+            </li>
+          </Box>
+
+          <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
+            🛠️ Strumenti e componenti principali
+          </Typography>
+          <Box component="ul" sx={{ pl: 3, mb: 3 }}>
+            <li>
+              <Typography>
+                <b>React & Next.js</b> – Framework principale.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                <b>Context API</b> – Stato globale.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                <b>MUI</b> – Componenti UI predefiniti e styling.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                <b>API Routes</b> – Gestione dati dinamici e autenticazione.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                <b>Chart.js / D3.js</b> – Visualizzazione grafici circolari e
+                lineari.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                <b>Next/Image & Next/Script</b> – Ottimizzazione immagini e
+                script.
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                <b>Widget interattivo</b> – Diagramma di flusso carriera, quiz e
+                cambio avatar.
               </Typography>
             </li>
           </Box>

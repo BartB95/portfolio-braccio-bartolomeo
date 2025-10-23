@@ -308,18 +308,18 @@ const Portofolio = () => {
 
   const projects = [
     {
-      title: "Portfolio Web",
-      desc: "Sito web personale responsivo in React + Next.js",
+      title: "Corso Next.js",
+      desc: "Corso svolto in autonomia, costruendo il mio portfolio personale per mettere in pratica le competenze acquisite.",
       link: "#",
-    },
+    },    
     {
-      title: "Dashboard Analytics",
-      desc: "Visualizzazione dati in tempo reale con chart interattivi",
+      title: "Corso Angular",
+      desc: "Corso seguito in Betacom su Angular, TypeScript e sviluppo di mini-progetti formativi.",
       link: "#",
     },
     {
       title: "Accademy Java",
-      desc: "Academy 500 ore di Java con esercizi e progetti reali",
+      desc: "Academy svolta in Betacom, 500 ore di Java con esercizi e progetti reali",
       link: "#",
     },
     {
@@ -339,7 +339,7 @@ const Portofolio = () => {
     },
     {
       title: "Intelligenza Artificiale",
-      desc: "Corso Udemy completato presso Betacom su intelligenza artificiale",
+      desc: "Corso completato su Udemy presso Betacom, con applicazioni pratiche di AI e ML.",
       link: "#",
     },
   ];

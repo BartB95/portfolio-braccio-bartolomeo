@@ -87,19 +87,19 @@ const DigitalMission = () => {
       icon: "📈",
       title: "Crescita Continua",
       description:
-        "Mi aggiorno costantemente per offrire soluzioni moderne, efficaci e al passo con il mercato digitale.",
+        "Aggiorno le mie competenze ogni giorno per fornire soluzioni aggiornate e performanti nel mondo digitale.",
     },
     {
       icon: "💡", // lampadina per creatività
       title: "Creatività e Innovazione",
       description:
-        "Ogni progetto è unico. Porto idee nuove e approcci creativi per distinguerti online.",
+        "Creo esperienze digitali uniche, con design accattivante e funzionalità pensate per valorizzare la tua presenza online.",
     },
     {
       icon: "🌍",
       title: "Progetti su Scala Globale",
       description:
-        "Collaboro anche da remoto con clienti in tutta Italia e all’estero, offrendo valore ovunque tu sia.",
+        "Collaboro principalmente con clienti in Italia e con team internazionali, offrendo risultati di qualità e una presenza digitale efficace.",
     },
   ];
 
