@@ -60,7 +60,7 @@ const CardDesc = styled("p")({
 
 const CardButton = styled("button")({
   padding: "0.4rem 0.8rem",
-  border: "none",
+  border: "1px solid black",
   borderRadius: "8px",
   background: "#FFD166",
   color: "#1f2a38",
