@@ -136,11 +136,21 @@ export default function FlowChart() {
   );
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => {
+      const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+      setIsMobile(isPortrait);
+    };
+  
     handleResize();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+  
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+    };
   }, []);
+  
 
   return (
     <div
