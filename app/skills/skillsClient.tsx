@@ -75,11 +75,12 @@ const SmallInput = styled("input")({
   },
   // MOBILE / TABLET: rimane sulla stessa riga
   flex: "0 0 60px",
-
 });
 
-
-const Button = styled("button")<{ hovered: boolean; cursor: "default" | "pointer" | "grab" | "grabbing" }>(({ hovered, cursor }) => ({
+const Button = styled("button")<{
+  hovered: boolean;
+  cursor: "default" | "pointer" | "grab" | "grabbing";
+}>(({ hovered, cursor }) => ({
   height: "50px",
   padding: "0 20px",
   borderRadius: "12px",
@@ -103,9 +104,9 @@ const FormRow = styled("div")({
   gap: "12px",
   alignItems: "center",
   justifyContent: "center",
-  flexWrap: "wrap", 
+  flexWrap: "wrap",
   "@media (max-width: 768px)": {
-    justifyContent: "flex-start", 
+    justifyContent: "flex-start",
   },
 });
 
@@ -132,46 +133,52 @@ const SkillsClient = ({ initialSkills }: Props) => {
   const isHovered = state.hoveredId === "button";
   const cursor = state.cursor;
 
-const addSkill = async () => {
-  if (!newSkill.trim()) return;
+  const addSkill = async () => {
+    if (!newSkill.trim()) return;
 
-  // Leggi il token dai cookie
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("token="))
-    ?.split("=")[1];
+    // Leggi il token dai cookie
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
 
-  const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
+    const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
 
-  if (!isOwner) {
-    // Mostra il modal se non sei l'owner
-    dispatch({
-      type: "SHOW_MODAL",
-      payload: {
-        title: "Inserimento Skill Negato!",
-        message: "Le skill possono essere inserite solo dall'amministratore del sito.",
-        onConfirm: () => {}, // chiudi solo il modal
-        onCancel: undefined,
-        confirmText: "Ok",
-        cancelText: undefined,
-      },
-    });
-    return;
-  }
+    if (!isOwner) {
+      // Mostra il modal se non sei l'owner
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: {
+          title: "Inserimento Skill Negato!",
+          message:
+            "Le skill possono essere inserite solo dall'amministratore del sito.",
+          onConfirm: () => {}, // chiudi solo il modal
+          onCancel: undefined,
+          confirmText: "Ok",
+          cancelText: undefined,
+        },
+      });
+      return;
+    }
 
-  setLoading(true);
-  try {
-    await prm_CreateSkill({ name: newSkill, percent: Number(newSkillPercent) });
-    setSkills((prev) => [...prev, { name: newSkill, percent: Number(newSkillPercent) }]);
-    setNewSkill("");
-    setNewSkillPercent("50");
-  } catch (err) {
-    console.error("Error creating skill:", err);
-  } finally {
-    setLoading(false);
-  }
-};
-
+    setLoading(true);
+    try {
+      await prm_CreateSkill({
+        name: newSkill,
+        percent: Number(newSkillPercent),
+      });
+      setSkills((prev) => [
+        ...prev,
+        { name: newSkill, percent: Number(newSkillPercent) },
+      ]);
+      setNewSkill("");
+      setNewSkillPercent("50");
+    } catch (err) {
+      console.error("Error creating skill:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const removeSkill = async (skillName: string) => {
     try {
@@ -182,76 +189,99 @@ const addSkill = async () => {
     }
   };
 
-const confirmDeleteSkill = (skillName: string) => {
-  // Leggi il token dai cookie
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("token="))
-    ?.split("=")[1];
+  const confirmDeleteSkill = (skillName: string) => {
+    // Leggi il token dai cookie
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
 
-  const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN; // variabile d'ambiente pubblica
+    const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN; // variabile d'ambiente pubblica
 
-  dispatch({
-    type: "SHOW_MODAL",
-    payload: {
-      title: isOwner ? "Elimina Skill" : "Eliminazione Skill Negata!",
-      message: isOwner
-        ? `Sei sicuro di voler eliminare "${skillName}"?`
-        : "Non puoi eliminare questa skill. Contatta l'amministratore del sito.",
-      onConfirm: isOwner ? () => removeSkill(skillName) : () => dispatch({ type: "HIDE_MODAL" }),
-      onCancel: isOwner ? () => dispatch({ type: "HIDE_MODAL" }) : undefined,
-      confirmText: isOwner ? "Elimina" : "Ok",
-      cancelText: isOwner ? "Annulla" : undefined,
-    },
-  });
-};
+    dispatch({
+      type: "SHOW_MODAL",
+      payload: {
+        title: isOwner ? "Elimina Skill" : "Eliminazione Skill Negata!",
+        message: isOwner
+          ? `Sei sicuro di voler eliminare "${skillName}"?`
+          : "Non puoi eliminare questa skill. Contatta l'amministratore del sito.",
+        onConfirm: isOwner
+          ? () => removeSkill(skillName)
+          : () => dispatch({ type: "HIDE_MODAL" }),
+        onCancel: isOwner ? () => dispatch({ type: "HIDE_MODAL" }) : undefined,
+        confirmText: isOwner ? "Elimina" : "Ok",
+        cancelText: isOwner ? "Annulla" : undefined,
+      },
+    });
+  };
 
-  const filteredSkills = skills.filter((skill) => skill.name.toLowerCase().includes(searchInput.toLowerCase()));
+  const filteredSkills = skills.filter((skill) =>
+    skill.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
     <>
-    <Container>
-      <Header>📚 Le mie Competenze</Header>
-      <span style={{ color: "#E6E2C8" }}>Le percentuali indicano le tecnologie con cui mi sento più sicuro e competente.</span>
+      <Container>
+        <Header>📚 Le mie Competenze</Header>
+        <span style={{ color: "#E6E2C8" }}>
+          Le percentuali indicano quanto ho effettivamente utilizzato ciascuna
+          tecnologia nell'ultimo anno, riflettendo la mia esperienza pratica e
+          familiarità con ciascuno strumento.
+        </span>
 
-      <FormRow>
-        <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
-        <Input type="text" value={newSkill} placeholder="Aggiungi skill" onChange={(e) => setNewSkill(e.target.value)} />
-        <SmallInput
-          type="number"
-          value={newSkillPercent}
-          onChange={(e) => setNewSkillPercent(e.target.value)} // <-- sempre stringa
-          placeholder="%"
-          min={0}
-          max={100}
-        />
-        <Button
-          onClick={addSkill}
-          cursor={cursor}
-          hovered={isHovered}
-          onMouseEnter={() => {
-            dispatch({ type: "SET_HOVER", payload: "button" });
-            dispatch({ type: "SET_CURSOR", payload: "pointer" });
-          }}
-          onMouseLeave={() => {
-            dispatch({ type: "SET_CURSOR", payload: "default" });
-            dispatch({ type: "CLEAR_HOVER" });
-          }}
-          disabled={loading}
-        >
-          {loading ? "..." : "Inserisci"}
-        </Button>
-      </FormRow>
+        <FormRow>
+          <FilterSearch
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+          />
+          <Input
+            type="text"
+            value={newSkill}
+            placeholder="Aggiungi skill"
+            onChange={(e) => setNewSkill(e.target.value)}
+          />
+          <SmallInput
+            type="number"
+            value={newSkillPercent}
+            onChange={(e) => setNewSkillPercent(e.target.value)} // <-- sempre stringa
+            placeholder="%"
+            min={0}
+            max={100}
+          />
+          <Button
+            onClick={addSkill}
+            cursor={cursor}
+            hovered={isHovered}
+            onMouseEnter={() => {
+              dispatch({ type: "SET_HOVER", payload: "button" });
+              dispatch({ type: "SET_CURSOR", payload: "pointer" });
+            }}
+            onMouseLeave={() => {
+              dispatch({ type: "SET_CURSOR", payload: "default" });
+              dispatch({ type: "CLEAR_HOVER" });
+            }}
+            disabled={loading}
+          >
+            {loading ? "..." : "Inserisci"}
+          </Button>
+        </FormRow>
 
-      <SkillGrid>
-        <DragDropList
-          items={filteredSkills}
-          onChange={(newOrder) => setSkills(newOrder)}
-          renderItem={(skill) => <CircularSkillChart key={skill.name} skill={skill} icon={skill.icon} animated={animated} onDelete={confirmDeleteSkill} />}
-        />
-      </SkillGrid>
-    </Container>
-
+        <SkillGrid>
+          <DragDropList
+            items={filteredSkills}
+            onChange={(newOrder) => setSkills(newOrder)}
+            renderItem={(skill) => (
+              <CircularSkillChart
+                key={skill.name}
+                skill={skill}
+                icon={skill.icon}
+                animated={animated}
+                onDelete={confirmDeleteSkill}
+              />
+            )}
+          />
+        </SkillGrid>
+      </Container>
     </>
   );
 };

@@ -8,16 +8,7 @@ import { usePathname } from "next/navigation";
 import { styled } from "@mui/system";
 import LazyLoading from "./Shared/components/LazyLoading";
 import Animated from "./Shared/components/Animated";
-
-
-interface NavbarProps {
-  token?: string;
-}
-
-interface NavLinkProps {
-  isHovered: boolean;
-  cursor: string;
-}
+import WidgetWrapper from "./Shared/components/Widget/widgetWrapper";
 
 const Nav = styled("nav")({
   background: "linear-gradient(90deg, #1d2b36, #2e4a62)",
@@ -48,6 +39,17 @@ const LinksWrapper = styled("div")({
   gap: "12px",
 });
 
+const RightWrapper = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+
+  "@media (max-width: 1023px)": {
+    flexDirection: "row-reverse",
+    gap: "8px",
+  },
+});
+
 const HamburgerButton = styled("button")({
   background: "none",
   border: "none",
@@ -62,7 +64,7 @@ const MobileMenu = styled("div")({
   right: "0px",
   background: "rgba(29,43,54,0.95)",
   padding: "12px",
-  borderRadius: "8px",
+  borderRadius: "12px 0 0 12px", 
   display: "flex",
   flexDirection: "column",
   gap: "8px",
@@ -86,6 +88,15 @@ const NavLink = styled(Link, {
     backgroundColor: "rgba(255, 209, 102, 0.1)",
   }),
 }));
+
+interface NavbarProps {
+  token?: string;
+}
+
+interface NavLinkProps {
+  isHovered: boolean;
+  cursor: string;
+}
 
 const NavbarClient: React.FC<NavbarProps> = ({ token }) => {
   const { state, dispatch } = useGlobalStore();
@@ -118,19 +129,61 @@ const NavbarClient: React.FC<NavbarProps> = ({ token }) => {
   return (
     <Nav>
       <LogoLink href="/secret" aria-label="Homepage">
-        <Image src="/icons8-homeadvisor.svg" alt="Logo" width={40} height={40} />
+        <Image
+          src="/icons8-homeadvisor.svg"
+          alt="Logo"
+          width={40}
+          height={40}
+        />
       </LogoLink>
 
       <LazyLoading rootMargin="0px">
-      <Animated once amount={0.1}>
-        {isMobile ? (
-          <div>
-            <HamburgerButton onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
-              ☰
-            </HamburgerButton>
+        <RightWrapper>
+          <Animated once amount={0.1}>
+            {isMobile ? (
+              <div>
+                <HamburgerButton
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  aria-label="Menu"
+                >
+                  ☰
+                </HamburgerButton>
 
-            {menuOpen && (
-              <MobileMenu>
+                {menuOpen && (
+                  <MobileMenu>
+                    {links.map((link) => {
+                      const isHovered = state.hoveredId === link.href;
+                      return (
+                        <NavLink
+                          key={link.href}
+                          href={link.href}
+                          isHovered={isHovered}
+                          cursor={cursor ?? "default"}
+                          onClick={() => setMenuOpen(false)}
+                          onMouseEnter={() => {
+                            dispatch({ type: "SET_HOVER", payload: link.href });
+                            dispatch({
+                              type: "SET_CURSOR",
+                              payload: "pointer",
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            dispatch({ type: "CLEAR_HOVER" });
+                            dispatch({
+                              type: "SET_CURSOR",
+                              payload: "default",
+                            });
+                          }}
+                        >
+                          {link.label}
+                        </NavLink>
+                      );
+                    })}
+                  </MobileMenu>
+                )}
+              </div>
+            ) : (
+              <LinksWrapper>
                 {links.map((link) => {
                   const isHovered = state.hoveredId === link.href;
                   return (
@@ -139,7 +192,6 @@ const NavbarClient: React.FC<NavbarProps> = ({ token }) => {
                       href={link.href}
                       isHovered={isHovered}
                       cursor={cursor ?? "default"}
-                      onClick={() => setMenuOpen(false)}
                       onMouseEnter={() => {
                         dispatch({ type: "SET_HOVER", payload: link.href });
                         dispatch({ type: "SET_CURSOR", payload: "pointer" });
@@ -153,35 +205,11 @@ const NavbarClient: React.FC<NavbarProps> = ({ token }) => {
                     </NavLink>
                   );
                 })}
-              </MobileMenu>
+              </LinksWrapper>
             )}
-          </div>
-        ) : (
-          <LinksWrapper>
-            {links.map((link) => {
-              const isHovered = state.hoveredId === link.href;
-              return (
-                <NavLink
-                  key={link.href}
-                  href={link.href}
-                  isHovered={isHovered}
-                  cursor={cursor ?? "default"}
-                  onMouseEnter={() => {
-                    dispatch({ type: "SET_HOVER", payload: link.href });
-                    dispatch({ type: "SET_CURSOR", payload: "pointer" });
-                  }}
-                  onMouseLeave={() => {
-                    dispatch({ type: "CLEAR_HOVER" });
-                    dispatch({ type: "SET_CURSOR", payload: "default" });
-                  }}
-                >
-                  {link.label}
-                </NavLink>
-              );
-            })}
-          </LinksWrapper>
-        )}
-        </Animated>
+          </Animated>
+          {token && <WidgetWrapper token={token} />}
+        </RightWrapper>
       </LazyLoading>
     </Nav>
   );

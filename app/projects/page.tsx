@@ -9,7 +9,6 @@ import { keyframes } from "@emotion/react";
 import PieChartComponent from "../Shared/components/PieChart";
 import LazyLoading from "../Shared/components/LazyLoading";
 
-
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -29,7 +28,12 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-  background: rgba(0, 0, 0, 0.5); /* trasparente per far vedere il background globale */
+  background: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* trasparente per far vedere il background globale */
   backdrop-filter: blur(15px) saturate(180%);
   -webkit-backdrop-filter: blur(15px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.15); /* bordo leggero per definire il vetro */
@@ -97,101 +101,169 @@ const Projects = () => {
 
   return (
     <>
-    <Container>
-      <Card>
-        <Title>I miei progetti</Title>
+      <Container>
+        <Card>
+          <Title>📁 Progetti</Title>
 
-        {/* GISWrapper */}
-        <ProjectTitle>GISWrapper - Applicativo di testing per rete elettrica Enel</ProjectTitle>
-        <Paragraph>
-          Ho lavorato su un progetto chiamato <strong>GISWrapper</strong>, un’applicazione web dedicata al testing degli elementi di rete elettrica di Enel. Questo strumento era fondamentale per la
-          verifica e il monitoraggio dei componenti di rete, permettendo agli ingegneri e tecnici di eseguire test accurati e tempestivi.
-        </Paragraph>
-        <Paragraph>
-          Una delle funzionalità principali di GISWrapper era la visualizzazione tramite una mappa interattiva, che mostrava diversi layer geografici e dati in tempo reale relativi agli elementi di
-          rete. I dati venivano archiviati su MongoDB e venivano estratti tramite API, consentendo una gestione efficiente e scalabile delle informazioni.
-        </Paragraph>
-        <Paragraph>
-          Il mio ruolo nel progetto includeva la risoluzione di bug critici per migliorare la stabilità dell’applicazione, così come la progettazione e lo sviluppo di nuove funzionalità per arricchire
-          l’esperienza utente e aumentare la produttività del team.
-        </Paragraph>
-
-        {/* Microfrontend GIS */}
-        <ProjectTitle>Microfrontend GIS - Visualizzazione dati geospaziali (GisViewer)</ProjectTitle>
-        <Paragraph>
-          Da gennaio 2024 sono stato responsabile di un componente chiave, un microfrontend nato agli albori della room GIS con l’obiettivo di visualizzare in modo efficiente e intuitivo i dati
-          disponibili, offrendo una soluzione performante per la rappresentazione grafica di informazioni geospaziali.
-        </Paragraph>
-        <Paragraph>
-          Il componente è stato sviluppato in React, utilizzando librerie avanzate come <strong>Deck.gl</strong>. Deck.gl è una libreria potente per la visualizzazione di grandi dataset geospaziali
-          con WebGL, ideale per creare mappe interattive ad alte prestazioni.
-        </Paragraph>
-        <Paragraph>Grazie a queste tecnologie, ho implementato numerose funzionalità, tra cui:</Paragraph>
-        <ul style={{ marginRight: "20px", color: "#FCE77D" }}>
-          <li>Gestione e visualizzazione di coordinate geografiche personalizzate.</li>
-          <li>Personalizzazione avanzata del GeoViewer per una maggiore flessibilità.</li>
-          <li>Inserimento e disegno di geometrie direttamente sulla mappa.</li>
-          <li>Funzionalità di centratura della mappa per facilitare la navigazione.</li>
-          <li>Componenti con transizioni fluide per una migliore resa visiva.</li>
-          <li>Implementazione di componenti RGBA, permettendo di cambiare dinamicamente il colore dei layer in base alle esigenze visive.</li>
-        </ul>
-
-        {/* Blastness */}
-        <ProjectTitle>Blastness - Sviluppo moduli per siti di hotel di lusso</ProjectTitle>
-        <Paragraph>
-          Ho lavorato su <strong>Blastness</strong> per 5 mesi, assumendo la responsabilità della creazione di moduli personalizzati per siti web di hotel a 5 stelle. Il progetto era ben strutturato,
-          stimolante ed emozionante, permettendomi di unire competenze tecniche avanzate a un forte senso estetico e attenzione all’esperienza utente.
-        </Paragraph>
-        <Paragraph>
-          Il mio ruolo includeva la progettazione e lo sviluppo di componenti interattivi e performanti, garantendo coerenza visiva e funzionale tra i diversi moduli. Questo lavoro mi ha permesso di
-          affrontare sfide complesse e di contribuire significativamente alla qualità complessiva del progetto.
-        </Paragraph>
-
-        {/* Portfolio personale */}
-        <ProjectTitle>Portfolio personale - Realizzazione autonoma con React & Next.js</ProjectTitle>
-        <Paragraph>
-          Dall'estate ad oggi sto realizzando un portfolio personale con <strong>React</strong> e <strong>Next.js</strong> per mettere in pratica e mostrare le mie competenze. L'autenticazione tramite
-          middleware di Next.js protegge le sezioni riservate.
-        </Paragraph>
-        <Paragraph>
-          Il portfolio include diverse sezioni chiave: presentazione personale, certificati, grafico personale per visualizzare il tempo dedicato a lavoro, sport e hobby, skill interattive con ricerca
-          e <strong>drag & drop</strong>, e sezioni di contatto.
-        </Paragraph>
-        <Paragraph>
-          Le funzionalità principali comprendono un <strong>grafico circolare interattivo</strong>, gestione dinamica delle skill tramite API routes, <strong>drag & drop</strong> per l'ordinamento
-          personalizzato e l’uso di SSR/CSR per prestazioni ottimali.
-        </Paragraph>
-        <Paragraph>
-          Lo <strong>stato globale con Context API</strong> centralizza le interazioni, rendendo l'interfaccia fluida e coerente.
-        </Paragraph>
-
-        {/* Skills */}
-        <SkillContainer>
-          {/* Paragrafo visibile subito */}
-          <Paragraph
-            style={{
-              color: "#FFD700",
-              textShadow: "2px 2px 6px rgba(0, 0, 0, 1.5)",
-              fontWeight: 600,
-              fontSize: "1.1rem",
-              border: "1px solid #FFD700",
-              textAlign: "center",
-              marginBottom: "1rem",
-              width: "100%",
-            }}
-          >
-            Qui vengono mostrati i grafici che evidenziano la percentuale di tempo trascorso su ciascun progetto nei miei tre anni di esperienza.
+          {/* GISWrapper */}
+          <ProjectTitle>
+            GISWrapper - Applicativo di testing per rete elettrica Enel - 2023
+          </ProjectTitle>
+          <Paragraph>
+            Ho lavorato su un progetto chiamato <strong>GISWrapper</strong>,
+            un’applicazione web dedicata al testing degli elementi di rete
+            elettrica di Enel. Questo strumento era fondamentale per la verifica
+            e il monitoraggio dei componenti di rete, permettendo agli ingegneri
+            e tecnici di eseguire test accurati e tempestivi.
+          </Paragraph>
+          <Paragraph>
+            Una delle funzionalità principali di GISWrapper era la
+            visualizzazione tramite una mappa interattiva, che mostrava diversi
+            layer geografici e dati in tempo reale relativi agli elementi di
+            rete. I dati venivano archiviati su MongoDB e venivano estratti
+            tramite API, consentendo una gestione efficiente e scalabile delle
+            informazioni.
+          </Paragraph>
+          <Paragraph>
+            Il mio ruolo nel progetto includeva la risoluzione di bug critici
+            per migliorare la stabilità dell’applicazione, così come la
+            progettazione e lo sviluppo di nuove funzionalità per arricchire
+            l’esperienza utente e aumentare la produttività del team.
           </Paragraph>
 
-          {/* Grafici con lazy loading */}
-          <LazyLoading>
-            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-              <PieChartComponent data={skill.map((s) => ({ name: s.name, value: s.percent }))} />
-            </div>
-          </LazyLoading>
-        </SkillContainer>
-      </Card>
-    </Container>
+          {/* Microfrontend GIS */}
+          <ProjectTitle>
+            Microfrontend GIS - Visualizzazione dati geospaziali (GisViewer) - 2024
+          </ProjectTitle>
+          <Paragraph>
+            Da gennaio 2024 sono stato responsabile di un componente chiave, un
+            microfrontend nato agli albori della room GIS con l’obiettivo di
+            visualizzare in modo efficiente e intuitivo i dati disponibili,
+            offrendo una soluzione performante per la rappresentazione grafica
+            di informazioni geospaziali.
+          </Paragraph>
+          <Paragraph>
+            Il componente è stato sviluppato in React, utilizzando librerie
+            avanzate come <strong>Deck.gl</strong>. Deck.gl è una libreria
+            potente per la visualizzazione di grandi dataset geospaziali con
+            WebGL, ideale per creare mappe interattive ad alte prestazioni.
+          </Paragraph>
+          <Paragraph>
+            Grazie a queste tecnologie, ho implementato numerose funzionalità,
+            tra cui:
+          </Paragraph>
+          <ul style={{ marginRight: "20px", color: "#FCE77D" }}>
+            <li>
+              Gestione e visualizzazione di coordinate geografiche
+              personalizzate.
+            </li>
+            <li>
+              Personalizzazione avanzata del GisViewer per una maggiore
+              flessibilità.
+            </li>
+            <li>
+              Inserimento e disegno di geometrie direttamente sulla mappa.
+            </li>
+            <li>
+              Funzionalità di centratura della mappa per facilitare la
+              navigazione.
+            </li>
+            <li>
+              Componenti con transizioni fluide per una migliore resa visiva.
+            </li>
+            <li>
+              Implementazione di componenti RGBA, permettendo di cambiare
+              dinamicamente il colore dei layer in base alle esigenze visive.
+            </li>
+          </ul>
+
+          {/* Blastness */}
+          <ProjectTitle>
+            Blastness - Sviluppo moduli per siti di hotel di lusso - 2025
+          </ProjectTitle>
+          <Paragraph>
+            Ho lavorato su <strong>Blastness</strong> per 5 mesi, assumendo la
+            responsabilità della creazione di moduli personalizzati per siti web
+            di hotel a 5 stelle. Il progetto era ben strutturato, stimolante ed
+            emozionante, permettendomi di unire competenze tecniche avanzate a
+            un forte senso estetico e attenzione all’esperienza utente.
+          </Paragraph>
+          <Paragraph>
+            Il mio ruolo includeva la progettazione e lo sviluppo di componenti
+            interattivi e performanti, garantendo coerenza visiva e funzionale
+            tra i diversi moduli. Questo lavoro mi ha permesso di affrontare
+            sfide complesse e di contribuire significativamente alla qualità
+            complessiva del progetto.
+          </Paragraph>
+
+          {/* Portfolio personale */}
+          <ProjectTitle>Portfolio Personale - 2025</ProjectTitle>
+          <Paragraph>
+            Ho realizzato il mio portfolio personale con grande passione e
+            dedizione, utilizzando <strong>React</strong> e{" "}
+            <strong>Next.js</strong>. L’obiettivo principale era creare un sito
+            che rappresentasse al meglio il mio percorso, le mie competenze e il
+            mio approccio al lavoro.
+          </Paragraph>
+          <Paragraph>
+            Ogni dettaglio è stato curato per garantire un’esperienza utente
+            fluida e intuitiva: dalla struttura delle pagine all’estetica
+            visiva, fino alla disposizione dei contenuti e alla navigazione tra
+            le varie sezioni. Ho voluto che il sito fosse pulito, elegante e
+            facilmente fruibile, mantenendo un design coerente e responsivo.
+          </Paragraph>
+          <Paragraph>
+            Il portfolio include sezioni dedicate alla presentazione personale,
+            ai certificati, alle skill interattive e ai progetti, con elementi
+            dinamici che rendono la navigazione coinvolgente. Ogni componente è
+            stato pensato per offrire chiarezza e immediatezza, senza
+            sacrificare lo stile.
+          </Paragraph>
+          <Paragraph>
+            Questo progetto è il frutto di un impegno costante e di un percorso
+            di crescita: il sito continua a evolversi giorno dopo giorno,
+            migliorando grafica, logica e adattabilità su diversi dispositivi.
+            Rappresenta non solo le mie competenze tecniche, ma anche la mia
+            attenzione ai dettagli e alla qualità dell’esperienza digitale.
+          </Paragraph>
+
+          {/* Skills */}
+          <SkillContainer>
+            {/* Paragrafo visibile subito */}
+            <Paragraph
+              style={{
+                color: "#FFD700",
+                textShadow: "2px 2px 6px rgba(0, 0, 0, 1.5)",
+                fontWeight: 600,
+                fontSize: "1.1rem",
+                border: "1px solid #FFD700",
+                textAlign: "center",
+                marginBottom: "1rem",
+                width: "100%",
+              }}
+            >
+              Qui vengono mostrati i grafici che evidenziano la percentuale di
+              tempo trascorso su ciascun progetto nei miei tre anni di
+              esperienza.
+            </Paragraph>
+
+            {/* Grafici con lazy loading */}
+            <LazyLoading>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <PieChartComponent
+                  data={skill.map((s) => ({ name: s.name, value: s.percent }))}
+                />
+              </div>
+            </LazyLoading>
+          </SkillContainer>
+        </Card>
+      </Container>
     </>
   );
 };

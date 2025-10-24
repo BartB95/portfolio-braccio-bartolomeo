@@ -6,18 +6,14 @@ import { useGlobalStore } from "@/app/State/GlobalContext";
 import Avatar, { avatarList } from "../Avatar";
 import Link from "next/link";
 import LogoutButton from "@/app/logout/page";
+import { Tooltip } from "@mui/material";
 
 const Container = styled("div")({
-  position: "fixed",
-  top: "10px",
-  left: "6rem",
-  transform: "none",
-  zIndex: 1000,
-  touchAction: "none",
-  transition: "all 0.4s ease",
-  "@media (max-width: 768px)": {
-    left: "4rem", 
-  },
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  cursor: "pointer",
 });
 
 const ProfileImageWrapper = styled("div")({
@@ -35,16 +31,16 @@ const ProfileImageWrapper = styled("div")({
 });
 
 const Menu = styled("div")({
-  position: "absolute",
-  top: 60,
-  left: "50%",
-  transform: "translateX(-50%)",
+  position: "absolute", // relativo al Container
+  top: "48px",          // distanza verticale dall'avatar
+  right: 0,             // allinea il menu al bordo destro del Container
   background: "#1f2f3a",
-  borderRadius: 8,
+  borderRadius: 12,
+  padding: "10px",
   boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
-  overflowY: "auto", // serve per lo scroll
+  overflowY: "auto",
   maxHeight: 350,
-  minWidth: 150,
+  minWidth: 180,
   zIndex: 1001,
 
   // 🔹 Scroll invisibile
@@ -56,11 +52,10 @@ const Menu = styled("div")({
   msOverflowStyle: "none", // per IE/Edge
 });
 
-
 const MenuItemDiv = styled("div")({
-  padding: "8px 12px",
+  padding: "10px",
   cursor: "pointer",
-  fontSize: "0.85rem",
+  fontSize: "16px",
   color: "#fff",
   "&:hover": {
     backgroundColor: "#3e98a2",
@@ -93,16 +88,10 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [showAvatarPopup, setShowAvatarPopup] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
-  const [containerPosition, setContainerPosition] = useState<"right" | "left">(
-    "left"
-  );
 
   if (!token) return null;
 
   const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
-
-  const moveLeft = () => setContainerPosition("left");
-  const moveRight = () => setContainerPosition("right");
 
   const menuItems: MenuItem[] = [
     {
@@ -141,40 +130,27 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
           transition: "transform 0.3s ease, boxShadow 0.3s ease",
         }}
         onClick={handleToggleMenu}
-        onMouseEnter={() => dispatch({ type: "SET_HOVER", payload: "widget-avatar" })}
+        onMouseEnter={() =>
+          dispatch({ type: "SET_HOVER", payload: "widget-avatar" })
+        }
         onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
       >
-        <ProfileImageWrapper>
-          <Image
-            src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")}
-            alt="Avatar"
-            width={40}
-            height={40}
-          />
-        </ProfileImageWrapper>
-
-        {isHovered && (
-          <div
-            style={{
-              position: "absolute",
-              top: 60,
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "white",
-              color: "#000",
-              padding: "6px 12px",
-              borderRadius: 8,
-              fontSize: 10,
-              fontWeight: 500,
-              boxShadow: "0 4px 15px rgba(0,0,0,1)",
-              zIndex: 1002,
-              whiteSpace: "nowrap",
-              pointerEvents: "none",
-            }}
-          >
-            Token: {token}
-          </div>
-        )}
+        <Tooltip
+          title={`Token: ${token}`}
+          arrow
+          placement="top"
+          open={isHovered} // controlla la visibilità manualmente
+          
+        >
+          <ProfileImageWrapper>
+            <Image
+              src={avatar || (isOwner ? "/bart.webp" : "/bart.jpg")}
+              alt="Avatar"
+              width={40}
+              height={40}
+            />
+          </ProfileImageWrapper>
+        </Tooltip>
       </div>
 
       {menuOpen && (

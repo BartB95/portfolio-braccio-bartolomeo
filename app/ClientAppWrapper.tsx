@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import WidgetWrapper from "./Shared/components/Widget/widgetWrapper";
 import Loader from "./Shared/components/Loader";
 
 type ClientAppWrapperProps = {
@@ -68,9 +67,6 @@ export default function ClientAppWrapper({ token, children }: ClientAppWrapperPr
 
       {/* Loader overlay sopra tutto (solo per l’immagine) */}
       {!isSecretPage && !imageLoaded && <Loader dotColor="#ff1493" />}
-
-      {/* Widget lato client */}
-      {token && <WidgetWrapper token={token} />}
 
       {/* Contenuto principale */}
       {children}

@@ -30,7 +30,7 @@ export default function LogoutButton() {
         transform: isHovered ? "scale(1.05)" : "scale(1)",
       }}
     >
-      ⏏️ Esci
+      🚪 Esci
     </div>
   );
 }

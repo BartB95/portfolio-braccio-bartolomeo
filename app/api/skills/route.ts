@@ -5,9 +5,9 @@ import { ISkill } from "@/app/skills/ISkill";
 // Dati in memoria (puoi sostituire con DB)
 let skills: ISkill[] = [
   { name: "React", percent: 90 },
-  { name: "Next.js", percent: 60 },
-  { name: "JavaScript", percent: 85 },
-  { name: "Angular", percent: 70 },
+  { name: "Next.js", percent: 85 },
+  { name: "JavaScript", percent: 90 },
+  { name: "Angular", percent: 75 },
 ];
 
 // GET => restituisce tutte le skill

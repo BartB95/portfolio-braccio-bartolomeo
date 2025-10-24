@@ -45,7 +45,6 @@ const Header = styled("div")({
   },
 });
 
-
 const HeaderLeft = styled("div")({
   color: "#B8860B",
   fontWeight: 700,
@@ -72,7 +71,7 @@ const Main = styled("div")({
   flexWrap: "wrap",
   "@media (min-width: 768px)": {
     flexDirection: "row",
-    flexWrap: "nowrap",//forza per restare sulla stessa riga
+    flexWrap: "nowrap", //forza per restare sulla stessa riga
     gap: "20px",
   },
 });
@@ -241,7 +240,7 @@ const LinkButton = styled("a")({
   color: "#000",
   textDecoration: "none",
   fontSize: "0.8rem",
-  border: "1px solid black"
+  border: "1px solid black",
 });
 
 const InfoSection = styled("div")({
@@ -312,7 +311,7 @@ const Portofolio = () => {
       title: "Corso Next.js",
       desc: "Corso svolto in autonomia, costruendo il mio portfolio personale per mettere in pratica le competenze acquisite.",
       link: "#",
-    },    
+    },
     {
       title: "Corso Angular",
       desc: "Corso seguito in Betacom su Angular, TypeScript e sviluppo di mini-progetti formativi.",
@@ -383,49 +382,49 @@ const Portofolio = () => {
               <source src={videoSrc} type="video/mp4" />
             </video>
             <Animated>
-            <HeroTitle>Benvenuto nel mio angolo digitale</HeroTitle>
-            <HeroText>
-              Qui condivido il mio viaggio nel mondo della tecnologia,
-              esplorando nuove frontiere, realizzando progetti stimolanti,
-              affrontando sfide complesse e trasformando idee innovative in
-              soluzioni concrete. Ogni progetto rappresenta un’opportunità di
-              crescita, apprendimento e sperimentazione, e spero che il mio
-              percorso possa ispirare chi, come me, ama innovare e costruire
-              esperienze digitali di valore.
-            </HeroText>
-            <ButtonWrapper>
-              <HeroButton
-                hovered={state.hoveredId === "heroButton"}
-                cursor={cursor}
-                onClick={() => (window.location.href = "/about")}
-                onMouseEnter={() => {
-                  dispatch({ type: "SET_HOVER", payload: "heroButton" });
-                  dispatch({ type: "SET_CURSOR", payload: "pointer" });
-                }}
-                onMouseLeave={() => {
-                  dispatch({ type: "CLEAR_HOVER" });
-                  dispatch({ type: "SET_CURSOR", payload: "default" });
-                }}
-              >
-                🔍 Scopri di più
-              </HeroButton>
+              <HeroTitle>Benvenuto nel mio angolo digitale</HeroTitle>
+              <HeroText>
+                Qui condivido il mio viaggio nel mondo della tecnologia,
+                esplorando nuove frontiere, realizzando progetti stimolanti,
+                affrontando sfide complesse e trasformando idee innovative in
+                soluzioni concrete. Ogni progetto rappresenta un’opportunità di
+                crescita, apprendimento e sperimentazione, e spero che il mio
+                percorso possa ispirare chi, come me, ama innovare e costruire
+                esperienze digitali di valore.
+              </HeroText>
+              <ButtonWrapper>
+                <HeroButton
+                  hovered={state.hoveredId === "heroButton"}
+                  cursor={cursor}
+                  onClick={() => (window.location.href = "/about")}
+                  onMouseEnter={() => {
+                    dispatch({ type: "SET_HOVER", payload: "heroButton" });
+                    dispatch({ type: "SET_CURSOR", payload: "pointer" });
+                  }}
+                  onMouseLeave={() => {
+                    dispatch({ type: "CLEAR_HOVER" });
+                    dispatch({ type: "SET_CURSOR", payload: "default" });
+                  }}
+                >
+                  🔍 Scopri di più
+                </HeroButton>
 
-              <CvButton
-                hovered={state.hoveredId === "cvButton"}
-                cursor={cursor}
-                onClick={() => window.open("/Bartolomeo_B_CV.pdf", "_blank")}
-                onMouseEnter={() => {
-                  dispatch({ type: "SET_HOVER", payload: "cvButton" });
-                  dispatch({ type: "SET_CURSOR", payload: "pointer" });
-                }}
-                onMouseLeave={() => {
-                  dispatch({ type: "CLEAR_HOVER" });
-                  dispatch({ type: "SET_CURSOR", payload: "default" });
-                }}
-              >
-                📄 Visualizza CV
-              </CvButton>
-            </ButtonWrapper>
+                <CvButton
+                  hovered={state.hoveredId === "cvButton"}
+                  cursor={cursor}
+                  onClick={() => window.open("/Bartolomeo_B_CV.pdf", "_blank")}
+                  onMouseEnter={() => {
+                    dispatch({ type: "SET_HOVER", payload: "cvButton" });
+                    dispatch({ type: "SET_CURSOR", payload: "pointer" });
+                  }}
+                  onMouseLeave={() => {
+                    dispatch({ type: "CLEAR_HOVER" });
+                    dispatch({ type: "SET_CURSOR", payload: "default" });
+                  }}
+                >
+                  📄 Visualizza CV
+                </CvButton>
+              </ButtonWrapper>
             </Animated>
           </Hero>
           <ProfileCard>
@@ -452,13 +451,12 @@ const Portofolio = () => {
               </LinkButton>
             </ProfileLinks>
           </ProfileCard>
-          </Main>
-          <CardsGrid>
-            {filteredProjects.map((p) => (
-              <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
-            ))}
-          </CardsGrid>
-        
+        </Main>
+        <CardsGrid>
+          {filteredProjects.map((p) => (
+            <Card key={p.title} title={p.title} desc={p.desc} link={p.link} />
+          ))}
+        </CardsGrid>
 
         {/* FOOTER */}
         <Footer>
@@ -474,31 +472,49 @@ const Portofolio = () => {
               <InfoSection>
                 <Description>
                   Costantemente motivato dal desiderio di acquisire nuove
-                  competenze e assumere maggiori responsabilità, punto a
-                  crescere professionalmente affrontando ogni sfida con impegno
-                  e determinazione. Il mio contributo è stato riconosciuto dalla
-                  mia azienda, avendo vinto un progetto di rilievo e collaborato
-                  all’interno di un team di sviluppo altamente competente.
+                  competenze e di assumere responsabilità crescenti, sono
+                  fortemente orientato a sviluppare la mia carriera affrontando
+                  ogni sfida con impegno, curiosità e determinazione. Nel corso
+                  delle mie esperienze professionali, ho avuto l’opportunità di
+                  contribuire a progetti complessi e di rilievo, ricevendo
+                  riconoscimenti concreti per il mio lavoro. Ho collaborato
+                  attivamente all’interno di team di sviluppo altamente
+                  qualificati, apprendendo costantemente dai colleghi e
+                  contribuendo al miglioramento dei processi e della qualità del
+                  prodotto. La mia capacità di adattarmi rapidamente a nuove
+                  tecnologie e di proporre soluzioni innovative mi permette di
+                  affrontare compiti sfidanti con efficacia e responsabilità,
+                  continuando a crescere professionalmente giorno dopo giorno.
                 </Description>
                 <Skills>
                   <ul>
                     <li>
-                      <strong>Linguaggi:</strong> JavaScript, TypeScript, HTML5,
-                      SCSS/CSS3
+                      <strong>Linguaggi di programmazione:</strong> JavaScript
+                      (ES6+), TypeScript, Java
                     </li>
                     <li>
-                      <strong>Framework & Librerie:</strong> React, Material UI,
-                      deck.gl, Leaflet, Axios
+                      <strong>Markup / Styling:</strong> HTML5, CSS3/SCSS
+                    </li>
+                    <li>
+                      <strong>Framework & Librerie:</strong> React (Hooks,
+                      componenti riutilizzabili, Redux, Context API), Next.js
+                      (Server/Client components, SSR, ottimizzazione
+                      performance, middleware), Angular (Standalone Components,
+                      Decoratori, Ciclo di vita, Data Binding, Observable &
+                      RxJS, Angular Forms, Routing), Material UI, Styled
+                      Components, deck.gl, Leaflet, Axios, Spring, JPA, JSP, JSF
                     </li>
                     <li>
                       <strong>Database:</strong> MongoDB, Oracle, SQL
                     </li>
                     <li>
-                      <strong>Testing & Debug:</strong> Postman, Chrome DevTools
+                      <strong>Testing & Debug:</strong> Postman, Chrome
+                      DevTools, JUnit, Debugging manuale e ottimizzazione
+                      prestazioni frontend/backend
                     </li>
                     <li>
                       <strong>Versionamento & DevOps:</strong> Git, GitHub,
-                      Bitbucket, Bamboo
+                      Bitbucket, Bamboo, CI/CD
                     </li>
                     <li>
                       <strong>Design & UI/UX:</strong> Figma, Lokalise
@@ -507,7 +523,8 @@ const Portofolio = () => {
                       <strong>Project Management:</strong> Jira, Confluence
                     </li>
                     <li>
-                      <strong>Dev Tools & IDE:</strong> Visual Studio Code, Lens
+                      <strong>Dev Tools & IDE:</strong> Visual Studio Code,
+                      Lens, Eclipse
                     </li>
                   </ul>
                 </Skills>

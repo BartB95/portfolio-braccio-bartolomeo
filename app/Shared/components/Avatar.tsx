@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { makeStyles } from "@mui/styles";
+import { createPortal } from "react-dom";
 
 const useStyles = makeStyles(() => ({
   popup: {
@@ -64,7 +65,7 @@ export const avatarList = [
 const Avatar: React.FC<AvatarProps> = ({ avatarList, onSelect, onClose }) => {
   const classes = useStyles();
 
-  return (
+  return createPortal(
     <>
       <div className={classes.overlay} onClick={onClose} />
       <div className={classes.popup}>
@@ -88,7 +89,8 @@ const Avatar: React.FC<AvatarProps> = ({ avatarList, onSelect, onClose }) => {
           ))}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 };
 
