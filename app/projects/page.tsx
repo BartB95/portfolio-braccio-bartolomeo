@@ -107,7 +107,7 @@ const Projects = () => {
 
           {/* GISWrapper */}
           <ProjectTitle>
-            GISWrapper - Applicativo di testing per rete elettrica Enel - 2023
+            GISWrapper - Applicativo di testing per rete elettrica Enel (2023)
           </ProjectTitle>
           <Paragraph>
             Ho lavorato su un progetto chiamato <strong>GISWrapper</strong>,
@@ -133,7 +133,7 @@ const Projects = () => {
 
           {/* Microfrontend GIS */}
           <ProjectTitle>
-            Microfrontend GIS - Visualizzazione dati geospaziali (GisViewer) - 2024
+            GisViewer- Visualizzazione dati geospaziali (2024)
           </ProjectTitle>
           <Paragraph>
             Da gennaio 2024 sono stato responsabile di un componente chiave, un
@@ -179,7 +179,7 @@ const Projects = () => {
 
           {/* Blastness */}
           <ProjectTitle>
-            Blastness - Sviluppo moduli per siti di hotel di lusso - 2025
+            Blastness - Sviluppo moduli per siti di hotel di lusso (2025)
           </ProjectTitle>
           <Paragraph>
             Ho lavorato su <strong>Blastness</strong> per 5 mesi, assumendo la
@@ -197,7 +197,7 @@ const Projects = () => {
           </Paragraph>
 
           {/* Portfolio personale */}
-          <ProjectTitle>Portfolio Personale - 2025</ProjectTitle>
+          <ProjectTitle>Portfolio Personale (2025)</ProjectTitle>
           <Paragraph>
             Ho realizzato il mio portfolio personale con grande passione e
             dedizione, utilizzando <strong>React</strong> e{" "}

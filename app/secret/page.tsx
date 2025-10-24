@@ -24,6 +24,9 @@ const HeroSection = styled("section")({
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   overflowX: "hidden",
+  "@media (max-width: 768px)": {
+    height: "100vh",
+  },
 });
 
 const Box = styled(motion.div)({

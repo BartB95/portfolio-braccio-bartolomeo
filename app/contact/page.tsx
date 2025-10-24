@@ -265,7 +265,7 @@ export default function ContactForm() {
 
         <ButtonWrapper>
           <Button type="submit" aria-disabled={isLaunching}>
-            <ButtonText style={{ marginRight: "30px" }}>Invia</ButtonText>
+            <ButtonText>Invia</ButtonText>
             <Rocket isLaunching={isLaunching} style={{ right: 10, top: "50%" }} />
           </Button>
         </ButtonWrapper>

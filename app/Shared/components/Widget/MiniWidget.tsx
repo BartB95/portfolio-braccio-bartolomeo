@@ -5,7 +5,6 @@ import { styled } from "@mui/system";
 import { useGlobalStore } from "@/app/State/GlobalContext";
 import Avatar, { avatarList } from "../Avatar";
 import Link from "next/link";
-import LogoutButton from "@/app/logout/page";
 import { Tooltip } from "@mui/material";
 
 const Container = styled("div")({
@@ -32,9 +31,9 @@ const ProfileImageWrapper = styled("div")({
 
 const Menu = styled("div")({
   position: "absolute", // relativo al Container
-  top: "48px",          // distanza verticale dall'avatar
-  right: 0,             // allinea il menu al bordo destro del Container
-  background: "#1f2f3a",
+  top: "48px", // distanza verticale dall'avatar
+  right: 0, // allinea il menu al bordo destro del Container
+  background: "rgba(29,43,54,0.95)",
   borderRadius: 12,
   padding: "10px",
   boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
@@ -52,18 +51,24 @@ const Menu = styled("div")({
   msOverflowStyle: "none", // per IE/Edge
 });
 
-const MenuItemDiv = styled("div")({
-  padding: "10px",
+const MenuItemDiv = styled("div")<{ hovered: boolean }>(({ hovered }) => ({
   cursor: "pointer",
   fontSize: "16px",
   color: "#fff",
-  "&:hover": {
-    backgroundColor: "#3e98a2",
-  },
-});
+  padding: "8px 12px",
+  borderRadius: "8px",
+  ...(hovered && {
+    transform: "translateY(-2px)",
+    backgroundColor: "rgba(255, 209, 102, 0.1)",
+    color: "#FFD166",
+  }),
+}));
 
 const SubMenu = styled("div")({
-  background: "#176f9eff",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    backgroundColor: "rgba(255, 209, 102, 0.1)",
+  },
 });
 
 // Types
@@ -118,6 +123,12 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
   const toggleSubMenu = (title: string) =>
     setOpenSubMenu(openSubMenu === title ? null : title);
 
+  const handleLogout = () => {
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    localStorage.removeItem("avatar");
+    window.location.href = "/";
+  };
+
   const isHovered = state.hoveredId === "widget-avatar";
 
   return (
@@ -125,9 +136,9 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
       <div
         style={{
           position: "relative",
-          cursor: state.cursor, // <-- usa lo stato globale
+          cursor: state.cursor,
           transform: isHovered ? "scale(1.05)" : "scale(1)",
-          transition: "transform 0.3s ease, boxShadow 0.3s ease",
+          transition: "transform 0.3s ease",
         }}
         onClick={handleToggleMenu}
         onMouseEnter={() =>
@@ -139,8 +150,7 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
           title={`Token: ${token}`}
           arrow
           placement="top"
-          open={isHovered} // controlla la visibilità manualmente
-          
+          open={isHovered}
         >
           <ProfileImageWrapper>
             <Image
@@ -158,41 +168,60 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
           {menuItems.map((item) => (
             <div key={item.title}>
               <MenuItemDiv
-                onClick={() =>
-                  item.subRoutes ? toggleSubMenu(item.title) : null
+                hovered={state.hoveredId === item.title}
+                onMouseEnter={() =>
+                  dispatch({ type: "SET_HOVER", payload: item.title })
                 }
+                onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
+                onClick={() => toggleSubMenu(item.title)}
               >
                 {item.title}
               </MenuItemDiv>
+
               {item.subRoutes && openSubMenu === item.title && (
                 <SubMenu>
-                  {item.subRoutes.map((sub) =>
-                    sub.onClick ? (
-                      // Bottone che esegue funzione
-                      <MenuItemDiv key={sub.name} onClick={sub.onClick}>
+                  {item.subRoutes.map((sub) => (
+                    <Link
+                      key={sub.path}
+                      href={sub.path || "#"}
+                      style={{ textDecoration: "none", display: "block" }}
+                    >
+                      <MenuItemDiv
+                        hovered={state.hoveredId === sub.name}
+                        onMouseEnter={() =>
+                          dispatch({ type: "SET_HOVER", payload: sub.name })
+                        }
+                        onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
+                      >
                         {sub.name}
                       </MenuItemDiv>
-                    ) : (
-                      // Link per navigazione normale
-                      <Link
-                        key={sub.path}
-                        href={sub.path || "#"}
-                        style={{ textDecoration: "none", display: "block" }}
-                      >
-                        <MenuItemDiv>{sub.name}</MenuItemDiv>
-                      </Link>
-                    )
-                  )}
+                    </Link>
+                  ))}
                 </SubMenu>
               )}
             </div>
           ))}
 
-          <MenuItemDiv onClick={() => setShowAvatarPopup(true)}>
+          <MenuItemDiv
+            hovered={state.hoveredId === "CambiaAvatar"}
+            onMouseEnter={() =>
+              dispatch({ type: "SET_HOVER", payload: "CambiaAvatar" })
+            }
+            onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
+            onClick={() => setShowAvatarPopup(true)}
+          >
             👤 Cambia Avatar
           </MenuItemDiv>
-          <MenuItemDiv>
-            <LogoutButton />
+
+          <MenuItemDiv
+            hovered={state.hoveredId === "Logout"}
+            onMouseEnter={() =>
+              dispatch({ type: "SET_HOVER", payload: "Logout" })
+            }
+            onMouseLeave={() => dispatch({ type: "CLEAR_HOVER" })}
+            onClick={handleLogout}
+          >
+            🚪 Esci
           </MenuItemDiv>
         </Menu>
       )}

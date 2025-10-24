@@ -116,9 +116,9 @@ const Footer: React.FC<FooterProps> = ({ token }) => {
           </span>
         </Link>
 
-        {/* Link Utili */}
+        {/* Sezioni di Interesse */}
         <div>
-          <SectionTitle>Link Utili</SectionTitle>
+          <SectionTitle>Sezioni di Interesse</SectionTitle>
           <List>
             <ListItem>
               <FooterLink href="/secret">🏠 Home – Benvenuto</FooterLink>

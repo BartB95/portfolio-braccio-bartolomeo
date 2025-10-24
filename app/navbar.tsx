@@ -80,7 +80,6 @@ const NavLink = styled(Link, {
   letterSpacing: "0.5px",
   fontSize: "1rem",
   cursor: cursor,
-  transition: "color 0.3s ease, transform 0.2s ease",
   padding: "8px 12px",
   borderRadius: "8px",
   ...(isHovered && {
