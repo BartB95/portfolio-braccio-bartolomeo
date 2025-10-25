@@ -185,6 +185,10 @@ const MiniWidget: React.FC<MiniWidgetProps> = ({ token }) => {
                       key={sub.path}
                       href={sub.path || "#"}
                       style={{ textDecoration: "none", display: "block" }}
+                      onClick={() => {
+                        setMenuOpen(false); // ✅ chiude il menu
+                        setOpenSubMenu(null); // ✅ chiude il sottomenu
+                      }}
                     >
                       <MenuItemDiv
                         hovered={state.hoveredId === sub.name}

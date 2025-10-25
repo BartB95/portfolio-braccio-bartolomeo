@@ -163,6 +163,7 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
+    email: "",
     company: "",
     role: "",
     location: "",
@@ -231,6 +232,11 @@ export default function ContactForm() {
         <div>
           <Label>🏷️ Cognome</Label>
           <Input name="surname" value={formData.surname} onChange={handleChange} required />
+        </div>
+
+        <div>
+          <Label>📧 Email</Label>
+          <Input name="email" value={formData.email} onChange={handleChange} required/>
         </div>
 
         <div>

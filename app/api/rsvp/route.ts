@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 type ContactForm = {
   name: string;
   surname: string;
+  email: string;
   company: string;
   role: string;
   location?: string;
@@ -47,6 +48,7 @@ Nuovo contatto HR ricevuto:
 
 👤 Nome: ${data.name}
 🏷️ Cognome: ${data.surname}
+📧 Email: ${data.email}
 🏢 Azienda: ${data.company}
 💼 Ruolo proposto: ${data.role}
 📍 Località azienda: ${data.location || "N/A"}

@@ -51,14 +51,14 @@ export const avatarList = [
   "/avatar/3d-avatar.webp",
   "/avatar/avatar-female.jpg",
   "/avatar/avatar1.webp",
-  "/avatar/avatar2.jpg",
   "/avatar/avatar3.jpg",
   "/avatar/avatar4.webp",
   "/avatar/avatar5.jpg",
-  "/avatar/avatar6.jpg",
   "/avatar/happy-man-white.jpg",
   "/avatar/africa.jpg",
-  "/avatar/3d-happy-africa.jpg",
+  "/avatar/avatarBarba.webp",
+  "/avatar/avatarWoman.jpg",
+  "/avatar/businessMan.webp",
   "/bart.jpg",
 ];
 
