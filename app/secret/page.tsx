@@ -22,7 +22,7 @@ const HeroSection = styled("section")(({ theme }) => ({
   overflowX: "hidden",
   // Media query per mobile
   [theme.breakpoints.down("sm")]: {
-    backgroundAttachment: "scroll", // disattiva fixed su mobile
+    backgroundAttachment: "fixed",
     backgroundPosition: "center top", // regola la posizione
   },
 }));
