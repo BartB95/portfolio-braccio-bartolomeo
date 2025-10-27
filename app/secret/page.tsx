@@ -9,18 +9,23 @@ import Link from "next/link";
 import { Tooltip } from "@mui/material";
 
 // ===== Styled Components =====
-const HeroSection = styled("section")({
+const HeroSection = styled("section")(({ theme }) => ({
   width: "100%",
-  height: "100vh", // fullscreen corretto
+  height: "100vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   textAlign: "center",
   fontFamily: "'Poppins', sans-serif",
   color: "#fff",
-  background: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
+  background: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
   overflowX: "hidden",
-});
+  // Media query per mobile
+  [theme.breakpoints.down("sm")]: {
+    backgroundAttachment: "scroll", // disattiva fixed su mobile
+    backgroundPosition: "center top", // regola la posizione
+  },
+}));
 
 
 const Box = styled(motion.div)({
