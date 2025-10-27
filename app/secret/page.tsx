@@ -11,7 +11,7 @@ import { Tooltip } from "@mui/material";
 // ===== Styled Components =====
 const HeroSection = styled("section")({
   width: "100%",
-  height: "120vh", // fullscreen
+  height: "120dvh", // <-- sostituisci vh con dvh
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -25,9 +25,10 @@ const HeroSection = styled("section")({
   backgroundRepeat: "no-repeat",
   overflowX: "hidden",
   "@media (max-width: 768px)": {
-    height: "100vh",
+    height: "100dvh",
   },
 });
+
 
 const Box = styled(motion.div)({
   padding: "20px",
