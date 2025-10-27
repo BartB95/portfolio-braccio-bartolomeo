@@ -24,7 +24,15 @@ const HeroSection = styled("section")({
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   overflowX: "hidden",
+  "@media (max-width: 768px)": {
+    minHeight: "100vh",
+    backgroundImage:
+      "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/BartolomeoScrivania.png')", // nuova immagine mobile
+    backgroundPosition: "top center", // più stabile su mobile
+    backgroundSize: "cover",
+  },
 });
+
 
 const Box = styled(motion.div)({
   padding: "20px",
