@@ -1,37 +1,27 @@
 // app/api/skills/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { ISkill } from "@/app/skills/ISkill";
+import { NextResponse } from "next/server";
 
-// Dati in memoria (puoi sostituire con DB)
-let skills: ISkill[] = [
-  { name: "React", percent: 90 },
-  { name: "Next.js", percent: 85 },
-  { name: "JavaScript", percent: 90 },
-  { name: "Angular", percent: 75 },
-];
+import { Skill } from "@/models/modelsSkill";
+import { connectDB } from "@/lib/lib.mongodb";
 
-// GET => restituisce tutte le skill
 export async function GET() {
+  await connectDB();
+  const skills = await Skill.find().sort({ name: 1 });
   return NextResponse.json({ skills });
 }
 
-// POST => aggiunge una nuova skill
-export async function POST(req: NextRequest) {
-  try {
-    const skill: ISkill = await req.json();
-    skills.push(skill);
-    return NextResponse.json({ success: true, skill });
-  } catch (error) {
-    return NextResponse.json({ err: true, message: "Invalid data" }, { status: 400 });
-  }
+export async function POST(request: Request) {
+  const { name, percent, iconName, color } = await request.json();
+  await connectDB();
+  const skill = await Skill.create({ name, percent, iconName, color });
+  return NextResponse.json({ skill });
 }
 
-// DELETE => elimina una skill (query param)
-export async function DELETE(req: NextRequest) {
-  const skillName = req.nextUrl.searchParams.get("skill");
-  if (!skillName) {
-    return NextResponse.json({ err: true, message: "Skill name required" }, { status: 400 });
-  }
-  skills = skills.filter((s) => s.name !== skillName);
+
+export async function DELETE(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const skillName = searchParams.get("skill");
+  await connectDB();
+  await Skill.findOneAndDelete({ name: skillName });
   return NextResponse.json({ success: true });
 }

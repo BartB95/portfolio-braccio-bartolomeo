@@ -261,51 +261,128 @@ export default function AboutPage() {
             <li>
               <Typography>
                 <b>Skill</b> – Visualizzazione interattiva delle competenze:
+                <br />
+                Il modulo mostra le mie competenze in modo chiaro, interattivo e
+                completamente dinamico.
               </Typography>
-              <Box component="ul" sx={{ pl: 3 }}>
+
+              <Typography sx={{ textAlign: "center" }}>
+                <b>Skill</b> – Visualizzazione interattiva delle competenze:
+                <br />
+                Il modulo mostra le mie competenze in modo chiaro, interattivo e
+                completamente dinamico.
+              </Typography>
+
+              <Box
+                component="ul"
+                sx={{ pl: 0, mt: 2, textAlign: "center", listStyle: "none" }}
+              >
                 <li>
-                  <Typography>
-                    <b>Grafico Circolare</b> – Livello di ogni competenza.
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography>
+                      <b>Visualizzazione</b> – Barre e cerchi animati per ogni
+                      competenza. Il colore dell’icona e della barra è dinamico
+                      e viene letto dal database:
+                    </Typography>
+                    <Typography component="span" sx={{ mt: 1 }}>
+                      ad esempio <code>giallo</code> sotto 75%,{" "}
+                      <code>dorato</code> sopra 75%, personalizzabile da
+                      MongoDB.
+                    </Typography>
+                  </Box>
                 </li>
+
                 <li>
-                  <Typography>
-                    <b>Filtri e ricerca</b> – Trova rapidamente le skill
-                    desiderate.
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography>
+                      <b>Gestione</b> – Aggiungi, modifica o elimina skill se
+                      sei l’owner, autenticazione tramite token.
+                    </Typography>
+                  </Box>
                 </li>
+
                 <li>
-                  <Typography>
-                    <b>Gestione dinamica</b> – Aggiunta/rimozione skill lato
-                    server tramite API Routes.
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography>
+                      <b>Filtri e ricerca</b> – Trova rapidamente le skill
+                      desiderate.
+                    </Typography>
+                  </Box>
                 </li>
+
                 <li>
-                  <Typography>
-                    <b>Drag & Drop</b> – Riordino personalizzato delle
-                    competenze.
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography>
+                      <b>Drag & Drop</b> – Permette all’utente di riordinare le
+                      skill secondo le proprie preferenze lato client, senza
+                      modificare i dati nel database.
+                    </Typography>
+                  </Box>
                 </li>
+
                 <li>
-                  <Typography>
-                    <b>SSR/CSR</b> – Skill iniziali caricate lato server,
-                    interattività lato client.
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography>
+                      <b>Dati backend</b> – Tutte le informazioni sulle skill
+                      (nome, percentuale, colore icona) vengono salvate su{" "}
+                      <b>MongoDB</b>. L’API permette di leggere, creare,
+                      aggiornare o cancellare le skill.
+                    </Typography>
+                  </Box>
+                </li>
+
+                <li>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography>
+                      <b>SSR / CSR</b> – Skill iniziali caricate lato server per
+                      SEO e performance, interattività lato client per modifiche
+                      e animazioni.
+                    </Typography>
+                  </Box>
                 </li>
               </Box>
-            </li>
-            <li>
-              <Typography>
-                <b>Widget carriera</b> – Mostra il percorso in Betacom fino alla
-                creazione del portfolio: include diagramma di flusso, quiz
-                facoltativo e possibilità di cambiare avatar.
-              </Typography>
-            </li>
-            <li>
-              <Typography>
-                <b>Logout e Contatti</b> – Gestione autenticazione e possibilità
-                di contattarmi facilmente.
-              </Typography>
             </li>
           </Box>
 

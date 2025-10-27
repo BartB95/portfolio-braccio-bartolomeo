@@ -1,34 +1,24 @@
-// skillsPromise.ts
+// apiSkill.ts
+import { ISkill } from "@/app/skills/ISkill";
 
-import { createSkill, deleteSkill, getSkills } from "@/utility/api/skill_api";
-import { ISkill } from "../../skills/ISkill";
+export const getSkills = async () => {
+  const res = await fetch("/api/skills");
+  if (!res.ok) return { err: true, message: `API error: ${res.status}` };
+  return res.json();
+};
 
-export const prm_GetSkills = () => 
-  new Promise(async (resolve, reject) => {
-    try {
-      const payload: any = await getSkills();
-      payload.err ? reject(payload.message) : resolve(payload);
-    } catch (error) {
-      reject(error);
-    }
+export const createSkill = async (skill: ISkill) => {
+  const res = await fetch("/api/skills", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(skill),
   });
+  return res.json();
+};
 
-export const prm_CreateSkill = (skill: ISkill) => 
-  new Promise(async (resolve, reject) => {
-    try {
-      const payload: any = await createSkill(skill);
-      payload.err ? reject(payload.message) : resolve(payload);
-    } catch (error) {
-      reject(error);
-    }
+export const deleteSkill = async (skillName: string) => {
+  const res = await fetch(`/api/skills?skill=${encodeURIComponent(skillName)}`, {
+    method: "DELETE",
   });
-
-export const prm_DeleteSkill = (skillName: string) => 
-  new Promise(async (resolve, reject) => {
-    try {
-      const payload: any = await deleteSkill(skillName);
-      payload.err ? reject(payload.message) : resolve(payload);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return res.json();
+};

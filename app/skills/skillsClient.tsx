@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ISkill } from "./ISkill";
-import { prm_CreateSkill, prm_DeleteSkill } from "../api/skills/apiSkill";
+import { getSkills, createSkill, deleteSkill } from "../api/skills/apiSkill";
 import CircularSkillChart from "../Shared/components/CircularSkillChart";
 import FilterSearch from "../Shared/components/FilterSearch";
 import { keyframes, styled } from "@mui/system";
 import { useGlobalStore } from "../State/GlobalContext";
 import { DragDropList } from "../Shared/components/DragDrop";
+import { mapIcons } from "@/utility/mapIconSkill";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(-20px); }
@@ -18,15 +19,15 @@ const Container = styled("div")({
   padding: "5px",
   borderRadius: "16px",
   margin: "1rem",
-  background: "rgba(0, 0, 0, 0.35)", // trasparente per far vedere il background globale
+  background: "rgba(0, 0, 0, 0.35)",
   backdropFilter: "blur(3px) saturate(180%)",
   WebkitBackdropFilter: "blur(15px) saturate(180%)",
-  border: "2px solid #374151", // bordo leggero per definire il vetro
+  border: "2px solid #374151",
   color: "#f0f0f5",
   display: "flex",
   flexDirection: "column",
   gap: "20px",
-  animation: `${fadeIn} 0.7s ease-out forwards`, // corretto in oggetti JS
+  animation: `${fadeIn} 0.7s ease-out forwards`,
   "@media (max-width: 768px)": {
     padding: "10px",
     borderRadius: "12px",
@@ -45,19 +46,19 @@ const Input = styled("input")({
   height: "50px",
   padding: "0 30px",
   borderRadius: "12px",
-  background: "#f0f0f5", // input scuro
+  background: "#f0f0f5",
   boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
   backdropFilter: "blur(10px)",
   fontFamily: "'Poppins', sans-serif",
   fontSize: 16,
   outline: "none",
-  border: "1px solid #4a4a6a", // bordo professionale
-  color: "#0f0f10ff", // testo chiaro
+  border: "1px solid #4a4a6a",
+  color: "#0f0f10ff",
   "&:focus": {
-    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)", // focus dorato
+    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)",
   },
   "&::placeholder": {
-    color: "#b0b0c1", // placeholder leggermente chiaro
+    color: "#b0b0c1",
     opacity: 1,
   },
 });
@@ -67,13 +68,12 @@ const SmallInput = styled("input")({
   padding: "0 20px",
   borderRadius: "12px",
   "&:focus": {
-    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)", // focus dorato
+    boxShadow: "0 0 0 2px rgba(255,215,0,0.6)",
   },
   "&::placeholder": {
-    color: "#b0b0c1", // placeholder leggermente chiaro
+    color: "#b0b0c1",
     opacity: 1,
   },
-  // MOBILE / TABLET: rimane sulla stessa riga
   flex: "0 0 60px",
 });
 
@@ -84,7 +84,7 @@ const Button = styled("button")<{
   height: "50px",
   padding: "0 20px",
   borderRadius: "12px",
-  background: "linear-gradient(135deg, #4a90e2, #0070f3)", // blu professionale
+  background: "linear-gradient(135deg, #4a90e2, #0070f3)",
   color: "#ffffff",
   fontFamily: "'Poppins', sans-serif",
   fontSize: 16,
@@ -118,44 +118,51 @@ const SkillGrid = styled("div")({
 });
 
 type Props = {
-  initialSkills: ISkill[];
+  initialSkills?: ISkill[];
 };
 
-const SkillsClient = ({ initialSkills }: Props) => {
-  const [skills, setSkills] = useState<ISkill[]>(initialSkills);
+const SkillsClient = ({ initialSkills = [] }: Props) => {
+  const [skills, setSkills] = useState<ISkill[]>(mapIcons(initialSkills));
   const [searchInput, setSearchInput] = useState("");
   const [newSkill, setNewSkill] = useState("");
-  const [newSkillPercent, setNewSkillPercent] = useState<string>("50");
+  const [newSkillPercent, setNewSkillPercent] = useState("50");
   const [loading, setLoading] = useState(false);
-  const [animated, setAnimated] = useState(true);
   const { state, dispatch } = useGlobalStore();
 
   const isHovered = state.hoveredId === "button";
   const cursor = state.cursor;
 
+  // 🔹 Carica le skill da MongoDB
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const res = await getSkills();
+        if (res.skills) setSkills(mapIcons(res.skills));
+      } catch (err) {
+        console.error("Error fetching skills:", err);
+      }
+    };
+    fetchSkills();
+  }, []);
+
   const addSkill = async () => {
     if (!newSkill.trim()) return;
 
-    // Leggi il token dai cookie
+    // 🔹 Controllo token
     const token = document.cookie
       .split("; ")
       .find((row) => row.startsWith("token="))
       ?.split("=")[1];
-
     const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
 
     if (!isOwner) {
-      // Mostra il modal se non sei l'owner
       dispatch({
         type: "SHOW_MODAL",
         payload: {
           title: "Inserimento Skill Negato!",
-          message:
-            "Le skill possono essere inserite solo dall'amministratore del sito.",
-          onConfirm: () => {}, // chiudi solo il modal
-          onCancel: undefined,
+          message: "Le skill possono essere inserite solo dall'amministratore del sito.",
+          onConfirm: () => {},
           confirmText: "Ok",
-          cancelText: undefined,
         },
       });
       return;
@@ -163,14 +170,12 @@ const SkillsClient = ({ initialSkills }: Props) => {
 
     setLoading(true);
     try {
-      await prm_CreateSkill({
+      const created = await createSkill({
         name: newSkill,
         percent: Number(newSkillPercent),
+        iconName: `Si${newSkill.replace(/\s+/g, "")}`,
       });
-      setSkills((prev) => [
-        ...prev,
-        { name: newSkill, percent: Number(newSkillPercent) },
-      ]);
+      setSkills(prev => mapIcons([...prev, created.skill]));
       setNewSkill("");
       setNewSkillPercent("50");
     } catch (err) {
@@ -182,26 +187,24 @@ const SkillsClient = ({ initialSkills }: Props) => {
 
   const removeSkill = async (skillName: string) => {
     try {
-      await prm_DeleteSkill(skillName);
-      setSkills((prev) => prev.filter((s) => s.name !== skillName));
+      await deleteSkill(skillName);
+      setSkills(prev => prev.filter(s => s.name !== skillName));
     } catch (err) {
       console.error("Error deleting skill:", err);
     }
   };
 
   const confirmDeleteSkill = (skillName: string) => {
-    // Leggi il token dai cookie
     const token = document.cookie
       .split("; ")
       .find((row) => row.startsWith("token="))
       ?.split("=")[1];
-
-    const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN; // variabile d'ambiente pubblica
+    const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
 
     dispatch({
       type: "SHOW_MODAL",
       payload: {
-        title: isOwner ? "Elimina Skill" : "Eliminazione Skill Negata!",
+        title: isOwner ? "Elimina Skill" : "Eliminazione Negata!",
         message: isOwner
           ? `Sei sicuro di voler eliminare "${skillName}"?`
           : "Non puoi eliminare questa skill. Contatta l'amministratore del sito.",
@@ -215,74 +218,65 @@ const SkillsClient = ({ initialSkills }: Props) => {
     });
   };
 
-  const filteredSkills = skills.filter((skill) =>
+  const filteredSkills = skills.filter(skill =>
     skill.name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   return (
-    <>
-      <Container>
-        <Header>📚 Le mie Competenze</Header>
-        <span style={{ color: "#E6E2C8" }}>
-          Le percentuali indicano quanto ho effettivamente utilizzato ciascuna
-          tecnologia nell'ultimo anno, riflettendo la mia esperienza pratica e
-          familiarità con ciascuno strumento.
-        </span>
+    <Container>
+      <Header>📚 Le mie Competenze</Header>
+      <span style={{ color: "#E6E2C8" }}>
+      Le percentuali indicano quanto ho effettivamente utilizzato ciascuna tecnologia nell'ultimo anno, riflettendo la mia esperienza pratica e familiarità con ciascuno strumento.
+      </span>
 
-        <FormRow>
-          <FilterSearch
-            searchInput={searchInput}
-            setSearchInput={setSearchInput}
-          />
-          <Input
-            type="text"
-            value={newSkill}
-            placeholder="Aggiungi skill"
-            onChange={(e) => setNewSkill(e.target.value)}
-          />
-          <SmallInput
-            type="number"
-            value={newSkillPercent}
-            onChange={(e) => setNewSkillPercent(e.target.value)} // <-- sempre stringa
-            placeholder="%"
-            min={0}
-            max={100}
-          />
-          <Button
-            onClick={addSkill}
-            cursor={cursor}
-            hovered={isHovered}
-            onMouseEnter={() => {
-              dispatch({ type: "SET_HOVER", payload: "button" });
-              dispatch({ type: "SET_CURSOR", payload: "pointer" });
-            }}
-            onMouseLeave={() => {
-              dispatch({ type: "SET_CURSOR", payload: "default" });
-              dispatch({ type: "CLEAR_HOVER" });
-            }}
-            disabled={loading}
-          >
-            {loading ? "..." : "Inserisci"}
-          </Button>
-        </FormRow>
+      <FormRow>
+        <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
+        <Input
+          value={newSkill}
+          placeholder="Aggiungi skill"
+          onChange={e => setNewSkill(e.target.value)}
+        />
+        <SmallInput
+          value={newSkillPercent}
+          type="number"
+          min={0}
+          max={100}
+          onChange={e => setNewSkillPercent(e.target.value)}
+        />
+        <Button
+          onClick={addSkill}
+          cursor={cursor}
+          hovered={isHovered}
+          disabled={loading}
+          onMouseEnter={() => {
+            dispatch({ type: "SET_HOVER", payload: "button" });
+            dispatch({ type: "SET_CURSOR", payload: "pointer" }); 
+          }}
+          onMouseLeave={() => {
+            dispatch({ type: "CLEAR_HOVER" });
+            dispatch({ type: "SET_CURSOR", payload: "default" }); 
+          }}
+        >
+          {loading ? "..." : "Inserisci"}
+        </Button>
+      </FormRow>
 
-        <SkillGrid>
-          <DragDropList
-            items={filteredSkills}
-            onChange={(newOrder) => setSkills(newOrder)}
-            renderItem={(skill) => (
-              <CircularSkillChart
-                key={skill.name}
-                skill={skill}
-                icon={skill.icon}
-                animated={animated}
-                onDelete={confirmDeleteSkill}
-              />
-            )}
-          />
-        </SkillGrid>
-      </Container>
-    </>
+      <SkillGrid>
+        <DragDropList
+          items={filteredSkills}
+          onChange={setSkills}
+          renderItem={(skill) => (
+            <CircularSkillChart
+              key={skill.name}
+              skill={skill}
+              icon={skill.icon}
+              animated={true}
+              onDelete={() => confirmDeleteSkill(skill.name)}
+            />
+          )}
+        />
+      </SkillGrid>
+    </Container>
   );
 };
 
