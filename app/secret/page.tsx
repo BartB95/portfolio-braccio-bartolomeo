@@ -19,12 +19,7 @@ const HeroSection = styled("section")({
   textAlign: "center",
   fontFamily: "'Poppins', sans-serif",
   color: "#fff",
-  background: "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
-
-  // Media query per mobile <= 768px
-  "@media (max-width: 768px)": {
-    backgroundAttachment: "fixed",
-  },
+  background: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
 });
 
 const Box = styled(motion.div)({
