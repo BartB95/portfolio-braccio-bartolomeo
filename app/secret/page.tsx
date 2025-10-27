@@ -11,7 +11,7 @@ import { Tooltip } from "@mui/material";
 // ===== Styled Components =====
 const HeroSection = styled("section")({
   width: "100%",
-  minHeight: "120vh", // fullscreen
+  minHeight: "100vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -21,17 +21,43 @@ const HeroSection = styled("section")({
   backgroundImage:
     "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/BartolomeoScrivania.png')",
   backgroundSize: "cover",
-  backgroundPosition: "center",
+  backgroundPosition: "top center",
   backgroundRepeat: "no-repeat",
-  overflowX: "hidden",
-  "@media (max-width: 768px)": {
+  overflow: "hidden",
+  animation: "fadeInBg 1.2s ease forwards",
+
+  // Desktop leggermente più alto
+  "@media (min-width: 1025px)": {
+    minHeight: "120vh",
+  },
+
+  // Mobile / tablet
+  "@media (max-width: 1024px)": {
     minHeight: "100vh",
     backgroundImage:
-      "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/BartolomeoScrivania.png')", // nuova immagine mobile
-    backgroundPosition: "top center", // più stabile su mobile
+      "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/BartolomeoScrivaniaMobile.png')",
+    backgroundPosition: "top center",
     backgroundSize: "cover",
   },
+
+  // Parallax leggero su scroll
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundAttachment: "fixed", // effetto parallax
+    zIndex: -1,
+  },
+
+  "@keyframes fadeInBg": {
+    "0%": { opacity: 0, transform: "scale(1.05)" },
+    "100%": { opacity: 1, transform: "scale(1)" },
+  },
 });
+
 
 
 const Box = styled(motion.div)({
