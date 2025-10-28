@@ -10,8 +10,8 @@ import { Tooltip } from "@mui/material";
 
 // ===== Styled Components =====
 const HeroSection = styled("section")({
+  position: "relative",
   width: "100%",
-  height: "100%",
   minHeight: "100vh",
   display: "flex",
   justifyContent: "center",
@@ -19,7 +19,20 @@ const HeroSection = styled("section")({
   textAlign: "center",
   fontFamily: "'Poppins', sans-serif",
   color: "#fff",
-  background: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
+  overflow: "hidden",
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background:
+      "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
+    zIndex: -1,
+    transform: "translateZ(0)", // forza layer GPU
+  },
 });
 
 const Box = styled(motion.div)({
@@ -80,7 +93,7 @@ const ProtectedBox = styled(motion.div)({
   cursor: "default",
   maxWidth: "150px", // piccolo badge
   position: "absolute", // posizione assoluta
-  top: "5rem", // distanza dal top
+  top: "1rem", // distanza dal top
   right: "20px", // distanza dal lato destro
   zIndex: 10,
   border: "1px solid #f1c40f",
