@@ -11,7 +11,7 @@ import { Tooltip } from "@mui/material";
 const HeroSection = styled("section")(({ theme }) => ({
   width: "100%",
   height: "100%",
-  minHeight: "100vh", // desktop: full viewport height
+  minHeight: "100vh", // default desktop
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -21,11 +21,12 @@ const HeroSection = styled("section")(({ theme }) => ({
   background:
     "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
 
-  // Media query per mobile <= 768px
-  [theme.breakpoints.down("sm")]: {
-    minHeight: "700px", // su mobile fissa altezza in pixel
+  // Mobile + tablet fino a 768px
+  [theme.breakpoints.down("md")]: {
+    minHeight: "700px", // fissa altezza in pixel
   },
 }));
+
 
 
 const Box = styled(motion.div)({
