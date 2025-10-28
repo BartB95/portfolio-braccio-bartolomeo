@@ -8,19 +8,25 @@ import Animated from "../Shared/components/Animated";
 import Link from "next/link";
 import { Tooltip } from "@mui/material";
 
-// ===== Styled Components =====
-const HeroSection = styled("section")({
+const HeroSection = styled("section")(({ theme }) => ({
   width: "100%",
   height: "100%",
-  minHeight: "700px",
+  minHeight: "100vh", // desktop: full viewport height
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   textAlign: "center",
   fontFamily: "'Poppins', sans-serif",
   color: "#fff",
-  background: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
-});
+  background:
+    "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
+
+  // Media query per mobile <= 768px
+  [theme.breakpoints.down("sm")]: {
+    minHeight: "700px", // su mobile fissa altezza in pixel
+  },
+}));
+
 
 const Box = styled(motion.div)({
   padding: "20px",
