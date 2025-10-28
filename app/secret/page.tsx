@@ -12,7 +12,7 @@ import { Tooltip } from "@mui/material";
 const HeroSection = styled("section")({
   position: "relative",
   width: "100%",
-  minHeight: "100vh",
+  minHeight: "calc(var(--vh, 1vh) * 100)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -24,14 +24,11 @@ const HeroSection = styled("section")({
   "&::before": {
     content: '""',
     position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    background:
-      "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
+    inset: 0,
     zIndex: -1,
-    transform: "translateZ(0)", // forza layer GPU
+    background:
+      "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/BartolomeoScrivania.png') center top 40% / cover no-repeat",
+    transform: "translateZ(0)",
   },
 });
 
