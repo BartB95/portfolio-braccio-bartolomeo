@@ -12,7 +12,7 @@ const Container = styled("div")({
     "radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), rgba(173, 216, 230, 0.2))",
   backdropFilter: "blur(12px)",
   borderRadius: "12px",
-  padding: "5px",
+  padding: "8px",
   flex: "1 1 300px",
   minWidth: "300px",
   position: "relative",
@@ -23,6 +23,17 @@ const DeleteButton = styled("button")({
   position: "absolute",
   top: "8px",
   right: "8px",
+  background: "transparent",
+  border: "none",
+  color: "white",
+  fontSize: "18px",
+  cursor: "pointer",
+});
+
+const EditButton = styled("button")({
+  position: "absolute",
+  top: "8px",
+  right: "32px",
   background: "transparent",
   border: "none",
   color: "white",
@@ -57,6 +68,7 @@ type CircularSkillChartProps = {
   skill: ISkill;
   animated: boolean;
   onDelete?: (skillName: string) => void;
+  onEdit?: (skill: ISkill) => void;
   icon?: string;
 };
 
@@ -67,6 +79,7 @@ const CircularSkillChart = ({
   skill,
   animated,
   onDelete,
+  onEdit,
   icon,
 }: CircularSkillChartProps) => {
   const radius = 40;
@@ -77,70 +90,82 @@ const CircularSkillChart = ({
   const color = skill.percent < 75 ? LIGHT_YELLOW : GOLD_COLOR;
 
   return (
-      <Container>
-        {onDelete && (
-          <DeleteButton onClick={() => onDelete(skill.name)}>x</DeleteButton>
-        )}
-
-        {icon && (
-          <div
-            style={{
-              fontSize: "2rem",
-              position: "absolute",
-              top: "15px",
-              left: "42%",
-              transform: "translateX(-50%)",
-            }}
-          >
-            {icon}
-          </div>
-        )}
-
-        <svg width="100" height="100">
-          <circle
-            stroke="rgba(255,255,255,0.1)"
-            fill="transparent"
-            strokeWidth="8"
-            r={radius}
-            cx="50"
-            cy="50"
+    <Container>
+      {onDelete && (
+        <DeleteButton onClick={() => onDelete(skill.name)}>
+          <img
+            src="/icons8-cestino-64.svg"
+            alt="Elimina"
+            style={{ width: "20px", height: "20px" }}
           />
-          <circle
-            stroke={color}
-            fill="transparent"
-            strokeWidth="8"
-            r={radius}
-            cx="50"
-            cy="50"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset.toString()}
-            strokeLinecap="round"
-            style={{ transition: "stroke-dashoffset 1.5s ease-in-out" }}
-          />
-          <text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            dy=".3em"
-            fontSize="20"
-            fill="white"
-            fontWeight="bold"
-          >
-            {skill.percent}%
-          </text>
-        </svg>
+        </DeleteButton>
+      )}
 
-        <div style={{ flex: 1 }}>
-          <SkillName>{skill.name}</SkillName>
-          <SkillBarContainer>
-            <SkillBar
-              percent={skill.percent}
-              color={color}
-              animated={animated}
-            />
-          </SkillBarContainer>
+      {onEdit && (
+        <EditButton onClick={() => onEdit(skill)}>
+          <img
+            src="/icons8-edit-64.png"
+            alt="Modifica"
+            style={{ width: "20px", height: "20px",color: "white" }}
+          />
+        </EditButton>
+      )}
+
+      {icon && (
+        <div
+          style={{
+            fontSize: "2rem",
+            position: "absolute",
+            top: "20px",
+            left: "42%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          {icon}
         </div>
-      </Container>
+      )}
+
+      <svg width="100" height="100">
+        <circle
+          stroke="rgba(255,255,255,0.1)"
+          fill="transparent"
+          strokeWidth="8"
+          r={radius}
+          cx="50"
+          cy="50"
+        />
+        <circle
+          stroke={color}
+          fill="transparent"
+          strokeWidth="8"
+          r={radius}
+          cx="50"
+          cy="50"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset.toString()}
+          strokeLinecap="round"
+          style={{ transition: "stroke-dashoffset 1.5s ease-in-out" }}
+        />
+        <text
+          x="50%"
+          y="50%"
+          textAnchor="middle"
+          dy=".3em"
+          fontSize="20"
+          fill="white"
+          fontWeight="bold"
+        >
+          {skill.percent}%
+        </text>
+      </svg>
+
+      <div style={{ flex: 1 }}>
+        <SkillName>{skill.name}</SkillName>
+        <SkillBarContainer>
+          <SkillBar percent={skill.percent} color={color} animated={animated} />
+        </SkillBarContainer>
+      </div>
+    </Container>
   );
 };
 

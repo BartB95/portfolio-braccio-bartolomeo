@@ -16,9 +16,25 @@ export const createSkill = async (skill: ISkill) => {
   return res.json();
 };
 
-export const deleteSkill = async (skillName: string) => {
-  const res = await fetch(`/api/skills?skill=${encodeURIComponent(skillName)}`, {
-    method: "DELETE",
+export const updateSkill = async (
+  oldName: string,
+  newName: string,
+  percent: number
+) => {
+  const res = await fetch("/api/skills", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ oldName, newName, percent }),
   });
+  return res.json();
+};
+
+export const deleteSkill = async (skillName: string) => {
+  const res = await fetch(
+    `/api/skills?skill=${encodeURIComponent(skillName)}`,
+    {
+      method: "DELETE",
+    }
+  );
   return res.json();
 };

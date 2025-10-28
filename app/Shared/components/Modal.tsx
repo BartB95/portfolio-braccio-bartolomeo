@@ -18,7 +18,8 @@ const Overlay = styled("div")({
 });
 
 const ModalBox = styled("div")({
-  background: "linear-gradient(135deg, rgba(155, 183, 212, 0.9), rgba(227, 227, 238, 0.85))",
+  background:
+    "linear-gradient(135deg, rgba(155, 183, 212, 0.9), rgba(227, 227, 238, 0.85))",
   backdropFilter: "blur(6px) saturate(180%)",
   WebkitBackdropFilter: "blur(12px) saturate(180%)",
   border: "1px solid rgba(255, 255, 255, 0.2)",
@@ -48,7 +49,9 @@ const Actions = styled("div")({
   gap: "10px",
 });
 
-const Button = styled("button")<{ variant?: "confirm" | "cancel" | "generate" }>(({ variant }) => ({
+const Button = styled("button")<{
+  variant?: "confirm" | "cancel" | "generate";
+}>(({ variant }) => ({
   padding: "10px 12px",
   borderRadius: 8,
   border: "none",
@@ -73,12 +76,12 @@ const Button = styled("button")<{ variant?: "confirm" | "cancel" | "generate" }>
   }),
 }));
 
-
 export type ModalOptions = {
   title?: string;
   message: string | ReactNode;
   showInput?: boolean;
   showGenerate?: boolean;
+  editSkill?: boolean; // 🔹 nuova prop opzionale per modificare skill
   onConfirm: (inputValue?: string) => void;
   onCancel?: () => void;
   confirmText?: string;
@@ -87,15 +90,31 @@ export type ModalOptions = {
 
 const ModalProvider = ({ children }: { children: ReactNode }) => {
   const { state, dispatch } = useGlobalStore();
+
   const [inputValue, setInputValue] = useState("");
+  const [skillName, setSkillName] = useState("");
+  const [skillPercent, setSkillPercent] = useState<number>(50);
 
   const hideModal = () => {
     dispatch({ type: "HIDE_MODAL" });
     setInputValue("");
+    setSkillName("");
+    setSkillPercent(50);
   };
 
   const handleConfirm = () => {
-    state.modal?.onConfirm(inputValue);
+    if (state.modal?.editSkill) {
+      // 🔹 In modalità modifica skill, passiamo JSON con name e percent
+      const data = JSON.stringify({
+        name: skillName,
+        percent: skillPercent,
+      });
+      
+      state.modal?.onConfirm(data);
+    } else {
+      // 🔹 Altrimenti, uso classico inputValue
+      state.modal?.onConfirm(inputValue);
+    }
     hideModal();
   };
 
@@ -106,7 +125,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   const handleGenerate = () => {
     const randomToken = Math.random().toString(36).substring(2, 16);
-    setInputValue(randomToken); // lo inserisce nell'input automaticamente
+    setInputValue(randomToken);
   };
 
   return (
@@ -118,7 +137,9 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
             {state.modal.title && <Title>{state.modal.title}</Title>}
             <Message>
               {state.modal.message}
-              {state.modal.showInput && (
+
+              {/* 🔹 Caso 1: input classico */}
+              {state.modal.showInput && !state.modal.editSkill && (
                 <input
                   type="text"
                   value={inputValue}
@@ -135,13 +156,52 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
                   autoFocus
                 />
               )}
+
+              {/* 🔹 Caso 2: modifica skill */}
+              {state.modal.editSkill && (
+                <div
+                  style={{
+                    marginTop: "10px",
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    justifySelf: "center",
+                  }}
+                >
+                  <input
+                    type="text"
+                    value={skillName}
+                    onChange={(e) => setSkillName(e.target.value)}
+                    placeholder="Nome skill..."
+                    style={{
+                      padding: "8px",
+                      borderRadius: "8px",
+                      border: "1px solid #ccc",
+                      fontSize: "14px",
+                    }}
+                  />
+                  <input
+                    type="number"
+                    value={skillPercent}
+                    onChange={(e) => setSkillPercent(Number(e.target.value))}
+                    min={0}
+                    max={100}
+                    style={{
+                      padding: "8px",
+                      borderRadius: "8px",
+                      border: "1px solid #ccc",
+                      fontSize: "14px",
+                    }}
+                  />
+                </div>
+              )}
             </Message>
+
             <Actions>
               <Button variant="cancel" onClick={handleCancel}>
                 {state.modal.cancelText || "Annulla"}
               </Button>
 
-              {/* 🔑 Mostra solo se showGenerate === true */}
               {state.modal.showGenerate && (
                 <Button variant="generate" onClick={handleGenerate}>
                   Generate Token

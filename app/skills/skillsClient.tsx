@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { ISkill } from "./ISkill";
-import { getSkills, createSkill, deleteSkill } from "../api/skills/apiSkill";
+import {
+  getSkills,
+  createSkill,
+  deleteSkill,
+  updateSkill,
+} from "../api/skills/apiSkill";
 import CircularSkillChart from "../Shared/components/CircularSkillChart";
 import FilterSearch from "../Shared/components/FilterSearch";
 import { keyframes, styled } from "@mui/system";
@@ -160,7 +165,8 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
         type: "SHOW_MODAL",
         payload: {
           title: "Inserimento Skill Negato!",
-          message: "Le skill possono essere inserite solo dall'amministratore del sito.",
+          message:
+            "Le skill possono essere inserite solo dall'amministratore del sito.",
           onConfirm: () => {},
           confirmText: "Ok",
         },
@@ -175,7 +181,7 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
         percent: Number(newSkillPercent),
         iconName: `Si${newSkill.replace(/\s+/g, "")}`,
       });
-      setSkills(prev => mapIcons([...prev, created.skill]));
+      setSkills((prev) => mapIcons([...prev, created.skill]));
       setNewSkill("");
       setNewSkillPercent("50");
     } catch (err) {
@@ -185,10 +191,62 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
     }
   };
 
+  const editSkill = (skill: ISkill) => {
+    dispatch({
+      type: "SHOW_MODAL",
+      payload: {
+        title: `Aggiorna Skill: ${skill.name}`,
+        message:
+          "Puoi aggiornare il nome della skill e la percentuale di competenza.",
+        editSkill: true,
+        onConfirm: async (data) => {
+          if (!data) return;
+          const { name: newName, percent: newPercent } = JSON.parse(data);
+
+          try {
+            const res = await updateSkill(skill.name, newName, newPercent);
+            if (res.skill) {
+              setSkills((prev) =>
+                prev.map((s) =>
+                  s.name === skill.name
+                    ? { ...s, name: res.skill.name, percent: res.skill.percent }
+                    : s
+                )
+              );
+            }
+          } catch (err) {
+            console.error("Error updating skill:", err);
+          }
+        },
+        confirmText: "Aggiorna",
+        cancelText: "Annulla",
+      },
+    });
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
+    const isOwner = token === process.env.NEXT_PUBLIC_OWNER_TOKEN;
+
+    if (!isOwner) {
+      dispatch({
+        type: "SHOW_MODAL",
+        payload: {
+          title: "Modifica Skill Negato!",
+          message:
+            "Le skill possono essere modificate solo dall'amministratore del sito.",
+          onConfirm: () => {},
+          confirmText: "Ok",
+        },
+      });
+      return;
+    }
+  };
+
   const removeSkill = async (skillName: string) => {
     try {
       await deleteSkill(skillName);
-      setSkills(prev => prev.filter(s => s.name !== skillName));
+      setSkills((prev) => prev.filter((s) => s.name !== skillName));
     } catch (err) {
       console.error("Error deleting skill:", err);
     }
@@ -218,7 +276,7 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
     });
   };
 
-  const filteredSkills = skills.filter(skill =>
+  const filteredSkills = skills.filter((skill) =>
     skill.name.toLowerCase().includes(searchInput.toLowerCase())
   );
 
@@ -226,22 +284,27 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
     <Container>
       <Header>📚 Le mie Competenze</Header>
       <span style={{ color: "#E6E2C8" }}>
-      Le percentuali indicano quanto ho effettivamente utilizzato ciascuna tecnologia nell'ultimo anno, riflettendo la mia esperienza pratica e familiarità con ciascuno strumento.
+        Le percentuali indicano quanto ho effettivamente utilizzato ciascuna
+        tecnologia nell'ultimo anno, riflettendo la mia esperienza pratica e
+        familiarità con ciascuno strumento.
       </span>
 
       <FormRow>
-        <FilterSearch searchInput={searchInput} setSearchInput={setSearchInput} />
+        <FilterSearch
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+        />
         <Input
           value={newSkill}
           placeholder="Aggiungi skill"
-          onChange={e => setNewSkill(e.target.value)}
+          onChange={(e) => setNewSkill(e.target.value)}
         />
         <SmallInput
           value={newSkillPercent}
           type="number"
           min={0}
           max={100}
-          onChange={e => setNewSkillPercent(e.target.value)}
+          onChange={(e) => setNewSkillPercent(e.target.value)}
         />
         <Button
           onClick={addSkill}
@@ -250,11 +313,11 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
           disabled={loading}
           onMouseEnter={() => {
             dispatch({ type: "SET_HOVER", payload: "button" });
-            dispatch({ type: "SET_CURSOR", payload: "pointer" }); 
+            dispatch({ type: "SET_CURSOR", payload: "pointer" });
           }}
           onMouseLeave={() => {
             dispatch({ type: "CLEAR_HOVER" });
-            dispatch({ type: "SET_CURSOR", payload: "default" }); 
+            dispatch({ type: "SET_CURSOR", payload: "default" });
           }}
         >
           {loading ? "..." : "Inserisci"}
@@ -272,6 +335,7 @@ const SkillsClient = ({ initialSkills = [] }: Props) => {
               icon={skill.icon}
               animated={true}
               onDelete={() => confirmDeleteSkill(skill.name)}
+              onEdit={() => editSkill(skill)}
             />
           )}
         />
