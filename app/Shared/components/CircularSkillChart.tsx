@@ -22,7 +22,7 @@ const Container = styled("div")({
 const DeleteButton = styled("button")({
   position: "absolute",
   top: "8px",
-  right: "8px",
+  right: "2px",
   background: "transparent",
   border: "none",
   color: "white",
@@ -33,7 +33,7 @@ const DeleteButton = styled("button")({
 const EditButton = styled("button")({
   position: "absolute",
   top: "8px",
-  right: "32px",
+  right: "30px",
   background: "transparent",
   border: "none",
   color: "white",

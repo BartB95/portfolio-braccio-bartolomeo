@@ -165,7 +165,7 @@ const ModalProvider = ({ children }: { children: ReactNode }) => {
                     display: "flex",
                     flexDirection: "row",
                     gap: "10px",
-                    justifySelf: "center",
+                    justifyContent: "center",
                   }}
                 >
                   <input
